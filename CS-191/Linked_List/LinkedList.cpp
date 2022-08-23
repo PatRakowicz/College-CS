@@ -100,8 +100,7 @@ void LinkedList::addToBottom(int v) {
 }
 
 bool LinkedList::deleteVal(int v) {
-    if (top == nullptr)
-        return false;
+    if (top == nullptr) return false;
 
     Node *trail = top;
     Node *lead = top->next;
