@@ -1,0 +1,60 @@
+CS 191 Lecture / Notes
+
+Variables and IDEs
+
+Variable
+	Recall that variables are a name given to a location in memory that stores a value
+	C++ Has a stronger tying that a language like Python
+	
+Initialization
+	A variable is initialized to a value the first time that is assigned a value
+
+A way to do this
+
+#include <iostream>
+int main () {
+	int x; // Declaration
+	x = 5; // Initialization
+
+	int y = 3; // Declaration and initalization in a single line
+}
+
+int
+	Allocates 4 bytes in memory
+float
+	float: no fixed umber of diguts before/after decimal
+	double: double percision floating point number
+bool
+	can take on a Ture/False value (1 Byte of memory)
+char
+	characters store a single sring character
+	Must using single quotes around the character
+string
+	Must be used with Double quotes
+
+
+Casting
+
+In C++ we can also preform casting to explicity defile the type we need
+
+Inplicit Casting
+	Are done when c++ takes care of casting for you, this is not always possibe
+
+Explicit Casting
+	occurs when you explicitly tall C++ what you want the variable to data cast as
+	How do i cast type X as Y in C++?
+
+
+Operations
+
+Addition
+	addition is a binary operation that adds the two values together to produce a single output
+	works on doubles, ints, numeric types, etc.
+
+Division
+	If i devide two integers, what do i get back?
+
+
+<cmath> Library
+	If needed additional math
+
