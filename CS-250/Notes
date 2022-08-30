@@ -1,0 +1,93 @@
+Analogy - Styling a house
+
+Bedroom {
+	drapes: blue;
+	carpet: wool shag;
+}
+
+Each CSS statement has:
+	Location (E.g bedroom)
+	Property (Drapes, carpet)
+	Style (Blue, wool shag)
+
+location will be HTML element(s)
+Property will be some style option
+Style will be specific to property
+
+
+Integrate w/ HTML
+
+Option one (Lazy way | Annying to configure) 
+	Put the style in the HTML code
+Option Two (Better way | Easy manipulation with in CSS)
+	Create a seperate file with .css Increment and use this
+Allowed to combine rules together as one
+Allowed to apply multiple of the same rule
+ex-
+h1, h2 {
+	font-family: sans-serif;
+	color: grey;
+	border-bottom: 1px solid black;
+}
+
+
+CSS:<link> element
+
+Create an external link to .css file from HTML files
+- Add <link> element into <head> element
+
+<link href="style.css" style="text/css" rel="stylesheet">
+
+href="" | files location
+style="" | specifies file as CSS (optional)
+rel="" | specifies relationship
+
+
+Inheritance
+HTML elemets inherit style from their parent
+
+
+Style the whole page
+if you style the <body> | each child will follow that rule unless specified for the specific child
+
+
+Want to stylize individual elements?
+	or groups of elements?
+
+add class attribute to HTML element
+elect class in CSS using element.className
+
+in the style sheet, you are stating the tag then the name then your CSS items inside curly brackets
+
+Ex
+<p class="green-p"> Text </p>
+<p class="red-p"> Text </p>
+
+p.green-p {
+	color:green;
+}
+p.red-p {
+	background-color: red
+	color: green;
+}
+
+Classes are for grops of elements
+- can use id attribte and hashtag (#) to style specific element
+
+add id attribte to HTML element
+select id in CSS using element#id
+
+
+Basic Styling
+text
+	font
+	style
+	color
+	other decorations
+font-family
+	sans-serif
+	serif
+	monospace
+	cursive
+	fantasy
+
