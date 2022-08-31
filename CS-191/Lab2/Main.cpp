@@ -49,15 +49,15 @@ int main() {
     string Echo = "Test";
     char f = 'F';
 
-    cout << "1: " << typeid(a * b).name() << a * b << "\n";
-    cout << "2: " << typeid(c + b).name() << c + b << "\n";
-    cout << "3: " << typeid(a / b).name() << a / b << "\n";
-    cout << "4: " << typeid(a + d).name() << a + d << "\n";
-    cout << "5: " << typeid(alpha / a).name() << alpha / a << "\n";
-    cout << "6: " << typeid(e + Echo).name() << e + Echo << "\n";
+    cout << "1: " << typeid(a * b).name() << " | " << a * b << "\n";
+    cout << "2: " << typeid(c + b).name() << " | " << c + b << "\n";
+    cout << "3: " << typeid(a / b).name() << " | " << a / b << "\n";
+    cout << "4: " << typeid(a + d).name() << " | " << a + d << "\n";
+    cout << "5: " << typeid(alpha / a).name() << " | " << alpha / a << "\n";
+    cout << "6: " << typeid(e + Echo).name() << " | " << e + Echo << "\n";
     cout << "7: Error" << "\n"; // typeid(alpha + Echo).name() << alpha + Echo ;
     cout << "8: Error" << "\n"; // typeid(e * a).name() << e * a ;
-    cout << "9: " << typeid(e + f).name() << e + f << "\n";
+    cout << "9: " << typeid(e + f).name() << " | " << e + f << "\n";
 
     return 0;
 }
