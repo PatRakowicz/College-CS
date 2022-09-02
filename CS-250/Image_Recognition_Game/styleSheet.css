@@ -21,6 +21,19 @@ img.main {
     height: 80%;
 }
 
+img.sub {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    height: 40%;
+}
+
+button {
+    padding: 19px 36px;
+    color: darkmagenta;
+}
+
 /*
 h1 {
     color: navy;
