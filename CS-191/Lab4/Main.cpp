@@ -5,16 +5,12 @@ using namespace std;
 
 int main() {
 
+    string input = "eooyaeia";
+    int count = 0;
+    for (int i = 0; i < input.length(); i++) {
+        if (input[i] == 'a' || input[i] == 'e' || input[i] == 'i' || input[i] == 'o' || input[i] == 'u' || input[i] == 'y')
+            ++count;
+    }
+    cout << count << "\n";
     cout << "Printing out string Vowels and Total Count." << "\n";
-    string mystr[] = "Hello world, my name is name";
-
-    int total = 0;
-
-    if (temp == 'a') { total += 1; }
-    else if (temp == 'e') { total += 1; }
-    else if (temp == 'i') { total += 1; }
-    else if (temp == 'o') { total += 1; }
-    else if (temp == 'u') { total += 1; }
-
-    cout << "Total #: " << total;
 }
