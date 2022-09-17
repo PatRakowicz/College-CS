@@ -2,14 +2,25 @@ div#main {
     text-align: center;
 }
 
-table {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+.oil {
+    list-style-image: url("Oil.jpg");
+}
+.gas {
+    list-style-image: url("Gas.jpg");
+}
+.light {
+    list-style-image: url("LightFuel.jpg");
+}
+.dense {
+    list-style-image: url("DenseFuel.jpg");
+}
+.distilled {
+    list-style-image: url("DistilledOil.jpg");
 }
 
-th {
-    width: 130px;
+li {
+    list-style-type:square;
+    list-style-image: none ;
 }
 
 nav {
