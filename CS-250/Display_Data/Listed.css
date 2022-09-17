@@ -1,0 +1,54 @@
+div#main {
+    text-align: center;
+}
+
+.oil {
+    list-style-image: url("Oil.jpg");
+}
+.gas {
+    list-style-image: url("Gas.jpg");
+}
+.light {
+    list-style-image: url("LightFuel.jpg");
+}
+.dense {
+    list-style-image: url("DenseFuel.jpg");
+}
+.distilled {
+    list-style-image: url("DistilledOil.jpg");
+}
+
+li {
+    list-style-type:square;
+    list-style-image: none ;
+}
+
+nav {
+    background-color: lightgray;
+    width: 180px;
+    margin:auto;
+    text-align: center;
+}
+
+nav ul {
+    padding: 6px;
+    margin: 0;
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    padding: 3px;
+}
+
+nav ul li a:link, nav ul li a:visited {
+    color: #1a1aff;
+}
+
+nav ul li a:hover {
+    color: white;
+}
+
+nav ul li.selected {
+    background-color: darkgray;
+}

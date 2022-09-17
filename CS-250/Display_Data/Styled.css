@@ -1,0 +1,62 @@
+div#main {
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+th {
+    width: 130px;
+    background-color: slategray;
+    color: white;
+}
+
+th, td {
+    border: thin dotted black;
+    padding: 5px;
+}
+
+tr {
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: rosybrown;
+}
+tr:nth-child(odd) {
+    background-color: sandybrown;
+}
+
+nav {
+    background-color: lightgray;
+    width: 180px;
+    margin:auto;
+    text-align: center;
+}
+
+nav ul {
+    padding: 6px;
+    margin: 0;
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline;
+    padding: 3px;
+}
+
+nav ul li a:link, nav ul li a:visited {
+    color: #1a1aff;
+}
+
+nav ul li a:hover {
+    color: white;
+}
+
+nav ul li.selected {
+    background-color: darkgray;
+}
