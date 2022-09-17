@@ -6,6 +6,7 @@ table {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    border-collapse: collapse;
 }
 
 th {
@@ -14,8 +15,20 @@ th {
     color: white;
 }
 
-td {
-    
+th, td {
+    border: thin solid black;
+    padding: 5px;
+}
+
+tr {
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: rosybrown;
+}
+tr:nth-child(odd) {
+    background-color: sandybrown;
 }
 
 nav {
