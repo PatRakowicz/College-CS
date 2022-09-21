@@ -34,5 +34,5 @@ int main() {
     //04: messing with poitners, multiplication, etc.
     int y = 4;
     int * y_ptr = &;
-    cout << y**y_ptr << endl;
+    cout << y* (*y_ptr) << endl;
 }
