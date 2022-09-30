@@ -15,25 +15,28 @@ using namespace std;
 int main() {
     vector<string> dog_breed;
     string n;
-    bool is_dupe;
     int rem_dupe = 0;
+    string removed;
 
     while (n != "done") {
         cout << "Enter dog breed: ";
         cin >> n;
         for (int i = 0; i < dog_breed.size(); i++) {
             if (n == dog_breed[i]) {
-                is_dupe = true;
                 rem_dupe = i;
+                dog_breed[i] = removed;
+                cout << "~~Duped Input~~" << endl;
             }
         }
 
         if (n != "done") { dog_breed.push_back(n);}
     }
 
+    dog_breed.erase(dog_breed.begin() + rem_dupe);
+
     cout << "Here are the breeds you entered: " << endl;
-    for (int i = 0; i < dog_breed.size(); i++) {
-        cout << dog_breed[i] << endl;
+    for (auto & i : dog_breed) {
+        cout << i << endl;
     }
 
 }
