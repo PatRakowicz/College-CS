@@ -8,7 +8,7 @@ do {
 document.write('<h1> Factors of ', x, ':</h1>');
 
 for (var i = 1; i <= x; i++) {
-    if (x % i == 0) {
+    if (x % i === 0) {
         document.write('<p>', i, '</p>');
         count++;
     }
