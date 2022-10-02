@@ -26,7 +26,6 @@ int main() {
         for (int i = 0; i < dog_breed.size(); i++) {
             if (n == dog_breed[i]) {
                 duplicate = true;
-                rem_dupe = i;
                 cout << "~~Duped Input~~" << endl;
             }
         }
