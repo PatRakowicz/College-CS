@@ -6,26 +6,25 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 int main() {
     vector <string> spcBird;
-    vector <string> dupBrd;
+    map<string, int> dupBrd;
     string n = "";
 
     while (n != "done") {
-
         cout << "Enter Bird Species: ";
         cin >> n;
 
-        for (auto & i : spcBird) {
-            if (n == i) {
-                dupBrd.push_back(n);
-                cout << "~~Duped Input~~" << endl;
-            }
-        }
         if (n != "done") { spcBird.push_back(n); }
+    }
+
+    for (auto & i : spcBird) {
+        auto result = dupBrd.insert(pair<string, int>(i, 1));
+        if (!result.second) { result.first->second++; }
     }
 
     cout << "Here are the species you entered: " << endl;
@@ -33,9 +32,13 @@ int main() {
         cout << i << endl;
     }
 
-    cout << "Duped Birds Entered: " << endl;
+    cout << endl;
+
+    cout << "All Birds: " << endl;
     for (auto &i: dupBrd) {
-        cout << i << endl;
+        if (i.second > 1) {
+            cout << "species: " << i.first << ", count:" << i.second << endl;
+        }
     }
 
 }
