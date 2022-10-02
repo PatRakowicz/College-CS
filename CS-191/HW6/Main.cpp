@@ -27,18 +27,17 @@ int main() {
         if (!result.second) { result.first->second++; }
     }
 
-    cout << "Here are the species you entered: " << endl;
-    for (auto &i: spcBird) {
-        cout << i << endl;
-    }
+//    Debug | See list
+//    cout << "Here are the species you entered: " << endl;
+//    for (auto &i: spcBird) {
+//        cout << i << endl;
+//    }
 
     cout << endl;
 
     cout << "All Birds: " << endl;
     for (auto &i: dupBrd) {
-        if (i.second > 1) {
-            cout << "species: " << i.first << ", count:" << i.second << endl;
-        }
+        cout << "species: " << i.first << ", count:" << i.second << endl;
     }
 
 }
