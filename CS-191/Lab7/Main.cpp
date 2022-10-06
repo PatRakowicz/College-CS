@@ -21,31 +21,28 @@ Given an array of integers (you can hard code the array, you do not need to get 
 using namespace std;
 
 /*
- * input array, check if two possible integers are sum to t int
+ * True | False | check array for any two ints that add up to T
  *
- * @param arr the main array that is inputted
- * @param size the size of the main array
- * @param t the input of sum that needs to add to it
- * @return the sum of the number and if true or false
- */
-int sum(int *arr, int size, int t) {
-    int sum = 0;
-    for(int i = 0; i < size; i++) {
-        if()
-    }
+ * @param arr | Input Array given
+ * @param size | Input size of given array
+ * @param t | Input given value to check
+ * @return True | if arr[x + y] = t
+ * */
+
+bool sums(int *arr, int size, int t) {
+    for (int i = 0; i < size; i++) {
+        for (int e = i + 1; e < size; e++) {
+            if (arr[i] + arr[e] == t) {
+                cout << "I & E: " << i << " " << e << endl;
+                return true;
+            }}}
+    return false;
 }
 
 int main() {
-    int mainArr[size]  = {1, 2, 3};
-    int size = 3;
-    int t = 44;
+    const int length = 6;
+    int mainArr[length] = {23, 12, 15, 22, 32, 8};
+    int t = 20;
 
-    cout << "func Sum : " << sum(mainArr, size) << endl;
-
-    cout << "main arr out : " << endl;
-    for (auto &i: mainArr) {
-        cout << i << endl;
-    }
-
-    cout << "Main T: " << t << endl;
+    cout << boolalpha << sums(mainArr, length, t) << endl;
 }
