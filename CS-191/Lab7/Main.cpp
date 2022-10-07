@@ -30,8 +30,8 @@ using namespace std;
  * */
 
 bool sums(int *arr, int size, int t) {
-    for (int i = 0; i < size; i++) {
-        for (int e = i + 1; e < size; e++) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int e = i; e < size; e++) {
             if (arr[i] + arr[e] == t) {
                 cout << "I & E: " << i << " " << e << endl;
                 return true;
