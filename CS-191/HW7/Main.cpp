@@ -3,8 +3,10 @@
 //
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
+
 
 /*
  * True | False | check array for any two ints that add up to T
@@ -14,12 +16,12 @@ using namespace std;
  * @param t | Input given value to check
  * @return True | if arr[x + y] = t
  * */
-bool sums(int *array, int size, int t) {
+bool sums(const int *array, int size, int t) {
     for (int i = 0; i < size - 1; i++) {
         for (int e = i; e < size; e++) {
             for (int f = e; f < size; f++) {
                 if (array[i] + array[e] + array[f] == t) {
-                    cout << "I & E & F: " << i << " " << e << " " << f << endl;
+//                    cout << "I & E & F: " << i << " " << e << " " << f << endl;
                     return true;
                 }
             }
@@ -35,8 +37,12 @@ bool sums(int *array, int size, int t) {
  * @param size | Input size of array
  * @param t | Input T value for calculations
  * */
-void modify(int &array, int size, int &t) {
+void modify(int *array, int &t, int size) {
+    for (int i = 0; i < size; i++) {
+        array[i] *= 2;
+    }
 
+    t *= 3;
 }
 
 /*
@@ -44,16 +50,38 @@ void modify(int &array, int size, int &t) {
  *
  * @param array | Input given array
  * @param size | Input given size array
- * @return Output elements in array
  * */
-int prt_arr(int array, int size) {
-
+void prt_arr(int *array, int size) {
+    for (int i = 0; i < size; i++) {
+        cout << array[i] << ' ';
+    }
+    cout << endl;
 }
 
 int main() {
     const int length = 6;
-    int mainArr[length] = {23, 12, 15, 22, 32, 8};
-    int t = 35;
+    int mainArr[length] = {2, 6, 15, 22, 32, 2};
+    int t = 10;
 
-    cout << boolalpha << sums(mainArr, length, t) << endl;
+    cout << "Print Array: ";
+    prt_arr(mainArr, length);
+    cout << "Target: " << t << endl;
+
+    if (sums(mainArr, length, t)) {
+        cout << "It Works!" << endl;
+        modify(mainArr, t, length);
+    } else { cout << "It No Work" << endl; }
+
+    cout << endl;
+
+    cout << "Print Array: ";
+    prt_arr(mainArr, length);
+    cout << "Target: " << t << endl;
+
+    if (sums(mainArr, length, t))
+        { cout << "It Works!" << endl; }
+    else { cout << "It No Work" << endl; }
+
+
+
 }
