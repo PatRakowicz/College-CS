@@ -3,14 +3,14 @@ function table(array) {
     let incr = 0;
     for (let r = 0; r < 4; r++) {
         document.write('<tr>');
-            document.write('<td>' + array[incr] + '</td>');
-            incr += 1;
+        document.write('<td>' + '<img src="' + array[incr] + '" alt="">' + '</td>');
+        incr += 1;
 
-            document.write('<td>' + array[incr] + '</td>');
-            incr += 1;
+        document.write('<td>' + '<img src="' + array[incr] + '" alt="">' + '</td>');
+        incr += 1;
 
-            document.write('<td>' + array[incr] + '</td>');
-            incr += 1;
+        document.write('<td>' + '<img src="' + array[incr] + '" alt="">' + '</td>');
+        incr += 1;
         document.write('</td>');
     }
 }
@@ -28,7 +28,7 @@ function randomizer(array) {
     return array;
 }
 
-let array = ['one', '1', 'two', '2', 'three', '3', 'four', '4', 'five', '5', 'six', '6'];
+let array = ['Blue.jpg', 'Blue.jpg', 'Green.jpg', 'Green.jpg', 'Red.jpg', 'Red.jpg', 'Yellow.jpg', 'Yellow.jpg', 'Purple.jpg', 'Purple.jpg', 'Orange.jpg', 'Orange.jpg' ];
 let randomArray = randomizer(array);
 
 // document.write('<p>' + randomizer(array) + '</p>');
