@@ -1,3 +1,5 @@
+let images =
+
 let colors = ['black', 'blue', 'green', 'orange']
 let currentColor = 0;
 
