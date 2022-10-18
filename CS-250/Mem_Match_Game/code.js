@@ -28,9 +28,10 @@ function randomizer(array) {
     return array;
 }
 
-let array = ['Blue.jpg', 'Blue.jpg', 'Green.jpg', 'Green.jpg', 'Red.jpg', 'Red.jpg', 'Yellow.jpg', 'Yellow.jpg', 'Purple.jpg', 'Purple.jpg', 'Orange.jpg', 'Orange.jpg' ];
+let array = [
+        'Blue.jpg', 'Blue.jpg', 'Green.jpg', 'Green.jpg',
+        'Red.jpg', 'Red.jpg', 'Yellow.jpg', 'Yellow.jpg',
+        'Purple.jpg', 'Purple.jpg', 'Orange.jpg', 'Orange.jpg'];
+
 let randomArray = randomizer(array);
-
-// document.write('<p>' + randomizer(array) + '</p>');
-
 table(randomArray);
