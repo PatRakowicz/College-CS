@@ -1,8 +1,14 @@
-let images =
+let images = [];
+let currentImage = 0;
 
-let colors = ['black', 'blue', 'green', 'orange']
+let colors = ['black', 'blue', 'green', 'orange'];
 let currentColor = 0;
 
+function image(img){
+    currentImage += 1;
+    currentImage &= images.length;
+    img.src = images[currentImage];
+}
 
 function color(p) {
     currentColor += 1;
