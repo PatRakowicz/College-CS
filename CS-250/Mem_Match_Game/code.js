@@ -1,37 +1,107 @@
-function table(array) {
-    document.write('<table>');
-    let incr = 0;
-    for (let r = 0; r < 4; r++) {
-        document.write('<tr>');
-        document.write('<td>' + '<img src="' + array[incr] + '" alt="">' + '</td>');
-        incr += 1;
+let mainArray = [
+    'Red.jpg',
+    'Blue.jpg',
+    'Green.jpg',
+    'Yellow.jpg',
+    'Purple.jpg',
+    'Orange.jpg',];
 
-        document.write('<td>' + '<img src="' + array[incr] + '" alt="">' + '</td>');
-        incr += 1;
+let arr = [];
+let imgArr = [];
+let headerArr = [];
+let imgUseCount = [0, 0, 0, 0, 0, 0];
+let randInt;
+let done = false;
 
-        document.write('<td>' + '<img src="' + array[incr] + '" alt="">' + '</td>');
-        incr += 1;
-        document.write('</td>');
+function setImg() {
+
+    for (var i = 0; i < 12; i++) {
+        arr[i] = document.getElementById(i);
+    }
+    console.log(arr)
+    headerArr = document.getElementsByTagName('h4');
+
+    for (var i = 0; i < 12; i++) {
+        while (done == false) {
+            randInt = Math.floor(Math.random() * 6);
+            if (imgUseCount[randInt] < 2) {
+                imgArr[i] = mainArray[randInt];
+                imgUseCount[randInt]++;
+                done = true;
+            }
+        }
+        done = false;
     }
 }
 
-function randomizer(array) {
-    let length = array.length;
 
-    while (length != 0) {
-        let randId = Math.floor(Math.random() * length);
-        length -= 1;
-        let temp = array[length];
-        array[length] = array[randId];
-        array[randId] = temp;
+let card = [-1, -1];
+let enabled = true;
+let check = false;
+let matched = 0;
+let misses = 0;
+
+function select(item) {
+    if (enabled) {
+        item.setAttribute('src', imgArr[item.id]);
     }
-    return array;
+
+    if (card[0] == -1) {
+        card[0] = item.id;
+        console.log(card[0])
+    } else if (card[1] == -1) {
+        card[1] = item.id;
+        console.log(card[1])
+        enabled = false;
+        check = true;
+    }
+    if (check) {
+        if (imgArr[card[0]] === imgArr[card[1]]) {
+            console.log("Passed")
+            console.log(card)
+            matched++;
+            // TODO - innerHTML
+            //  Fix Auto Header broke on innerHTML
+            // headerArr[0].innerHTML = "Matches: " + matched;
+            card = [-1, -1]
+            console.log(card)
+            if (matched == 6) {
+                endGame();
+            }
+            enabled = true;
+            check = false;
+        } else {
+            console.log("Failed")
+            console.log(card)
+            misses++;
+            // TODO - innerHTML
+            //  Fix Auto Header Brok on innerHTML
+            // headerArr[1].innerHTML = "Missed: " + misses;
+            setTimeout(reset, 300);
+            enabled = true;
+            check = false;
+        }
+    }
+
+
+    console.log()
 }
 
-let array = [
-        'Blue.jpg', 'Blue.jpg', 'Green.jpg', 'Green.jpg',
-        'Red.jpg', 'Red.jpg', 'Yellow.jpg', 'Yellow.jpg',
-        'Purple.jpg', 'Purple.jpg', 'Orange.jpg', 'Orange.jpg'];
+// TODO
+//  Fix endGame
+//  Make output correct if won or lost if to many tries
+function endGame() {
+    if (matched >= misses) {
+        alert("Congrats on Winning!");
+    } else {
+        alert("You Failed, Try again");
+    }
+}
 
-let randomArray = randomizer(array);
-table(randomArray);
+function reset() {
+    arr[card[0]].src = "Default.jpg";
+    arr[card[1]].src = "Default.jpg";
+    card = [-1, -1]
+}
+
+window.onload = setImg;
