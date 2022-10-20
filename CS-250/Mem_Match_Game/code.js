@@ -14,16 +14,12 @@ let done = false;
 let h3Missed, h3Matched;
 
 function setImg() {
-
-    for (var i = 0; i < 12; i++) {
-        arr[i] = document.getElementById(i);
-    }
-
     h3Matched = document.getElementById("matched");
     h3Missed = document.getElementById("missed");
 
 
-    for (var i = 0; i < 12; i++) {
+    for (let i = 0; i < 12; i++) {
+        arr[i] = document.getElementById(i);
         while (done == false) {
             randInt = Math.floor(Math.random() * 6);
             if (imgUseCount[randInt] < 2) {
@@ -42,6 +38,7 @@ let enabled = true;
 let check = false;
 let matched = 0;
 let missed = 0;
+let checked = [];
 
 function select(item) {
     if (enabled) {
@@ -57,14 +54,19 @@ function select(item) {
         enabled = false;
         check = true;
     }
+    //TODO
+    //  Get it to not show if you click it twice
     if (check) {
-        if (imgArr[card[0]] === imgArr[card[1]]) {
+        if (imgArr[card[0]] === imgArr[card[1]] &&
+            !checked.includes(imgArr[card[0]], imgArr[card[1]]))
+        {
             console.log("Passed")
             matched += 1;
             h3Matched.textContent = "Matched: " + matched;
+            console.log(checked)
             card = [-1, -1]
             console.log(matched)
-            setTimeout(endGame(matched, missed), 600)
+            // endGame(matched, missed)
             enabled = true;
             check = false;
 
@@ -81,12 +83,14 @@ function select(item) {
     }
 }
 
-
+//TODO
+//  Fix endGame, ends game on first match
+//  But wont end if got all elements
 function endGame(matched, missed) {
     if (matched == 6 && matched >= missed) {
         alert("Congrats You Won!")
     } else if(missed < matched) {
-        alert("TO many Loss, Game End...")
+        alert("TO many Loss, Game End...");
     }
 }
 
