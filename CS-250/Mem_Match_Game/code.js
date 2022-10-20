@@ -8,18 +8,20 @@ let mainArray = [
 
 let arr = [];
 let imgArr = [];
-let headerArr = [];
 let imgUseCount = [0, 0, 0, 0, 0, 0];
 let randInt;
 let done = false;
+let h3Missed, h3Matched;
 
 function setImg() {
 
     for (var i = 0; i < 12; i++) {
         arr[i] = document.getElementById(i);
     }
-    console.log(arr)
-    headerArr = document.getElementsByTagName('h4');
+
+    h3Matched = document.getElementById("matched");
+    h3Missed = document.getElementById("missed");
+
 
     for (var i = 0; i < 12; i++) {
         while (done == false) {
@@ -39,7 +41,7 @@ let card = [-1, -1];
 let enabled = true;
 let check = false;
 let matched = 0;
-let misses = 0;
+let missed = 0;
 
 function select(item) {
     if (enabled) {
@@ -58,43 +60,33 @@ function select(item) {
     if (check) {
         if (imgArr[card[0]] === imgArr[card[1]]) {
             console.log("Passed")
-            console.log(card)
-            matched++;
-            // TODO - innerHTML
-            //  Fix Auto Header broke on innerHTML
-            // headerArr[0].innerHTML = "Matches: " + matched;
+            matched += 1;
+            h3Matched.textContent = "Matched: " + matched;
             card = [-1, -1]
-            console.log(card)
-            if (matched == 6) {
-                endGame();
-            }
+            console.log(matched)
+            setTimeout(endGame(matched, missed), 600)
             enabled = true;
             check = false;
+
         } else {
             console.log("Failed")
-            console.log(card)
-            misses++;
-            // TODO - innerHTML
-            //  Fix Auto Header Brok on innerHTML
-            // headerArr[1].innerHTML = "Missed: " + misses;
+            missed += 1;
+            h3Missed.textContent = "Missed: " + missed;
+            console.log(missed)
             setTimeout(reset, 300);
             enabled = true;
             check = false;
+
         }
     }
-
-
-    console.log()
 }
 
-// TODO
-//  Fix endGame
-//  Make output correct if won or lost if to many tries
-function endGame() {
-    if (matched >= misses) {
-        alert("Congrats on Winning!");
-    } else {
-        alert("You Failed, Try again");
+
+function endGame(matched, missed) {
+    if (matched == 6 && matched >= missed) {
+        alert("Congrats You Won!")
+    } else if(missed < matched) {
+        alert("TO many Loss, Game End...")
     }
 }
 
