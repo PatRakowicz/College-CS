@@ -57,12 +57,11 @@ function select(item) {
     //TODO
     //  Get it to not show if you click it twice
     if (check) {
-        if (imgArr[card[0]] === imgArr[card[1]] &&
-            !checked.includes(imgArr[card[0]], imgArr[card[1]]))
-        {
+        if (imgArr[card[0]] === imgArr[card[1]]) {
             console.log("Passed")
             matched += 1;
             h3Matched.textContent = "Matched: " + matched;
+            checked.push(imgArr[card[0]])
             console.log(checked)
             card = [-1, -1]
             console.log(matched)
@@ -94,9 +93,23 @@ function endGame(matched, missed) {
     }
 }
 
+
+
 function reset() {
-    arr[card[0]].src = "Default.jpg";
-    arr[card[1]].src = "Default.jpg";
+    let leftCard = checked.includes(imgArr[card[0]]);
+    let rightCard = checked.includes(imgArr[card[1]]);
+
+    if (!leftCard) {
+        arr[card[0]].src = "Default.jpg";
+    } else {
+        arr[card[0]].src = imgArr[card[0]];
+    }
+
+    if (!rightCard) {
+        arr[card[1]].src = "Default.jpg";
+    } else {
+        arr[card[1]].src = imgArr[card[1]];
+    }
     card = [-1, -1]
 }
 
