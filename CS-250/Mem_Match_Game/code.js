@@ -45,27 +45,23 @@ function select(item) {
         item.setAttribute('src', imgArr[item.id]);
     }
 
-    if (card[0] == -1) {
+    if (card[0] === -1) {
         card[0] = item.id;
-        console.log(card[0])
-    } else if (card[1] == -1) {
+    } else if (card[1] === -1 && card[0] !== item.id) {
         card[1] = item.id;
-        console.log(card[1])
         enabled = false;
         check = true;
     }
-    //TODO
-    //  Get it to not show if you click it twice
+
     if (check) {
         if (imgArr[card[0]] === imgArr[card[1]]) {
             console.log("Passed")
             matched += 1;
             h3Matched.textContent = "Matched: " + matched;
-            checked.push(imgArr[card[0]])
-            console.log(checked)
-            card = [-1, -1]
-            console.log(matched)
-            // endGame(matched, missed)
+            checked.push(imgArr[card[0]]);
+            card = [-1, -1];
+            if (matched === 6)
+                setTimeout(gameWL, 300);
             enabled = true;
             check = false;
 
@@ -73,26 +69,20 @@ function select(item) {
             console.log("Failed")
             missed += 1;
             h3Missed.textContent = "Missed: " + missed;
-            console.log(missed)
             setTimeout(reset, 300);
             enabled = true;
             check = false;
-
         }
     }
 }
 
-//TODO
-//  Fix endGame, ends game on first match
-//  But wont end if got all elements
-function endGame(matched, missed) {
-    if (matched == 6 && matched >= missed) {
-        alert("Congrats You Won!")
-    } else if(missed < matched) {
-        alert("TO many Loss, Game End...");
+function gameWL() {
+    if (checked.length === 6 && missed < matched) {
+        setTimeout(alert("Congrats You Won!"), 200)
+    } else {
+        setTimeout(alert("To many Loss, Game End.."), 200)
     }
 }
-
 
 
 function reset() {
