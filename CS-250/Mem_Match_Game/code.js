@@ -41,6 +41,8 @@ let missed = 0;
 let checked = [];
 
 function select(item) {
+    let cardCheck = checked.includes(imgArr[card[0]]);
+
     if (enabled) {
         item.setAttribute('src', imgArr[item.id]);
     }
@@ -54,7 +56,7 @@ function select(item) {
     }
 
     if (check) {
-        if (imgArr[card[0]] === imgArr[card[1]]) {
+        if (imgArr[card[0]] === imgArr[card[1]] && !cardCheck) {
             console.log("Passed")
             matched += 1;
             h3Matched.textContent = "Matched: " + matched;
@@ -64,17 +66,22 @@ function select(item) {
                 setTimeout(gameWL, 300);
             enabled = true;
             check = false;
-
-        } else {
+        } else if (!cardCheck) {
             console.log("Failed")
             missed += 1;
             h3Missed.textContent = "Missed: " + missed;
-            setTimeout(reset, 300);
-            enabled = true;
             check = false;
+            setTimeout(reset, 300);
+        } else {
+            console.log("Cheated")
+            card = [-1 ,-1];
+            check = false;
+            enabled = true;
+            setTimeout(alert("No Cheating"), 300)
         }
     }
 }
+
 
 function gameWL() {
     if (checked.length === 6 && missed < matched) {
@@ -89,6 +96,7 @@ function reset() {
     let leftCard = checked.includes(imgArr[card[0]]);
     let rightCard = checked.includes(imgArr[card[1]]);
 
+
     if (!leftCard) {
         arr[card[0]].src = "Default.jpg";
     } else {
@@ -101,6 +109,7 @@ function reset() {
         arr[card[1]].src = imgArr[card[1]];
     }
     card = [-1, -1]
+    enabled = true;
 }
 
 window.onload = setImg;
