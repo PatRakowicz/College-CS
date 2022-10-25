@@ -58,3 +58,33 @@ Division
 <cmath> Library
 	If needed additional math
 
+
+Writing SudoCode Lecture
+
+n = length(s)
+FUNCTION palidrome(s):
+	for i=0 to [length(s)/2];
+		if s[i] != s[length(s)-i-1];
+			return false;
+	return true;
+
+Runtime: T(n) == n
+	T(n) = O(n)
+
+Ex: 2
+check the longest prefix of two string
+hello
+helloworld
+
+n = min(length(s1), length(s2))
+T(n) = O(n)
+
+function prefix(s1, s2)
+	pref = ""
+	for i=0 to [min(length(s1), lengths(s2))-1]
+		if s1[i] == s2[i]
+			pref += s1[i]
+		else
+			break
+	return pref
+
