@@ -14,8 +14,8 @@ using namespace std;
  */
 void arrSwapInt(int *arr, int i, int j) {
     j = arr[i];
-    arr[i] = arr[i + 1];
-    arr[i + 1] = j;
+    arr[i] = arr[j];
+    arr[j] = j;
 }
 
 /**
