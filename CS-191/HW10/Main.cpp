@@ -55,7 +55,18 @@ int lin_search(int *arr, int size, int v) {
  * @return
  */
 int bin_search(int *arr, int size, int v) {
-
+    int left = 0;
+    int right = size - 1;
+    while (left >= right) {
+        int center = (left + right) / 2;
+        if (arr[center] == v)
+            return center;
+        else if (v > arr[center])
+            left = center + 1;
+        else if (v < arr[center])
+            right = center - 1;
+    }
+    return -1;
 }
 
 int main() {
@@ -68,8 +79,6 @@ int main() {
     cout << lin_search(t1, t1_size, 5) << endl;
     // Sort the list in descending order
     bubble_sort(t1, t1_size);
-//    for (int i: t1) { cout << i << endl; }
-    cout << endl;
     // Bin search on desc-ordered list
     cout << bin_search(t1, t1_size, 5) << endl;
     return 0;
