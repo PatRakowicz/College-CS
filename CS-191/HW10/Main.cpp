@@ -48,11 +48,12 @@ int lin_search(int *arr, int size, int v) {
 }
 
 /**
+ * Bin Search array to check where the value V is located inside the array
  *
- * @param arr
- * @param size
- * @param v
- * @return
+ * @param arr | Input given array
+ * @param size | Input size of given array
+ * @param v | input the value that is being checked inside the array
+ * @return center if V is true
  */
 int bin_search(int *arr, int size, int v) {
     int left = 0;
