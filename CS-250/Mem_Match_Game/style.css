@@ -2,11 +2,11 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     border: 3px solid #333;
-    margin: 10px auto 20px;
+    margin: 10px auto 10px;
 }
 
 td, th {
-    border: 1px solid #333;
+    border: 5px solid #333;
     text-align: center;
     width: 400px;
     height: 200px;
