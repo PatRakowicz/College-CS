@@ -2,25 +2,6 @@
 // Created by Livid on 4/11/2022.
 //
 
-/*
- You will be using your Vehicle object from Lab 11 (see the lab for more details)
-and building some additional functionality into the class. Any member functions
- added must be declared in the class and implemented below as
-demonstrated in class. Moreover, you must document your member
-functions with a description, parameters, return values, etc.. You must
-add the following member functions to your vehicle class:
-
-3. Add another constructor that accepts make, model, and year and sets cost
-to $0, mileage to 0, and notes to “” by default.
-
-4. Add a member function called add note that accepts a string and returns
-void. This function should append a new note onto the notes variable on
-a new line.
-
-5. Add a member function called print notes that accepts no parameters
-and returns void. This function should simply print out the notes about
-the vehicle.
- */
 
 #include <iostream>
 #include <string>
@@ -53,6 +34,13 @@ public:
     void add_note(string notes);
 };
 
+
+/**
+ * Constructor for sample vehicle
+ *  * Set note of vehicle to empty
+ * input Null
+ * return Null
+ */
 vehicle::vehicle() {
     make = "Toyota";
     model = "Prius";
@@ -62,6 +50,14 @@ vehicle::vehicle() {
     notes.emplace_back("");
 }
 
+/**
+ * Constructor for vehicle with 3 inputs
+ * * Set note of vehicle to empty
+ *
+ * @param make | Given string for make of vehicle
+ * @param model | Given string for model of vehicle
+ * @param year | Given Integer for year of vehicle
+ */
 vehicle::vehicle(string make, string model, int year) {
     this->make = make;
     this->model = model;
@@ -71,6 +67,16 @@ vehicle::vehicle(string make, string model, int year) {
     this->notes.emplace_back("");
 }
 
+/**
+ * Constructor for vehicle with 5 inputs
+ *  * Set note of vehicle to empty
+ *
+ * @param make | Given string for make of vehicle
+ * @param model | Given string for model of vehicle
+ * @param year | Given Integer for year of vehicle
+ * @param price | Given Float for price of vehicle
+ * @param miles | Given Integer for Miles on vehicle
+ */
 vehicle::vehicle(string make, string model, int year, float price, int miles) {
     this->make = make;
     this->model = model;
@@ -80,21 +86,37 @@ vehicle::vehicle(string make, string model, int year, float price, int miles) {
     this->notes.emplace_back("");
 }
 
+/**
+ * Constructor to display vehicle class
+ */
 void vehicle::print() {
     cout << year << " " << make << " " << model << " from " << year <<
     " has mileage " << miles << " and cost $" << price << endl;
 }
 
+/**
+ * Constructor to compare cost of two vehicles, given one from input
+ * @param a | Given vehicle to compare with
+ * @return | True if initial compared vehicle is more then given from outside
+ */
 bool vehicle::compareCost(const vehicle &a) const {
     if (price > a.price)
         return true;
     return false;
 }
 
+/**
+ * Constructor ffor adding notes to given vehicle
+ * @param notes  | string input for note on vehicle
+ */
 void vehicle::add_note(string notes) {
     this->notes.push_back(notes);
 }
 
+/**
+ * Constructor to print given vehicle notes,
+ * displayed on different lines
+ */
 void vehicle::print_notes() {
     for (auto &note: notes) {
         cout << note << endl;
