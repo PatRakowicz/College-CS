@@ -16,6 +16,7 @@ public:
     void set_name(string u_name);
     void set_age(int u_age);
     void set_weight(int u_weight);
+    void print();
 };
 
 Cat::Cat() {
@@ -36,10 +37,16 @@ void Cat::set_age(int u_age) {
 }
 
 void Cat::set_weight(int u_weight) {
-    if(u_weight < 1)
-        cout << "Can not set below 1" << endl;
+    if(u_weight < 0)
+        cout << "Can not set below 0" << endl;
     else
         weight = u_weight;
+}
+
+void Cat::print() {
+    cout << "Name : " << name << endl;
+    cout << "Age: " << age << endl;
+    cout << "Weight: " << weight << endl;
 }
 
 
