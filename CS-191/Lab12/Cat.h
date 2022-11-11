@@ -17,6 +17,9 @@ public:
     void set_age(int u_age);
     void set_weight(int u_weight);
     void print();
+    string get_name();
+    int get_age();
+    int get_weight();
 };
 
 Cat::Cat() {
@@ -47,6 +50,18 @@ void Cat::print() {
     cout << "Name : " << name << endl;
     cout << "Age: " << age << endl;
     cout << "Weight: " << weight << endl;
+}
+
+string Cat::get_name() {
+    return name;
+}
+
+int Cat::get_age() {
+    return age;
+}
+
+int Cat::get_weight() {
+    return weight;
 }
 
 
