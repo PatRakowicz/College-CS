@@ -7,4 +7,4 @@ include_directories(.)
 
 add_executable(Lab12
         Main.cpp
-        Main.h)
+        Cat.h)
