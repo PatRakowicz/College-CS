@@ -5,19 +5,19 @@
 <p> Enter a multiline string. Will list each word and frequency below.</p>
 
 <form action="/wordCount" method="POST"><br>
-  Enter Multi-Line String: <input type="text" name="strInput">
-  <input type="submit" value="Submit" name="submit">
+    <p>Enter Multi-Line String:</p> <textarea name="strInput" id="wordcount" cols="20" rows="8"></textarea>
+<!--    <input type="text" name="strInput" id="wordcount">-->
+    <input type="submit" value="Submit" name="submit">
 </form>
 
 <table>
-  <td>Word</td>
-  <td>Count</td>
-  {% for item in wordArr %}
+    <td>Count: </td>
+    {% for item in wordArr %}
     <tr>
-      <td>{{ item }}</td>
-      <td>{{ wordArr[item] }}</td>
+        <td>{{ item }}</td>
+        <td>{{ wordArr[item] }}</td>
     </tr>
-  {% endfor %}
+    {% endfor %}
 </table>
 
 <p>{{ num }}</p>
