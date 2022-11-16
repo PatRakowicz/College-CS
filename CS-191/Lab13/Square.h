@@ -22,14 +22,17 @@ Square::Square() {
 
 Square::Square(int width) {
     this->width = width;
+    this->height = width;
 }
 
 void Square::set_height(int s_height) {
     Rectangle::set_height(s_height);
+    Rectangle::set_width(s_height);
 }
 
 void Square::set_width(int s_width) {
     Rectangle::set_width(s_width);
+    Rectangle::set_height(s_width);
 }
 
 
