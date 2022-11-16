@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/factors">Factors</a></li>
+        <li><a href="/wordCount">Word Count</a></li>
+    </ul>
+</nav>
+{% block content %}
+{% endblock %}
+</body>
+</html>
