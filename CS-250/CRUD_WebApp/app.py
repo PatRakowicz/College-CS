@@ -61,6 +61,11 @@ def delete(id):
     return redirect('/read')
 
 
+@app.errorhandler(404)
+def err404(err):
+    return render_template('404.html', err=err)
+
+
 app.app_context().push()
 
 if __name__ == "__main__":
