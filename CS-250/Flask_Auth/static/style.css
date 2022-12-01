@@ -13,13 +13,14 @@ p {
 h1 {
     color: pink;
 }
+
 table {
-    border: 1px solid white;
+    border: 2px solid Black;
     border-collapse: collapse;
-  }
-  td {
-    border: 1px solid white;
-  }
-  th {
-    border: 1px solid white;
-  }
+    color: white;
+}
+
+td, th {
+    border: 2px solid Black;
+    text-align: center;
+}
