@@ -40,8 +40,8 @@ LinkedList::LinkedList() {
 LinkedList::~LinkedList() {
     node * temp = head;
     while(temp != nullptr){
-        head = head->next;
-        delete head;
+        delete temp;
+        temp = temp->next;
     }
 }
 
@@ -50,13 +50,39 @@ node *LinkedList::search(string value) {
 }
 
 void LinkedList::addHead(string value) {
-    node *n = new node;
-    n->message = "";
+    if (head == nullptr) {
+        node *n = new node;
+        n->message = "";
+        n->name = value;
+        n->next = head;
+        head = n;
+        tail = n;
+    } else {
+        node *n = new node;
+        n->message = "";
+        n->name = value;
+        n->next = head;
+        head = n;
+    }
+
 }
 
 void LinkedList::addTail(string value) {
-    node *n = new node;
-    n->message = "";
+    if (head == nullptr) {
+        node *n = new node;
+        n->message = "";
+        n->name = value;
+        n->next = tail;
+        tail = n;
+        head = n;
+    } else {
+        node *n = new node;
+        n->message = "";
+        n->name = value;
+        n->next = nullptr;
+        tail->next = n;
+        tail = n;
+    }
 }
 
 void LinkedList::addMiddles(string left, string value) {
@@ -73,7 +99,16 @@ void LinkedList::messUpMessage(string value, string brokenMessage) {
 }
 
 void LinkedList::printList() {
-
+    node *temp = head;
+    if (temp == nullptr){
+        cout << "NULL" << endl;
+    } else {
+        while (temp != nullptr){
+            cout << temp->message << " ";
+            cout << temp->name << " ";
+            temp = temp->next;
+        }
+    }
 }
 
 
