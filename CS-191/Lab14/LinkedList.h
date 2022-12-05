@@ -38,15 +38,35 @@ LinkedList::LinkedList() {
 
 // Not sure how to do
 LinkedList::~LinkedList() {
-    node * temp = head;
-    while(temp != nullptr){
+    node *temp = head;
+    while (temp != nullptr) {
         delete temp;
         temp = temp->next;
     }
 }
 
 node *LinkedList::search(string value) {
-    return nullptr;
+    node *temp = head;
+    int found = 0;
+    int idx = 0;
+
+    if (temp != nullptr) {
+        while (temp != nullptr) {
+            idx++;
+            if (temp->name == value) {
+                found++;
+                break;
+            }
+            temp = temp->next;
+        }
+        if (found == 1) {
+            cout << value << " is found at index = " << idx << ".\n";
+        } else {
+            cout << value << " is not found in the list.\n";
+        }
+    } else {
+        cout << "The list is empty.\n";
+    }
 }
 
 void LinkedList::addHead(string value) {
@@ -100,10 +120,10 @@ void LinkedList::messUpMessage(string value, string brokenMessage) {
 
 void LinkedList::printList() {
     node *temp = head;
-    if (temp == nullptr){
+    if (temp == nullptr) {
         cout << "NULL" << endl;
     } else {
-        while (temp != nullptr){
+        while (temp != nullptr) {
             cout << temp->message << " ";
             cout << temp->name << " ";
             temp = temp->next;
