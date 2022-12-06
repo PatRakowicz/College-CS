@@ -1,0 +1,20 @@
+{% extends "base.html" %} 
+{% block title %}Read!{% endblock %}
+{% block header %}Time To Read!{% endblock %}
+{% block content %}
+
+<table>
+    <th>Fruit</th>
+    <th>Color</th>
+{#    <th>Links</th>#}
+
+{% for member in list %}
+    <tr>
+        <td>{{ member.fruit }}</td>
+        <td>{{ member.color }}</td>
+{#        <td>{{ member.links }}</td>#}
+    </tr>
+{% endfor %}
+
+</table>
+{% endblock %}

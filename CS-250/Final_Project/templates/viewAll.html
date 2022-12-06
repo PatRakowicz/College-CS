@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+{% block title %}Read!{% endblock %}
+{% block header %}Time To Read!{% endblock %}
+{% block content %}
+
+<table>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Username</th>
+    <th>Password</th>
+
+
+{% for member in list %}
+
+    <tr>
+        <td>{{ member.name }}</td> 
+        <td>{{ member.age }}</td>
+        <td>{{ member.username }}</td>
+        <td>{{ member.password }}</td>
+    </tr>
+
+
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<nav>
+    <script src="/static/code.js"></script>
+    <a href="/">Home</a>
+
+    {% if Logged == true %}
+        <a href="/view-all">View All</a>
+        <a href="/view-fruit">View Fruit</a>
+        <a href="/create-fruit">New Fruit</a>
+        <a href="/update">Update</a>
+        <a href="/logout">Logout</a>
+    {% endif %}
+
+    {% if Logged == false %}
+        <a href="/create">Create</a>
+        <a href="/login">Login</a>
+    {% endif %}
+
+</nav>
+<h1>{% block header %}{% endblock %}</h1>
+{% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends "base.html" %} 
+{% block title %}Update!{% endblock %}
+{% block header %}{{ errorMSG }}{% endblock %}
+{% block content %}
+<form action="/update" method="POST">
+    <br>
+    Enter current password:<input type="password" name="oldPassword" required>
+    <br>
+    Enter new password:<input type="password" name="newPassword" required>
+    <br>
+    <input type="submit" value="Submit" name="submit">
+</form>
+{% endblock %}
