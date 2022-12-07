@@ -13,13 +13,21 @@ private:
     node *tail;
 public:
     LinkedList();
+
     ~LinkedList();
+
     node *search(string value);
+
     void addHead(string value);
+
     void addTail(string value);
+
     void addMiddles(string left, string value);
+
     void telephone(string m);
+
     void messUpMessage(string value, string brokenMessage);
+
     void printList();
 };
 
@@ -39,25 +47,12 @@ LinkedList::~LinkedList() {
 
 node *LinkedList::search(string value) {
     node *temp = head;
-    int found = 0;
-    int idx = 0;
-
-    if (temp != nullptr) {
-        while (temp != nullptr) {
-            idx++;
-            if (temp->name == value) {
-                found++;
-                break;
-            }
-            temp = temp->next;
-        }
-        if (found == 1) {
-            cout << value << " is found at index = " << idx << ".\n";
+    while (temp != nullptr) {
+        if (temp->name == value) {
+            return temp;
         } else {
-            cout << value << " is not found in the list.\n";
+            return nullptr;
         }
-    } else {
-        cout << "The list is empty.\n";
     }
 }
 
@@ -103,7 +98,15 @@ void LinkedList::addMiddles(string left, string value) {
 }
 
 void LinkedList::telephone(string m) {
-
+    node *temp = head;
+    if (temp == nullptr) {
+        cout << "ERROR: Empty List" << endl;
+    } else {
+        while (temp != nullptr) {
+            temp->message = m;
+            temp = temp->next;
+        }
+    }
 }
 
 void LinkedList::messUpMessage(string value, string brokenMessage) {

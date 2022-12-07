@@ -7,13 +7,17 @@ using namespace std;
 
 
 int main() {
-    LinkedList l1 = LinkedList();
+    cout << "~~ Testing AddHead ~~ \n";
+    // testing add to empty
+    LinkedList AH = LinkedList();
+    AH.addHead("One");
+    AH.printList();
 
-    l1.addHead("test");
-    l1.addHead("test2");
-    l1.addHead("test3");
-    l1.addTail("test 4");
-    l1.printList();
     cout << endl;
-    l1.search("test 4");
+    // testing add to head with list < 1
+    LinkedList AH2 = LinkedList();
+    AH2.addHead("One");
+    AH2.addHead("Two");
+    AH2.addHead("Three");
+    AH2.printList();
 }
