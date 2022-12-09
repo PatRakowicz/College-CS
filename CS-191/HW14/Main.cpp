@@ -44,7 +44,7 @@ int main() {
     // Test Working
 
     cout << "~~ Testing Telephone ~~" << endl;
-    // Testing if search == value given
+    // Testing if the telephone function works to change all messages in the list
     LinkedList test3 = LinkedList();
     test3.addHead("One");
     test3.addHead("Two");
@@ -55,6 +55,7 @@ int main() {
     // Test Working
 
     cout << "~~ Testing addMiddle ~~" << endl;
+    // Testing to add a node in the middle with a given node before adding a new one
     LinkedList test4 = LinkedList();
     test4.addHead("One");
     test4.addHead("Two");
@@ -67,6 +68,8 @@ int main() {
     // Test Working
 
     cout << "~~ Testing MessUpMsg ~~ " << endl;
+    // Testing the mess-up message function to see if given node,
+    // will change everything after given node
     LinkedList test7 = LinkedList();
     test7.addHead("One");
     test7.addHead("Two");
