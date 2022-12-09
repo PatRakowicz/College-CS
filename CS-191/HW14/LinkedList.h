@@ -36,7 +36,7 @@ LinkedList::LinkedList() {
     tail = nullptr;
 }
 
-// Not sure how to do
+// Not sure how to do, or what im doing with this one
 LinkedList::~LinkedList() {
     node *temp = head;
     while (temp != nullptr) {
