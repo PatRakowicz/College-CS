@@ -22,7 +22,7 @@ public:
 
     void addTail(string value);
 
-    void addMiddles(string left, string value);
+    void addMiddles(string leftValue, string value);
 
     void telephone(string m);
 
@@ -47,13 +47,16 @@ LinkedList::~LinkedList() {
 
 node *LinkedList::search(string value) {
     node *temp = head;
-    while (temp != nullptr) {
+    node *returnNode = nullptr;
+    bool found = false;
+    while (!found && temp != nullptr) {
         if (temp->name == value) {
-            return temp;
-        } else {
-            return nullptr;
-        }
+            found = true;
+            returnNode = temp;
+        } else
+            temp = temp->next;
     }
+    return returnNode;
 }
 
 void LinkedList::addHead(string value) {
@@ -92,9 +95,21 @@ void LinkedList::addTail(string value) {
     }
 }
 
-void LinkedList::addMiddles(string left, string value) {
+void LinkedList::addMiddles(string leftValue, string value) {
     node *n = new node;
+    node *left = search(leftValue);
+    n->name = value;
     n->message = "";
+    if (left == nullptr) {
+        n->next = head;
+        head = n;
+    } else if (left->next == nullptr) {
+        left->next = n;
+        tail = n;
+    } else {
+        n->next = left->next;
+        left->next = n;
+    }
 }
 
 void LinkedList::telephone(string m) {
@@ -110,7 +125,15 @@ void LinkedList::telephone(string m) {
 }
 
 void LinkedList::messUpMessage(string value, string brokenMessage) {
-
+    node *start = search(value);
+    if (start == nullptr) {
+        cout << "ERROR: List is empty!" << endl;
+    } else {
+        while (start != nullptr) {
+            start->message = brokenMessage;
+            start = start->next;
+        }
+    }
 }
 
 void LinkedList::printList() {
