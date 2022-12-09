@@ -13,6 +13,7 @@ int main() {
     test.addHead("One");
     test.printList();
     cout << endl;
+    // Test Working
 
     cout << "~~ Testing AddTail ~~" << endl;
     // Testing add to empty
@@ -20,6 +21,7 @@ int main() {
     test5.addTail("One");
     test5.printList();
     cout << endl;
+    // Test Working
 
     cout << "~~ Testing AddHead < 1 ~~" << endl;
     // Testing add to head with list < 1
@@ -29,6 +31,7 @@ int main() {
     test2.addHead("Three");
     test2.printList();
     cout << endl;
+    // Test Working
 
     cout << "~~ Testing AddTail < 1 ~~" << endl;
     // Testing add to head with list < 1
@@ -38,6 +41,7 @@ int main() {
     test6.addTail("Three");
     test6.printList();
     cout << endl;
+    // Test Working
 
     cout << "~~ Testing Telephone ~~" << endl;
     // Testing if search == value given
@@ -48,6 +52,7 @@ int main() {
     test3.telephone("hello");
     test3.printList();
     cout << endl;
+    // Test Working
 
     cout << "~~ Testing addMiddle ~~" << endl;
     LinkedList test4 = LinkedList();
@@ -59,6 +64,7 @@ int main() {
     cout << endl;
     test4.printList();
     cout << endl;
+    // Test Working
 
     cout << "~~ Testing MessUpMsg ~~ " << endl;
     LinkedList test7 = LinkedList();
@@ -70,4 +76,5 @@ int main() {
     test7.messUpMessage("Two", "HeLLo");
     cout << endl;
     test7.printList();
+    // Test Working
 }
