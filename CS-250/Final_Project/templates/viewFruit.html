@@ -1,20 +1,18 @@
-{% extends "base.html" %} 
-{% block title %}Read!{% endblock %}
-{% block header %}Time To Read!{% endblock %}
+{% extends "base.html" %}
+{% block title %}View Fruits{% endblock %}
+{% block header %}List Of Fruit of Logged in User{% endblock %}
 {% block content %}
+    {% if Logged == true %}
+        <table>
+            <th>Fruit</th>
 
-<table>
-    <th>Fruit</th>
-    <th>Color</th>
-{#    <th>Links</th>#}
-
-{% for member in list %}
-    <tr>
-        <td>{{ member.fruit }}</td>
-        <td>{{ member.color }}</td>
-{#        <td>{{ member.links }}</td>#}
-    </tr>
-{% endfor %}
-
-</table>
+            {% for member in list %}
+                <tr>
+                    <td>{{ member.name }}</td>
+                    <td><a href="/update-fruit/{{ member.id }}">Update</a><br><a
+                            href="/delete-fruit/{{ member.id }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 {% endblock %}

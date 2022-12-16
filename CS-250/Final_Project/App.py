@@ -12,7 +12,7 @@ login_manager.init_app(app)
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
@@ -21,10 +21,11 @@ class User(UserMixin, db.Model):
 
 
 class Fruit(db.Model):
-    __tablename__ = 'fruit'
+    __tablename__ = 'fruits'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    color = db.Column(db.String(100))
+    name = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('fruits', lazy=True))
 
 
 app.config['SECRET_KEY'] = '~~KEY~~'
@@ -85,43 +86,6 @@ def create():
         return render_template('create.html', errorMSG='', Logged=False)
 
 
-@app.route('/create-fruit', methods=['POST', 'GET'])
-def create_Fruit():
-    if request.method == 'POST':
-        fruit = request.form["fruit"]
-        color = request.form["color"]
-
-        _entry = Fruit(name=fruit, color=color)
-
-        db.session.add(_entry)
-        db.session.commit()
-
-        return redirect('/view-fruit')
-    else:
-        return render_template('create-fruit.html')
-
-
-@app.route('/view-all')
-@login_required
-def viewAll():
-    list = User.query.all()
-    return render_template('viewAll.html', list=list, Logged=True)
-
-
-@app.route('/view-fruit')
-@login_required
-def viewFruit():
-    list = Fruit.query.all()
-    return render_template('viewFruit.html', list=list, Logged=True)
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect('/')
-
-
 @app.route('/update-pass', methods=['POST', 'GET'])
 @login_required
 def update_Fruit():
@@ -140,18 +104,59 @@ def update_Fruit():
         return render_template('update.html', errorMSG='', Logged=True)
 
 
-@app.route('/update-fruit/<id>', methods=['POST', 'GET'])
-def update(id):
-    target = Fruit.query.filter_by(id=id).first()
-    if request.method == 'POST':
-        target.name = request.form['furit']
-        target.color = request.form['color']
+@app.route('/view-all')
+@login_required
+def viewAll():
+    list = User.query.all()
+    return render_template('viewAll.html', list=list, Logged=True)
 
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/')
+
+
+@app.route('/create-fruit', methods=['POST', 'GET'])
+def create_Fruit():
+    if request.method == 'POST':
+        fruit = request.form["fruit"]
+
+        _entry = Fruit(name=fruit, user_id=current_user.id)
+        db.session.add(_entry)
         db.session.commit()
 
-        return redirect('/read')
+        return redirect('/view-fruit')
     else:
-        return render_template()
+        return render_template('create-fruit.html', Logged=True)
+
+
+@app.route('/view-fruit')
+@login_required
+def viewFruit():
+    list = Fruit.query.filter_by(user_id=current_user.id).all()
+    return render_template('viewFruit.html', list=list, Logged=True, owner=current_user.username)
+
+
+@app.route('/update-fruit/<id>', methods=['POST', 'GET'])
+def update(id):
+    target = Fruit.query.get(id)
+    if request.method == 'POST':
+        target.name = request.form['fruit']
+        db.session.commit()
+
+        return redirect('/view-fruit')
+    else:
+        return render_template('update-fruit.html', fruit=target.name, id=id, Logged=True)
+
+
+@app.route('/delete-fruit/<id>')
+def delete(id):
+    fruit = Fruit.query.get(id)
+    db.session.delete(fruit)
+    db.session.commit()
+    return redirect('/view-fruit')
 
 
 @app.errorhandler(404)
@@ -161,7 +166,7 @@ def err404(err):
 
 @app.errorhandler(401)
 def err401(err):
-    return render_template('404.html', err=err)
+    return render_template('401.html', err=err)
 
 
 app.app_context().push()
