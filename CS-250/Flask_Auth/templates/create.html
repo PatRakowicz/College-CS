@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block title %}Create!{% endblock %}
+{% block header %}{{ errorMSG }}{% endblock %}
+{% block content %}
+<form action="/create" method="POST">
+    <br>
+    Enter your name:<input type="text" name="name" required>
+    <br>
+    Enter age:<input type="number" name="age" required>
+    <br>
+    Enter username:<input type="text" name="username" required>
+    <br>
+    Enter password:<input type="password" name="password" required>
+    <br>
+    <input type="submit" value="Create" name="submit">
+</form>
+{% endblock %}
