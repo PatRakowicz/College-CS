@@ -1,0 +1,26 @@
+body {
+    background-color: Grey;
+}
+
+a {
+    color: lightgreen;
+}
+
+p {
+    color: White;
+}
+
+h1 {
+    color: pink;
+}
+
+table {
+    border: 2px solid Black;
+    border-collapse: collapse;
+    color: white;
+}
+
+td, th {
+    border: 2px solid Black;
+    text-align: center;
+}

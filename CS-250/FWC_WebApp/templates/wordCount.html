@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} ~~Word Count~~ {% endblock %}
+{% block content  %}
+
+<p> Enter a multiline string. Will list each word and frequency below.</p>
+
+<form action="/wordCount" method="POST"><br>
+    <p>Enter Multi-Line String:</p> <textarea name="strInput" id="wordcount" cols="20" rows="8"></textarea>
+<!--    <input type="text" name="strInput" id="wordcount">-->
+    <input type="submit" value="Submit" name="submit">
+</form>
+
+<table>
+    <td>Count: </td>
+    {% for item in wordArr %}
+    <tr>
+        <td>{{ item }}</td>
+        <td>{{ wordArr[item] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p>{{ num }}</p>
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<nav>
+    <a href="/">Home</a>
+    <a href="/create">Create</a>
+    <a href="/read">Read</a>
+</nav>
+<h1>{% block header %}{% endblock %}</h1>
+{% block content %}
+
+{% endblock %}
+
+
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}View Fruits{% endblock %}
+{% block header %}List Of Fruit of Logged in User{% endblock %}
+{% block content %}
+    {% if Logged == true %}
+        <table>
+            <th>Fruit</th>
+
+            {% for member in list %}
+                <tr>
+                    <td>{{ member.name }}</td>
+                    <td><a href="/update-fruit/{{ member.id }}">Update</a><br><a
+                            href="/delete-fruit/{{ member.id }}">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
