@@ -7,8 +7,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
-#include <tuple>
-#include <utility>
+#include <vector>
 
 using namespace std;
 
@@ -19,19 +18,15 @@ struct marketFormat {
     int price;
 };
 
-
-int main() {
-    string winFile = "m:/livid/desktop/dev/college-cs/cs-280/hw1/data.txt";
-    string MacFile = "/{dir}/data.txt";
-
-    marketFormat items[17];
-    ifstream file(winFile);
+vector<marketFormat> readFile(const string& fileName) {
+    ifstream file(fileName);
     string line;
-    int index = 0;
+
+    vector<marketFormat> dataArray;
 
     if (!file.is_open()) {
         cout << "File does not exists \n";
-        return 1;
+        return {};
     }
 
     while (getline(file, line)) {
@@ -39,17 +34,35 @@ int main() {
         replace(line.begin(), line.end(), ',', ' ');
 
         stringstream ss(line);
+        marketFormat data;
 
-        ss >> items[index].type >> items[index].stat >> items[index].price;
+        ss >> data.type >> data.stat >> data.price;
 
-        if (items[index].stat == "forsale") { items[index].status = true; }
-        else { items[index].status = false; }
-        index++;
+        if (data.stat == "forsale") { data.status = true; }
+        else { data.status = false; }
+        dataArray.push_back(data);
     }
     file.close();
+    return dataArray;
+}
 
-    for (int i = 0; i < index; i++) {
-        cout << items[i].type << " " << boolalpha << items[i].status << " " << items[i].price << endl;
+int main() {
+    string winFile = "m:/livid/desktop/dev/college-cs/cs-280/hw1/data.txt";
+    string MacFile = "/{dir}/data.txt";
+
+    vector<marketFormat> dataArray = readFile(winFile);
+
+    if(dataArray.empty()) {
+        cout << "No Data / Empty Array \n";
+        return 1;
+    }
+
+    /*for (int i = 0; i < dataArray.size(); i++) {
+        cout << dataArray[i].type << " " << boolalpha << dataArray[i].status << " " << dataArray[i].price << endl;
+    }*/
+
+    for (auto & i : dataArray) {
+        cout << i.type << " " << boolalpha << i.status << " " << i.price << endl;
     }
 
     return 0;
