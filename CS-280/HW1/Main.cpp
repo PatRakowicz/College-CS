@@ -18,7 +18,7 @@ struct marketFormat {
     int price;
 };
 
-vector<marketFormat> readFile(const string& fileName) {
+vector<marketFormat> readFile(const string &fileName) {
     ifstream file(fileName);
     string line;
 
@@ -52,7 +52,7 @@ int main() {
 
     vector<marketFormat> dataArray = readFile(winFile);
 
-    if(dataArray.empty()) {
+    if (dataArray.empty()) {
         cout << "No Data / Empty Array \n";
         return 1;
     }
@@ -61,7 +61,7 @@ int main() {
         cout << dataArray[i].type << " " << boolalpha << dataArray[i].status << " " << dataArray[i].price << endl;
     }*/
 
-    for (auto & i : dataArray) {
+    for (auto &i: dataArray) {
         cout << i.type << " " << boolalpha << i.status << " " << i.price << endl;
     }
 
