@@ -18,6 +18,11 @@ struct marketFormat {
     int price;
 };
 
+/*Vector | ReadFile given, output to a return data format for use
+ *
+ * @param string fileName | Input the given file to check and read
+ * @return the data structure
+ * */
 vector<marketFormat> readFile(const string &fileName) {
     ifstream file(fileName);
     string line;
@@ -44,6 +49,13 @@ vector<marketFormat> readFile(const string &fileName) {
     }
     file.close();
     return dataArray;
+}
+
+/* Check data given and remove what is equal to some others
+ *
+ * */
+void checkData() {
+
 }
 
 int main() {
