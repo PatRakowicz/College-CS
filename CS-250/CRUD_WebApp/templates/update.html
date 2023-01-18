@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Update{% endblock %}
+{% block header %}Update Database{% endblock %}
+{% block content %}
+    <form action="/update/{{ id }}" method="POST">
+        <br>
+        Fruit Name:<input type="text" name="fruit" value="{{ fruit }}">
+        <br>
+        Fruit Color:<input type="text" name="color" value="{{ color }}">
+        <br>
+        <input type="submit" value="Submit" name="submit">
+    </form>
+{% endblock %}

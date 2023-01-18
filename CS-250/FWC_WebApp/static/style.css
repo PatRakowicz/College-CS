@@ -1,0 +1,22 @@
+nav ul {
+    list-style-type: none;
+    /*text-align: center;*/
+}
+
+body {
+    /*text-align: center;*/
+    background-color: gray;
+}
+
+#wordcount {
+    inline-size: 150px;
+    overflow-wrap: break-word;
+}
+
+nav ul li {
+    display: inline;
+}
+
+h1 h2 a p {
+    text-align: center;
+}
