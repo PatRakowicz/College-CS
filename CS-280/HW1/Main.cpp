@@ -20,7 +20,7 @@ struct marketFormat {
 
 /*Vector | ReadFile given, output to a return data format for use
  *
- * @param string fileName | Input the given file to check and read
+ * @param string | Input the given file to check and read
  * @return the data structure
  * */
 vector<marketFormat> readFile(const string &fileName) {
@@ -53,29 +53,25 @@ vector<marketFormat> readFile(const string &fileName) {
 
 /* Check data given and remove what is equal to some others
  *
+ * @param string | File input that is being read by readFile function
  * */
-void checkData() {
-
-}
-
-int main() {
-    string winFile = "m:/livid/desktop/dev/college-cs/cs-280/hw1/data.txt";
-    string MacFile = "/{dir}/data.txt";
-
-    vector<marketFormat> dataArray = readFile(winFile);
+void checkData(string inputFile) {
+    vector<marketFormat> dataArray = readFile(inputFile);
 
     if (dataArray.empty()) {
         cout << "No Data / Empty Array \n";
-        return 1;
     }
-
-    /*for (int i = 0; i < dataArray.size(); i++) {
-        cout << dataArray[i].type << " " << boolalpha << dataArray[i].status << " " << dataArray[i].price << endl;
-    }*/
 
     for (auto &i: dataArray) {
         cout << i.type << " " << boolalpha << i.status << " " << i.price << endl;
     }
+}
+
+int main() {
+    string winFile = "m:/livid/desktop/dev/college-cs/cs-280/hw1/data.txt";
+    string macFile = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW1/data.txt";
+
+    checkData(macFile);
 
     return 0;
 }
