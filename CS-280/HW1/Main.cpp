@@ -65,6 +65,72 @@ void checkData(string inputFile) {
     for (auto &i: dataArray) {
         cout << i.type << " " << boolalpha << i.status << " " << i.price << endl;
     }
+
+    cout << endl << "~~~~ Checking Data ~~~~" << endl << endl;
+
+    for (const auto& data : dataArray) {
+        if(data.type == "bike") {
+            cout << "Type: " << data.type;
+            if(data.status) {
+                cout << " | For Sale | Price:" << data.price << endl;
+            } else {
+                cout << " | Wanted | Price:"<< data.price << endl;
+            }
+        }
+    }
+
+    cout << endl << "~~~~ Checking Data ~~~~" << endl << endl;
+
+    for (const auto& data : dataArray) {
+        if(data.type == "microwave") {
+            cout << "Type: " << data.type;
+            if(data.status) {
+                cout << " | For Sale | Price:" << data.price << endl;
+            } else {
+                cout << " | Wanted | Price:"<< data.price << endl;
+            }
+        }
+    }
+
+    cout << endl << "~~~~ Checking Data ~~~~" << endl << endl;
+
+    for (const auto& data : dataArray) {
+        if(data.type == "dresser") {
+            cout << "Type: " << data.type;
+            if(data.status) {
+                cout << " | For Sale | Price:" << data.price << endl;
+            } else {
+                cout << " | Wanted | Price:"<< data.price << endl;
+            }
+        }
+    }
+
+    cout << endl << "~~~~ Checking Data ~~~~" << endl << endl;
+
+    for (const auto& data : dataArray) {
+        if(data.type == "truck") {
+            cout << "Type: " << data.type;
+            if(data.status) {
+                cout << " | For Sale | Price:" << data.price << endl;
+            } else {
+                cout << " | Wanted | Price:"<< data.price << endl;
+            }
+        }
+    }
+
+    cout << endl << "~~~~ Checking Data ~~~~" << endl << endl;
+
+    for (const auto& data : dataArray) {
+        if(data.type == "chicken") {
+            cout << "Type: " << data.type;
+            if(data.status) {
+                cout << " | For Sale | Price:" << data.price << endl;
+            } else {
+                cout << " | Wanted | Price:"<< data.price << endl;
+            }
+        }
+    }
+
 }
 
 int main() {
