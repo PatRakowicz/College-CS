@@ -1,4 +1,4 @@
-CREATE TABLE colors (name VARCHAR(255), hex VARCHAR(7), red INT, green INT, blue INT);
+CREATE TABLE colors (name VARCHAR(255) PRIMARY KEY, hex VARCHAR(7), red INT, green INT, blue INT);
 INSERT INTO colors (name, hex, red, green, blue) VALUES ('Colorname', 'HEX', 0, 0, 0);
 INSERT INTO colors (name, hex, red, green, blue) VALUES ('AliceBlue', 'F0F8FF', 240, 248, 255);
 INSERT INTO colors (name, hex, red, green, blue) VALUES ('AntiqueWhite', 'FAEBD7', 250, 235, 215);

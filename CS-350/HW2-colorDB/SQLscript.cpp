@@ -20,7 +20,7 @@ int main() {
     ifstream file("M:/Livid/Desktop/Dev/College-CS/CS-350/HW2-colorDB/colors.txt");
     string line;
     ofstream sqlFile("M:/Livid/Desktop/Dev/College-CS/CS-350/HW2-colorDB/Inserted_Colors.sql");
-    sqlFile << "CREATE TABLE colors (name VARCHAR(255), hex VARCHAR(7), red INT, green INT, blue INT);" << endl;
+    sqlFile << "CREATE TABLE colors (name VARCHAR(255) PRIMARY KEY, hex VARCHAR(7), red INT, green INT, blue INT);" << endl;
 
     while (getline(file, line)) {
         replace(line.begin(), line.end(), ',', ' ');
