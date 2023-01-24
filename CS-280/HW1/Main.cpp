@@ -89,20 +89,6 @@ void checkData(const vector<marketFormat>& dataArray) {
         }
     }
 
-    cout << endl << "For Sale" << endl;;
-
-    for (auto &i: forSale) {
-        cout << "Name: " << i.type << ", Price: " << i.price << ", Status: ";
-        cout << (i.status ? "For Sale" : "Wanted") << endl;
-    }
-
-    cout << endl << "Wanted" << endl;
-
-    for (auto &i: wanted) {
-        cout << "Name: " << i.type << ", Price: " << i.price << ", Status: ";
-        cout << (i.status ? "For Sale" : "Wanted") << endl;
-    }
-
     cout << endl << "Sold" << endl;
 
     for (auto &i: matchedItems) {
@@ -112,16 +98,27 @@ void checkData(const vector<marketFormat>& dataArray) {
 //        cout << "Name: " << i.type << ", Price: " << i.price << ", Status: ";
 //        cout << (i.status ? "For Sale" : "Wanted") << endl;
     }
+
+    cout << endl << "Remaining Items" << endl;;
+
+    for (auto &i: forSale) {
+        cout << "Name: " << i.type << ", Price: " << i.price << ", Status: ";
+        cout << (i.status ? "For Sale" : "Wanted") << endl;
+    }
+    for (auto &i: wanted) {
+        cout << "Name: " << i.type << ", Price: " << i.price << ", Status: ";
+        cout << (i.status ? "For Sale" : "Wanted") << endl;
+    }
 }
 
 int main() {
     // change the file for the location
     // it does not work for me if I just include the file "data.txt"
-    string winFile = "m:/livid/desktop/dev/college-cs/cs-280/hw1/data.txt";
-    string macFile = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW1/data.txt";
+    string Windows = "m:/livid/desktop/dev/college-cs/cs-280/hw1/data.txt";
+    string Mac = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW1/data.txt";
 
-    string mainTest = "data.txt";
-    checkData(readFile(winFile));
+    string Main = "data.txt";
+    checkData(readFile(Windows));
 
     return 0;
 }
