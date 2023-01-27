@@ -118,7 +118,7 @@ int main() {
     string Mac = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW1/data.txt";
 
     string Main = "data.txt";
-    checkData(readFile(Windows));
+    checkData(readFile(Mac));
 
     return 0;
 }
