@@ -1,0 +1,14 @@
+CREATE DATABASE cs_350;
+
+USE cs_350;
+
+CREATE TABLE bikes (
+    ID INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    brand VARCHAR(30),
+    name VARCHAR(30),
+    price DECIMAL(10,2),
+    year INT(6)
+);
+
+GRANT ALL PRIVILEGES ON cs_350.*
+TO 'student'@'localhost' IDENTIFIED BY 'CS350';
