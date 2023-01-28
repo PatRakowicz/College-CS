@@ -1,8 +1,4 @@
 .idea/
 .DS_Store
-<<<<<<< HEAD
-.ipynb_checkpoints/
 cmake-build-debug/
-=======
 .ipynb_checkpoints/
->>>>>>> 9a7a50b7bd48f18c642ae6e95c27b5cec5e1ace0
