@@ -40,7 +40,13 @@ struct wordItem {
 * Note: can call with doubleArraySize(wordItemList, length);
 */
 void doubleArraySize(wordItem *&wordItemList, int &length) {
-
+    wordItem *temp = new wordItem[2 * length];
+    for (int i = 0; i < length; i++) {
+        temp[i] = wordItemList[i];
+    }
+    length *= 2;
+    delete [] wordItemList;
+    wordItemList = temp;
 }
 
 /*
@@ -58,7 +64,28 @@ void doubleArraySize(wordItem *&wordItemList, int &length) {
 * 		and add a new wordItem with count 1
 */
 void addWord(wordItem *&wordItemList, int &wordIndex, int &length, string nextWord) {
-
+    bool found = false;
+    for (int i = 0; i < wordIndex; i++) {
+        if (wordItemList[i].word == nextWord) {
+            found = true;
+            wordItemList[i].count++;
+            break;
+        }
+    }
+    if (!found) {
+        if (wordIndex == length) {
+            wordItem *temp = new wordItem[2 * length];
+            for (int i = 0; i < length; i++) {
+                temp[i] = wordItemList[i];
+            }
+            length *= 2;
+            delete[] wordItemList;
+            wordItemList = temp;
+        }
+        wordItemList[wordIndex].word = nextWord;
+        wordItemList[wordIndex].count = 1;
+        wordIndex++;
+    }
 }
 
 
@@ -85,7 +112,9 @@ wordItems
 * @return none
 */
 void printTopN(wordItem wordItemList[], int topN) {
-
+    for (int i = 0; i < topN; i++) {
+        cout << wordItemList[i].word << " - " << wordItemList[i].count << endl;
+    }
 }
 
 
