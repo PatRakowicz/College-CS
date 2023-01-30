@@ -45,7 +45,7 @@ void doubleArraySize(wordItem *&wordItemList, int &length) {
         temp[i] = wordItemList[i];
     }
     length *= 2;
-    delete [] wordItemList;
+    delete[] wordItemList;
     wordItemList = temp;
 }
 
@@ -99,7 +99,15 @@ void addWord(wordItem *&wordItemList, int &wordIndex, int &length, string nextWo
 * can modify the array directly (list[0] = something)
 */
 void arraySort(wordItem wordItemList[], int wordIndex) {
-
+    for (int i = 0; i < wordIndex; i++) {
+        for (int j = i + 1; j < wordIndex; j++){
+            if (wordItemList[i].count < wordItemList[j].count) {
+                wordItem temp = wordItemList[i];
+                wordItemList[i] = wordItemList[j];
+                wordItemList[j] = temp;
+            }
+        }
+    }
 }
 
 
@@ -142,7 +150,7 @@ int main() {
 
     // get command line arguments
     int topN = 4;
-    string inputFile = "shakespeare.txt";
+    string inputFile = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW2/shakespeare.txt";
 
 
     ifstream file(inputFile);
@@ -151,7 +159,9 @@ int main() {
     if (!file.is_open()) { cout << "File Does not Exists \n"; }
 
     while (getline(file, line)) {
-
+        cout << line << endl;
+//        addWord(wordItemList, wordIndex, length, line);
+//        printArr(wordItemList, wordIndex);
     }
 
     // (1) parse line by line from file
