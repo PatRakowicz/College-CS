@@ -9,6 +9,7 @@
 #include <fstream> // for file IO
 #include <typeinfo> // for typeid
 #include <sstream> // for splitting strings
+#include <algorithm>
 
 using namespace std;
 
@@ -74,13 +75,8 @@ void addWord(wordItem *&wordItemList, int &wordIndex, int &length, string nextWo
     }
     if (!found) {
         if (wordIndex == length) {
-            wordItem *temp = new wordItem[2 * length];
-            for (int i = 0; i < length; i++) {
-                temp[i] = wordItemList[i];
-            }
-            length *= 2;
-            delete[] wordItemList;
-            wordItemList = temp;
+            doubleArraySize(wordItemList, length);
+            numDoubles++;
         }
         wordItemList[wordIndex].word = nextWord;
         wordItemList[wordIndex].count = 1;
@@ -100,7 +96,7 @@ void addWord(wordItem *&wordItemList, int &wordIndex, int &length, string nextWo
 */
 void arraySort(wordItem wordItemList[], int wordIndex) {
     for (int i = 0; i < wordIndex; i++) {
-        for (int j = i + 1; j < wordIndex; j++){
+        for (int j = i + 1; j < wordIndex; j++) {
             if (wordItemList[i].count < wordItemList[j].count) {
                 wordItem temp = wordItemList[i];
                 wordItemList[i] = wordItemList[j];
@@ -137,6 +133,20 @@ void printArr(wordItem wordItemList[], int wordIndex) {
     }
 }
 
+/*
+ * Function name: uniqueCount
+ * Purpose: To find the number of unique words in a given array
+ * @param wordItemList - A pointer that points to a *sorted Arr* of wordItems
+ * @param wordIndex - the length of the words array
+ * @return count - return of the count of words that have more than one match
+ * */
+int duplicatesCntr(wordItem wordItemList[], int wordIndex) {
+    for (int i = 0; i < wordIndex; i++) {
+        if (wordItemList[i].count > 1) { numDuplicates++; }
+    }
+    return numDuplicates;
+}
+
 
 /*
 * Main function (driver)
@@ -150,18 +160,31 @@ int main() {
 
     // get command line arguments
     int topN = 4;
-    string inputFile = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW2/shakespeare.txt";
+    string winFile = "M:/Livid/Desktop/Dev/College-CS/CS-280/HW2/shakespeare.txt";
+    string macFile = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW2/shakespeare.txt";
+    const string &inputFile = winFile;
 
 
     ifstream file(inputFile);
-    string line;
 
     if (!file.is_open()) { cout << "File Does not Exists \n"; }
 
-    while (getline(file, line)) {
-        cout << line << endl;
-//        addWord(wordItemList, wordIndex, length, line);
-//        printArr(wordItemList, wordIndex);
+    string nextWord;
+    while (file >> nextWord) {
+        addWord(wordItemList, wordIndex, length, nextWord);
+    }
+
+    arraySort(wordItemList, wordIndex);
+    printTopN(wordItemList, topN);
+
+    cout << " " << endl;
+    cout << "Doubles Count: " << numDoubles << " " << endl;
+    cout << "Duplicate Count: " << duplicatesCntr(wordItemList, wordIndex) << " " << endl;
+    cout << " " << endl;
+
+    if (true) {
+        cout << "Printing Array \n";
+        printArr(wordItemList, wordIndex);
     }
 
     // (1) parse line by line from file
@@ -176,5 +199,6 @@ int main() {
     // (6) print out total number of duplicate words
 
     delete[] wordItemList; // clean up
+    file.close();
     return 0; //return "success" status
 }
