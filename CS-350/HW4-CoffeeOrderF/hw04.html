@@ -1,0 +1,37 @@
+<html>
+<head>
+	<link rel="stylesheet" href="style.css">
+	<title>Coffee Order Form</title>
+</head>
+<body>
+<form action="hw04.php" method="post">
+	<label for="name">Name:</label>
+	<input type="text" id="name" name="name" required>
+	<br>
+	<label for="drink_type">Drink Type:</label>
+	<select id="drink_type" name="drink_type" required>
+		<option value="">Select One</option>
+		<option value="coffee">Coffee</option>
+		<option value="tea">Tea</option>
+		<option value="juice">Juice</option>
+	</select>
+	<br>
+	<label for="drink_size">Drink Size:</label>
+	<select id="drink_size" name="drink_size" required>
+		<option value="">Select One</option>
+		<option value="small">Small</option>
+		<option value="medium">Medium</option>
+		<option value="large">Large</option>
+	</select>
+	<br>
+	<label>Extras:</label>
+	<input type="checkbox" name="extras[]" value="milk">Milk
+	<input type="checkbox" name="extras[]" value="sugar">Sugar
+	<input type="checkbox" name="extras[]" value="cream">Cream
+	<input type="checkbox" name="extras[]" value="cinnamon">Cinnamon
+	<input type="checkbox" name="extras[]" value="alchehall">Alchehall
+	<br>
+	<input type="submit" value="Submit">
+</form>
+</body>
+</html>
