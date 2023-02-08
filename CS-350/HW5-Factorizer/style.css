@@ -1,0 +1,40 @@
+form {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    text-align: center;
+    margin: 20px auto;
+    width: 500px;
+}
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+input[type="text"] {
+    padding: 10px;
+    font-size: 18px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: green;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+.output {
+    padding: 20px;
+    background-color: #f2f2f2;
+    text-align: left;
+    margin: 20px auto;
+    width: 500px;
+}
+.factors {
+    margin-top: 20px;
+}
