@@ -9,6 +9,10 @@
 #include <fstream> // for file IO
 #include <typeinfo> // for typeid
 #include <sstream> // for splitting strings
+<<<<<<< HEAD
+=======
+#include <algorithm>
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
 
 using namespace std;
 
@@ -40,7 +44,17 @@ struct wordItem {
 * Note: can call with doubleArraySize(wordItemList, length);
 */
 void doubleArraySize(wordItem *&wordItemList, int &length) {
+<<<<<<< HEAD
 
+=======
+    wordItem *temp = new wordItem[2 * length];
+    for (int i = 0; i < length; i++) {
+        temp[i] = wordItemList[i];
+    }
+    length *= 2;
+    delete[] wordItemList;
+    wordItemList = temp;
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
 }
 
 /*
@@ -58,7 +72,27 @@ void doubleArraySize(wordItem *&wordItemList, int &length) {
 * 		and add a new wordItem with count 1
 */
 void addWord(wordItem *&wordItemList, int &wordIndex, int &length, string nextWord) {
+<<<<<<< HEAD
 
+=======
+    bool found = false;
+    for (int i = 0; i < wordIndex; i++) {
+        if (wordItemList[i].word == nextWord) {
+            found = true;
+            wordItemList[i].count++;
+            break;
+        }
+    }
+    if (!found) {
+        if (wordIndex == length) {
+            doubleArraySize(wordItemList, length);
+            numDoubles++;
+        }
+        wordItemList[wordIndex].word = nextWord;
+        wordItemList[wordIndex].count = 1;
+        wordIndex++;
+    }
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
 }
 
 
@@ -72,7 +106,19 @@ void addWord(wordItem *&wordItemList, int &wordIndex, int &length, string nextWo
 * can modify the array directly (list[0] = something)
 */
 void arraySort(wordItem wordItemList[], int wordIndex) {
+<<<<<<< HEAD
 
+=======
+    for (int i = 0; i < wordIndex; i++) {
+        for (int j = i + 1; j < wordIndex; j++) {
+            if (wordItemList[i].count < wordItemList[j].count) {
+                wordItem temp = wordItemList[i];
+                wordItemList[i] = wordItemList[j];
+                wordItemList[j] = temp;
+            }
+        }
+    }
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
 }
 
 
@@ -85,7 +131,13 @@ wordItems
 * @return none
 */
 void printTopN(wordItem wordItemList[], int topN) {
+<<<<<<< HEAD
 
+=======
+    for (int i = 0; i < topN; i++) {
+        cout << wordItemList[i].word << " - " << wordItemList[i].count << endl;
+    }
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
 }
 
 
@@ -100,6 +152,23 @@ void printArr(wordItem wordItemList[], int wordIndex) {
     }
 }
 
+<<<<<<< HEAD
+=======
+/*
+ * Function name: uniqueCount
+ * Purpose: To find the number of unique words in a given array
+ * @param wordItemList - A pointer that points to a *sorted Arr* of wordItems
+ * @param wordIndex - the length of the words array
+ * @return count - return of the count of words that have more than one match
+ * */
+int duplicatesCntr(wordItem wordItemList[], int wordIndex) {
+    for (int i = 0; i < wordIndex; i++) {
+        if (wordItemList[i].count > 1) { numDuplicates++; }
+    }
+    return numDuplicates;
+}
+
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
 
 /*
 * Main function (driver)
@@ -113,6 +182,7 @@ int main() {
 
     // get command line arguments
     int topN = 4;
+<<<<<<< HEAD
     string inputFile = "shakespeare.txt";
 
 
@@ -123,6 +193,33 @@ int main() {
 
     while (getline(file, line)) {
 
+=======
+    string winFile = "M:/Livid/Desktop/Dev/College-CS/CS-280/HW2/shakespeare.txt";
+    string macFile = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW2/shakespeare.txt";
+    const string &inputFile = winFile;
+
+
+    ifstream file(inputFile);
+
+    if (!file.is_open()) { cout << "File Does not Exists \n"; }
+
+    string nextWord;
+    while (file >> nextWord) {
+        addWord(wordItemList, wordIndex, length, nextWord);
+    }
+
+    arraySort(wordItemList, wordIndex);
+    printTopN(wordItemList, topN);
+
+    cout << " " << endl;
+    cout << "Doubles Count: " << numDoubles << " " << endl;
+    cout << "Duplicate Count: " << duplicatesCntr(wordItemList, wordIndex) << " " << endl;
+    cout << " " << endl;
+
+    if (true) {
+        cout << "Printing Array \n";
+        printArr(wordItemList, wordIndex);
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
     }
 
     // (1) parse line by line from file
@@ -137,5 +234,9 @@ int main() {
     // (6) print out total number of duplicate words
 
     delete[] wordItemList; // clean up
+<<<<<<< HEAD
+=======
+    file.close();
+>>>>>>> ec5c677197708ec6e7f50946c7132f42adb45505
     return 0; //return "success" status
 }
