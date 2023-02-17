@@ -52,43 +52,35 @@ linkedList::linkedList() {
 *	and inserting somewhere else in list
 */
 void linkedList::addCity(string prev, string name) {
-    // create a new city with message value ""
     city *newCity = new city;
     newCity->name = name;
     newCity->message = "";
     newCity->next = nullptr;
     newCity->previous = nullptr;
 
-    // if the list is empty, set head and tail to the new city
     if (head == nullptr) {
         head = newCity;
         tail = newCity;
     } else {
-        // if prev is empty, add new city to the beginning of the list
         if (prev == "") {
             newCity->next = head;
             head->previous = newCity;
             head = newCity;
         } else {
-            // search for prev in the list
             city *current = head;
-            while (current != nullptr && current->name != prev) {
-                current = current->next;
-            }
+            while (current != nullptr && current->name != prev) { current = current->next; }
+
             if (current == nullptr) {
-                // prev not found, add new city to the end of the list
                 tail->next = newCity;
                 newCity->previous = tail;
                 tail = newCity;
             } else {
-                // insert new city after prev
                 newCity->next = current->next;
                 newCity->previous = current;
+
                 if (current->next != nullptr) {
                     current->next->previous = newCity;
-                } else {
-                    tail = newCity;
-                }
+                } else { tail = newCity; }
                 current->next = newCity;
             }
         }
@@ -104,41 +96,28 @@ void linkedList::addCity(string prev, string name) {
 * @return - none
 */
 void linkedList::deleteCity(string name) {
-    // if the list is empty, do nothing
     if (head == nullptr) {
         return;
     }
 
-    // search for the node to delete
     city *current = head;
-    while (current != nullptr && current->name != name) {
-        current = current->next;
-    }
+    while (current != nullptr && current->name != name) { current = current->next; }
 
-    if (current == nullptr) {
-        // node not found, do nothing
-        return;
-    }
+    if (current == nullptr) { return; }
 
     if (current == head && current == tail) {
-        // deleting the only node in the list
         head = nullptr;
         tail = nullptr;
     } else if (current == head) {
-        // deleting the head node
         head = current->next;
         head->previous = nullptr;
     } else if (current == tail) {
-        // deleting the tail node
         tail = current->previous;
         tail->next = nullptr;
     } else {
-        // deleting a node in the middle of the list
         current->previous->next = current->next;
         current->next->previous = current->previous;
     }
-
-    // free memory allocated for the node
     delete current;
 }
 
@@ -164,11 +143,9 @@ void linkedList::sendMessage(string message, string cityName) {
     }
 
     if (cityFound) {
-        // send message to the current city
         current->message = message;
         cout << "Message sent to " << current->name << ": " << current->message << endl;
 
-        // send message to neighbors if they exist
         if (current != head && current != tail) {
             current->previous->message = message;
             current->next->message = message;
@@ -180,14 +157,8 @@ void linkedList::sendMessage(string message, string cityName) {
         } else if (current == tail && current->previous != nullptr) {
             current->previous->message = message;
             cout << "Message sent to " << current->previous->name << ": " << current->previous->message << endl;
-        } else {
-            // city is either the only one in the list or an invalid city name was given
-            cout << "City not found or has no neighbors to send message to" << endl;
-        }
-    } else {
-        // city not found in list
-        cout << "City not found or has no neighbors to send message to" << endl;
-    }
+        } else { cout << "City not found or has no neighbors to send message to" << endl; }
+    } else { cout << "City not found or has no neighbors to send message to" << endl; }
 }
 
 /*
@@ -197,15 +168,12 @@ void linkedList::sendMessage(string message, string cityName) {
 * Note: iterate through you list, deleting each element
 */
 void linkedList::deleteList() {
-    // iterate through the list, deleting each node
     city *current = head;
     while (current != nullptr) {
         city *temp = current;
         current = current->next;
         delete temp;
     }
-
-    // set head and tail to nullptr
     head = nullptr;
     tail = nullptr;
 }
@@ -217,10 +185,9 @@ void linkedList::deleteList() {
 * @return - none
 */
 void linkedList::printList() {
-    city *temp;
-    temp = head;
+    city *temp = head;
     while (temp != nullptr) {
-        cout << temp->name << " has message: " << temp->message << endl;
+        cout << temp->name << " | Message: \t" << temp->message << endl;
         temp = temp->next;
     }
 }
@@ -233,7 +200,7 @@ void linkedList::printList() {
 void linkedList::printListBack() {
     city *current = tail;
     while (current != nullptr) {
-        cout << current->name << ":\t" << current->message << endl;
+        cout << current->name << " | Message: \t" << current->message << endl;
         current = current->previous;
     }
 }
