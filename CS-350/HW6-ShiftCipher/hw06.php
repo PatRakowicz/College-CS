@@ -38,9 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <title>Shift Cipher</title>
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 
