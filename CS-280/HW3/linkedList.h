@@ -1,8 +1,8 @@
 /**
 	CS280 linked list header file
 	@file linked-list.h
-	@author Sam Micka
-	@version 9/11/2020
+	@author Patrick Rakowicz
+	@version 2/16/2023
 */
 #ifndef LL_H_
 #define LL_H_
@@ -28,15 +28,16 @@ public:
     void addCity(string prev, string name); //method for inserting a new node
     void deleteCity(string name); //method for removing a node
     void sendMessage(string message, string cityName); //message function
-    void deleteList(); //method to delete all of the cities you've created
+    void deleteList(); //method to delete all the cities you've created
     void printList(); // method (already implemented) that will print the cities
     void printListBack(); // method for printing the list backwards (you implement)
 };
 
 // Constructor
-// should just set both head and tail to NULL
+// should just set both head and tail to nullptr
 linkedList::linkedList() {
-    // implement here!
+    head = nullptr;
+    tail = nullptr;
 }
 
 /*
@@ -51,39 +52,31 @@ linkedList::linkedList() {
 *	and inserting somewhere else in list
 */
 void linkedList::addCity(string prev, string name) {
-    city *newCity = new city();
-    newCity->name = name;
-    newCity->next = NULL;
-    newCity->previous = NULL;
+    city *newCity = new city{name, "", nullptr, nullptr};
 
-    if (prev == "") {
-        if (head == NULL) {
-            head = newCity;
+    if (head == nullptr) {
+        head = newCity;
+        tail = newCity;
+    } else if (prev == "" || head->name == prev) {
+        newCity->next = head;
+        head->previous = newCity;
+        head = newCity;
+    } else {
+        city *prevCity = head;
+        while (prevCity != nullptr && prevCity->name != prev) {
+            prevCity = prevCity->next;
+        }
+        if (prevCity == nullptr) {
+            newCity->previous = tail;
+            tail->next = newCity;
             tail = newCity;
         } else {
-            newCity->next = head;
-            head->previous = newCity;
-            head = newCity;
-        }
-    } else {
-        city *prevNode = head;
-
-        while (prevNode != NULL && prevNode->name != prev) {
-            prevNode = prevNode->next;
-        }
-
-        if (prevNode != NULL) {
-            if (prevNode->name == tail->name) {
-                tail->next = newCity;
-                newCity->previous = tail;
-                tail = newCity;
-            } else {
-                prevNode->next->previous = newCity;
-                newCity->next = prevNode->next;
-
-                prevNode->next = newCity;
-                newCity->previous = prevNode;
+            newCity->next = prevCity->next;
+            if (prevCity->next != nullptr) {
+                prevCity->next->previous = newCity;
             }
+            prevCity->next = newCity;
+            newCity->previous = prevCity;
         }
     }
 }
@@ -97,34 +90,33 @@ void linkedList::addCity(string prev, string name) {
 * @return - none
 */
 void linkedList::deleteCity(string name) {
-    if (head != NULL) {
-        if (head->name == name) {
-            head = head->next;
-            if (head == NULL) {
-                tail = NULL;
-            } else {
-                head->previous = NULL;
-            }
-        } else if (tail->name == name) {
-            tail = tail->previous;
-
-            if (tail == NULL) {
-                head = NULL;
-            } else {
-                tail->next = NULL;
-            }
-        } else {
-            city *temp = head;
-            while (temp != NULL && temp->name != name) {
-                temp = temp->next;
-            }
-
-            if (temp != NULL) {
-                temp->previous->next = temp->next;
-                temp->next->previous = temp->previous;
-            }
-        }
+    if (head == nullptr) {
+        cout << "List is empty" << endl;
+        return;
     }
+
+    if (head->name == name) {
+        head = head->next;
+        if (head != nullptr) {
+            head->previous = nullptr;
+        } else {
+            tail = nullptr;
+        }
+        return;
+    }
+
+    city *currCity = head;
+    while (currCity != nullptr && currCity->name != name) { currCity = currCity->next; }
+
+    if (currCity == nullptr) {
+        cout << "City not found" << endl;
+        return;
+    }
+
+    if (currCity->previous != nullptr) { currCity->previous->next = currCity->next; }
+    if (currCity->next != nullptr) { currCity->next->previous = currCity->previous; }
+    if (currCity == tail) { tail = currCity->previous; }
+    delete currCity;
 }
 
 /*
@@ -137,21 +129,41 @@ void linkedList::deleteCity(string name) {
 *		both neighbors, if it's head or tail, handle accordingly.
 */
 void linkedList::sendMessage(string message, string cityName) {
-    if (head != NULL) {
-        city *temp = head;
+    if (head == nullptr) {
+        cout << "List is empty" << endl;
+        return;
+    }
 
-        while (temp != NULL && temp->name != cityName) {
-            temp = temp->next;
-        }
+    city *currCity = head;
+    while (currCity != nullptr && currCity->name != cityName) {
+        currCity = currCity->next;
+    }
+    if (currCity == nullptr) {
+        cout << "City not found" << endl;
+        return;
+    }
 
-        if (temp != NULL) {
-            if (temp->next != NULL) {
-                temp->next->message = message;
-            }
-            if (temp->previous != NULL) {
-                temp->previous->message = message;
-            }
-        }
+    currCity->message = message;
+    cout << "Message sent to " << currCity->name << ": " << message << endl;
+
+    if (currCity->previous != nullptr) {
+        currCity->previous->message = message;
+        cout << "Message sent to " << currCity->previous->name << ": " << message << endl;
+    }
+
+    if (currCity->next != nullptr) {
+        currCity->next->message = message;
+        cout << "Message sent to " << currCity->next->name << ": " << message << endl;
+    }
+
+    if (currCity == head && currCity->next != nullptr) {
+        currCity->next->message = message;
+        cout << "Message sent to " << currCity->next->name << ": " << message << endl;
+    }
+
+    if (currCity == tail && currCity->previous != nullptr) {
+        currCity->previous->message = message;
+        cout << "Message sent to " << currCity->previous->name << ": " << message << endl;
     }
 }
 
@@ -162,14 +174,17 @@ void linkedList::sendMessage(string message, string cityName) {
 * Note: iterate through you list, deleting each element
 */
 void linkedList::deleteList() {
-    city *temp = new city();
-
-    while (head != NULL) {
-        temp = head;
-        head = head->next;
-        free(temp);
+    city *currCity = head;
+    while (currCity != nullptr) {
+        city *nextCity = currCity->next;
+        delete currCity;
+        currCity = nextCity;
     }
-    cout << "All nodes have been deleted successfully.\n";
+
+    head = nullptr;
+    tail = nullptr;
+
+    cout << "List deleted" << endl;
 }
 
 /*
@@ -178,12 +193,13 @@ void linkedList::deleteList() {
 * @return - none
 */
 void linkedList::printList() {
-    city *temp;
-    temp = head;
-    while (temp != NULL) {
-        cout << temp->name << " has message: " << temp->message << endl;
-        temp = temp->next;
+    city *currCity = head;
+    while (currCity != nullptr) {
+        cout << currCity->name << " ";
+        cout << "(" << currCity->message << ") -> ";
+        currCity = currCity->next;
     }
+    cout << "NULL" << endl;
 }
 
 /*
@@ -192,12 +208,13 @@ void linkedList::printList() {
 * @return - none
 */
 void linkedList::printListBack() {
-    city *temp = tail;
-
-    while (temp != NULL) {
-        cout << temp->name << " has message: " << temp->message << endl;
-        temp = temp->previous;
+    city *currCity = tail;
+    while (currCity != nullptr) {
+        cout << currCity->name << " ";
+        cout << "(" << currCity->message << ") -> ";
+        currCity = currCity->previous;
     }
+    cout << "NULL" << endl;
 }
 
 
