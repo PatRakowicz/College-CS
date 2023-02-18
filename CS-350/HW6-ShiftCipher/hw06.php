@@ -1,97 +1,105 @@
 <?php
-function shiftCipher($text, $shift) {
+function encrypt($text, $shift)
+{
     $result = "";
-    $text = strtolower($text);
-    $shift = $shift % 26;
+    $length = strlen($text);
 
-    for ($i = 0; $i < strlen($text); $i++) {
-        if (ctype_alpha($text[$i])) {
-            $ascii = ord($text[$i]);
-            $ascii += $shift;
-
-            if ($ascii > ord('z')) {
-                $ascii -= 26;
-            }
-
-            $result .= chr($ascii);
+    for ($i = 0; $i < $length; $i++) {
+        $char = $text[$i];
+        if (preg_match("/[a-zA-Z]/", $char)) {
+            $ascii = ord($char);
+            $shifted_ascii = ($ascii + $shift - ($ascii <= 90 ? 65 : 97)) % 26 + ($ascii <= 90 ? 65 : 97);
+            $result .= chr($shifted_ascii);
         } else {
-            $result .= $text[$i];
+            $result .= $char;
         }
     }
 
     return $result;
 }
 
-$plaintext = '';
-$ciphertext = '';
+function decrypt($text, $shift)
+{
+    $result = "";
+    $length = strlen($text);
 
-if (isset($_POST['action']) && $_POST['action'] == 'Encrypt') {
-    $plaintext = $_POST['plaintext'];
-    $shift = $_POST['shift'];
-    $ciphertext = shiftCipher($plaintext, $shift);
+    for ($i = 0; $i < $length; $i++) {
+        $char = $text[$i];
+        if (preg_match("/[a-zA-Z]/", $char)) {
+            $ascii = ord($char);
+            $shifted_ascii = ($ascii - $shift - ($ascii <= 90 ? 65 : 97) + 260) % 26 + ($ascii <= 90 ? 65 : 97);
+            $result .= chr($shifted_ascii);
+        } else {
+            $result .= $char;
+        }
+    }
 
-    $_POST['plaintext'] = '';
-    $_POST['shift'] = 0;
-
-    $_POST['decryptShift'] = $shift;
+    return $result;
 }
 
-if (isset($_POST['action']) && $_POST['action'] == 'Decrypt') {
-    $ciphertext = $_POST['ciphertext'];
-    $shift = $_POST['shift'];
-    $plaintext = shiftCipher($ciphertext, 26 - $shift);
-
-    $_POST['ciphertext'] = '';
-    $_POST['shift'] = 0;
-
-    $_POST['plaintext'] = $plaintext;
-}
 ?>
 
-
 <head>
+    <meta charset="UTF-8">
     <title>Shift Cipher</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-    <h1>Shift Cipher</h1>
-
-    <form action="" method="post">
-        <label for="plaintext">Plaintext:</label>
-        <input type="text" id="plaintext" name="plaintext" value="<?php echo $plaintext; ?>">
-
-        <label for="encryptShift">Shift:</label>
-        <input type="range" min="0" max="500" value="0" class="slider" id="encryptShift" name="shift">
-        <span id="encryptShiftValue">0</span>
-
-        <input type="submit" value="Encrypt" name="action">
-    </form>
-
-    <form action="" method="post">
-        <label for="ciphertext">Ciphertext:</label>
-        <input type="text" id="ciphertext" name="ciphertext" value="<?php echo $ciphertext; ?>">
-
-        <label for="decryptShift">Shift:</label>
-        <input type="range" min="0" max="500" value="0" class="slider" id="decryptShift" name="shift">
-        <span id="decryptShiftValue">0</span>
-
-        <input type="submit" value="Decrypt" name="action">
-    </form>
+    <div class="form">
+        <h2>Encryption</h2>
+        <form method="post">
+            <label for="plaintext">Plaintext:</label><br>
+            <input type="text" id="plaintext" name="plaintext"><br>
+            <label for="shift">Shift:</label><br>
+            <input type="range" min="1" max="25" value="1" class="slider" id="shift" name="shift">
+            <span id="shift-value">1</span><br>
+            <label for="ciphertext">Ciphertext:</label><br>
+            <input type="text" id="ciphertext" name="ciphertext" readonly><br>
+            <input type="submit" name="encrypt" value="Encrypt">
+        </form>
+    </div>
+    <div class="form">
+        <h2>Decryption</h2>
+        <form method="post">
+            <label for="ciphertext2">Ciphertext:</label><br>
+            <input type="text" id="ciphertext2" name="ciphertext2"><br>
+            <label for="shift2">Shift:</label><br>
+            <input type="range" min="1" max="25" value="1" class="slider" id="shift2" name="shift2">
+            <span id="shift2-value">1</span><br>
+            <label for="plaintext2">Plaintext:</label><br>
+            <input type="text" id="plaintext2" name="plaintext2" readonly><br>
+            <input type="submit" name="decrypt" value="Decrypt">
+        </form>
+    </div>
 </div>
 
+<?php
+if (isset($_POST['encrypt'])) {
+    $plaintext = $_POST['plaintext'];
+    $shift = (int)$_POST['shift'];
+    $ciphertext = encrypt($plaintext, $shift);
+    echo '<script>document.getElementById("ciphertext").value = "' . $ciphertext . '";</script>';
+} elseif (isset($_POST['decrypt'])) {
+    $ciphertext = $_POST['ciphertext2'];
+    $shift = (int)$_POST['shift2'];
+    $plaintext = decrypt($ciphertext, $shift);
+    echo '<script>document.getElementById("plaintext2").value = "' . $plaintext . '";</script>';
+}
+?>
+
 <script>
-    let encryptShift = document.getElementById("encryptShift");
-    let encryptShiftValue = document.getElementById("encryptShiftValue");
-    let decryptShift = document.getElementById("decryptShift");
-    let decryptShiftValue = document.getElementById("decryptShiftValue");
-
-    encryptShift.oninput = function () {
-        encryptShiftValue.textContent = this.value;
+    let shiftSlider = document.getElementById("shift");
+    let shiftValue = document.getElementById("shift-value");
+    shiftValue.innerHTML = shiftSlider.value;
+    shiftSlider.oninput = function () {
+        shiftValue.innerHTML = this.value;
     }
-
-    decryptShift.oninput = function () {
-        decryptShiftValue.textContent = this.value;
+    let shift2Slider = document.getElementById("shift2");
+    let shift2Value = document.getElementById("shift2-value");
+    shift2Value.innerHTML = shift2Slider.value;
+    shift2Slider.oninput = function () {
+        shift2Value.innerHTML = this.value;
     }
 </script>
 </body>
