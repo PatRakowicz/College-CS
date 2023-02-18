@@ -1,49 +1,59 @@
+<?php
+function shiftCipher($text, $shift) {
+    $result = "";
+    $text = strtolower($text);
+    $shift = $shift % 26;
+
+    for ($i = 0; $i < strlen($text); $i++) {
+        if (ctype_alpha($text[$i])) {
+            $ascii = ord($text[$i]);
+            $ascii += $shift;
+
+            if ($ascii > ord('z')) {
+                $ascii -= 26;
+            }
+
+            $result .= chr($ascii);
+        } else {
+            $result .= $text[$i];
+        }
+    }
+
+    return $result;
+}
+
+$plaintext = '';
+$ciphertext = '';
+
+if (isset($_POST['action']) && $_POST['action'] == 'Encrypt') {
+    $plaintext = $_POST['plaintext'];
+    $shift = $_POST['shift'];
+    $ciphertext = shiftCipher($plaintext, $shift);
+
+    $_POST['plaintext'] = '';
+    $_POST['shift'] = 0;
+
+    $_POST['decryptShift'] = $shift;
+}
+
+if (isset($_POST['action']) && $_POST['action'] == 'Decrypt') {
+    $ciphertext = $_POST['ciphertext'];
+    $shift = $_POST['shift'];
+    $plaintext = shiftCipher($ciphertext, 26 - $shift);
+
+    $_POST['ciphertext'] = '';
+    $_POST['shift'] = 0;
+
+    $_POST['plaintext'] = $plaintext;
+}
+?>
+
+
 <head>
     <title>Shift Cipher</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($_POST['action'] === 'encrypt') {
-        $plaintext = $_POST['plaintext'] ?? '';
-        $shift = $_POST['shift'] ?? 0;
-
-        $ciphertext = '';
-        $len = strlen($plaintext);
-
-        for ($i = 0; $i < $len; $i++) {
-            $char = $plaintext[$i];
-            if (ctype_alpha($char)) {
-                $ciphertext .= chr((ord(strtoupper($char)) + $shift - 65) % 26 + 65);
-            } else {
-                $ciphertext .= $char;
-            }
-        }
-
-        echo '<script>document.getElementById("ciphertext").value = "' . $ciphertext . '"; document.getElementById("decryptShiftValue").textContent = ' . $shift . ';</script>';
-    } elseif ($_POST['action'] === 'decrypt') {
-        $ciphertext = $_POST['ciphertext'] ?? '';
-        $shift = $_POST['shift'] ?? 0;
-
-        $plaintext = '';
-        $len = strlen($ciphertext);
-
-        for ($i = 0; $i < $len; $i++) {
-            $char = $ciphertext[$i];
-            if (ctype_alpha($char)) {
-                $plaintext .= chr((ord(strtoupper($char)) - $shift - 65 + 26) % 26 + 65);
-            } else {
-                $plaintext .= $char;
-            }
-        }
-
-        echo '<script>document.getElementById("plaintext").value = "' . $plaintext . '"; document.getElementById("encryptShiftValue").textContent = ' . $shift . ';</script>';
-    }
-}
-?>
 <body>
-
 <div class="container">
     <h1>Shift Cipher</h1>
 
@@ -70,19 +80,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 
-
-
 <script>
     let encryptShift = document.getElementById("encryptShift");
     let encryptShiftValue = document.getElementById("encryptShiftValue");
     let decryptShift = document.getElementById("decryptShift");
     let decryptShiftValue = document.getElementById("decryptShiftValue");
 
-    encryptShift.oninput = function() {
+    encryptShift.oninput = function () {
         encryptShiftValue.textContent = this.value;
     }
 
-    decryptShift.oninput = function() {
+    decryptShift.oninput = function () {
         decryptShiftValue.textContent = this.value;
     }
 </script>
