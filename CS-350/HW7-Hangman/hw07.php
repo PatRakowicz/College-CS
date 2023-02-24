@@ -47,6 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guess'])) {
 <form method="post">
     <input type="text" name="guess" maxlength="1" autocomplete="off">
     <button type="submit">Guess</button>
-    <button type="button" onclick="<?php session_destroy(); ?>">Reload</button>
+<!--    <button type="button" onclick="--><?php //session_destroy(); ?><!--">Reload</button>-->
 </form>
 </body>
