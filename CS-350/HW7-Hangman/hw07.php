@@ -1,85 +1,52 @@
 <?php
-// array of short words
-$words = array("cat", "dog", "bat", "rat", "hat", "mat");
+session_start();
 
-// select a random word from the array
-$selected_word = $words[array_rand($words)];
+if (!isset($_SESSION['word'])) {
+    $words = array("apple", "banana", "cherry", "date", "elderberry", "fig");
+    $_SESSION['word'] = str_split(strtoupper($words[rand(0, count($words) - 1)]));
+    $_SESSION['guess'] = array_fill(0, count($_SESSION['word']), "*");
+    $_SESSION['attempts'] = 0;
+    $_SESSION['missed'] = array();
+}
 
-// initialize the number of attempts to 0
-$attempts = 0;
-
-// create a string to represent the user's current guess with asterisks for missing letters
-$current_guess = str_repeat("*", strlen($selected_word));
-
-// create an array to store the letters missed so far
-$missed_letters = array();
-
-print($selected_word);
-
-
-
-// handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // get user input
-    $guess = strtolower($_POST['guess']);
-
-    // validate input
-    if (strlen($guess) !== 1 || !ctype_alpha($guess)) {
-        echo "Invalid input. Please enter a single letter.";
-        exit;
-    }
-
-    // check if the guess is in the selected word
-    if (strpos($selected_word, $guess) !== false) {
-        // update current guess with correct guess
-        for ($i = 0; $i < strlen($selected_word); $i++) {
-            if ($selected_word[$i] === $guess) {
-                $current_guess[$i] = $guess;
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guess'])) {
+    $guess = strtoupper($_POST['guess']);
+    if (in_array($guess, $_SESSION['word'])) {
+        for ($i = 0; $i < count($_SESSION['word']); $i++) {
+            if ($_SESSION['word'][$i] == $guess) {
+                $_SESSION['guess'][$i] = $guess;
             }
         }
+        if (!in_array("*", $_SESSION['guess'])) {
+            echo "Congratulations, you guessed the word: " . implode("", $_SESSION['guess']) . "!";
+            session_destroy();
+            exit;
+        }
     } else {
-        // increment attempts and add guess to missed letters
-        $attempts++;
-        $missed_letters[] = $guess;
+        $_SESSION['attempts']++;
+        $_SESSION['missed'][] = $guess;
+        if ($_SESSION['attempts'] == 3) {
+            echo "Game over, the word was: " . implode("", $_SESSION['word']) . ".";
+            session_destroy();
+            exit;
+        }
     }
 }
 
-// check if game is over
-if ($attempts >= 3 || $current_guess === $selected_word) {
-    // game over, display appropriate message
-    if ($attempts >= 3) {
-        $message = "Game over! The word was $selected_word.";
-    } else {
-        $message = "Congratulations! You guessed the word: $selected_word.";
-    }
-    // hide form
-    $display_form = false;
-} else {
-    // game still in progress, display current guess, attempts, and missed letters
-    $message = "";
-    $display_form = true;
-}
-
-// HTML code for Hangman game
 ?>
 
 <head>
-    <title>Hangman Game</title>
+    <title>Hangman</title>
 </head>
-
 <body>
-<h1>Hangman Game</h1>
-
-<?php if ($display_form) { ?>
-    <p>Current guess: <?php echo $current_guess; ?></p>
-    <p>Number of attempts: <?php echo $attempts; ?></p>
-    <p>Letters missed so far: <?php echo implode(", ", $missed_letters); ?></p>
-    <form method="POST">
-        <label for="guess">Enter a letter:</label>
-        <input type="text" name="guess" maxlength="1" />
-        <input type="submit" value="Submit" />
-    </form>
-<?php } ?>
-
-<p><?php echo $message; ?></p>
+<h1>Hangman</h1>
+<p>Guess the word:</p>
+<p><?php echo implode(" ", $_SESSION['guess']); ?></p>
+<p>Attempts: <?php echo $_SESSION['attempts']; ?></p>
+<p>Missed: <?php echo implode(", ", $_SESSION['missed']); ?></p>
+<form method="post">
+    <input type="text" name="guess" maxlength="1" autocomplete="off">
+    <button type="submit">Guess</button>
+    <button type="button" onclick="<?php session_destroy(); ?>">Reload</button>
+</form>
 </body>
