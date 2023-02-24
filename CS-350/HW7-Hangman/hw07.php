@@ -6,7 +6,7 @@ $words = array("cat", "dog", "bat", "rat", "hat", "mat");
 $selected_word = $words[array_rand($words)];
 
 // initialize the number of attempts to 0
-$attempts = 3;
+$attempts = 0;
 
 // create a string to represent the user's current guess with asterisks for missing letters
 $current_guess = str_repeat("*", strlen($selected_word));
@@ -14,10 +14,14 @@ $current_guess = str_repeat("*", strlen($selected_word));
 // create an array to store the letters missed so far
 $missed_letters = array();
 
+print($selected_word);
+
+
+
 // handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // get user input
-    $guess = $_POST['guess'];
+    $guess = strtolower($_POST['guess']);
 
     // validate input
     if (strlen($guess) !== 1 || !ctype_alpha($guess)) {
@@ -65,6 +69,7 @@ if ($attempts >= 3 || $current_guess === $selected_word) {
 
 <body>
 <h1>Hangman Game</h1>
+
 <?php if ($display_form) { ?>
     <p>Current guess: <?php echo $current_guess; ?></p>
     <p>Number of attempts: <?php echo $attempts; ?></p>
@@ -75,5 +80,6 @@ if ($attempts >= 3 || $current_guess === $selected_word) {
         <input type="submit" value="Submit" />
     </form>
 <?php } ?>
+
 <p><?php echo $message; ?></p>
 </body>
