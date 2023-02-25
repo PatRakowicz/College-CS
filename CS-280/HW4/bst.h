@@ -6,41 +6,44 @@
 */
 #ifndef BST_H_
 #define BST_H_
+
 #include <iostream>
+
 using namespace std;
 
 // must use this struct
-struct movie
-{
-	string title;
-	int rating;
-	int year;
-	movie* parent;
-	movie* leftChild;
-	movie* rightChild;
+struct movie {
+    string title;
+    int rating;
+    int year;
+    movie *parent;
+    movie *leftChild;
+    movie *rightChild;
 };
 
 class bst {
 private:
-	movie* root;
-	void destroy(movie* node); // helper function for destructor
+    movie *root;
+
+    void destroy(movie *node); // helper function for destructor
 public:
-	bst(); //constructor
-	~bst(); //destructor
-	movie* search(string title); // returns the node with the matching title
-	void addMovie(string name, int rating, int year); //method for inserting a new movie
-	void deleteMovie(string title); //method for removing a movie
-	movie* findMin(movie* node); //helper function for deleteMovie
-	void findMovie(string title); // method for finding and printing out the information about a movie
-	void printMoviesRating(int rating); // helper function
-	void printMoviesRating(movie* node, int rating); // method to print all movies in order with rating above a certain value
-	void printMovies(); // helper function
-	void printMovies(movie* node); // method (already implemented) that will print the movies in order
+    bst(); //constructor
+    ~bst(); //destructor
+    movie *search(const string& title); // returns the node with the matching title
+    void addMovie(string name, int rating, int year); //method for inserting a new movie
+    void deleteMovie(string title); //method for removing a movie
+    movie *findMin(movie *node); //helper function for deleteMovie
+    void findMovie(string title); // method for finding and printing out the information about a movie
+    void printMoviesRating(int rating); // helper function
+    void
+    printMoviesRating(movie *node, int rating); // method to print all movies in order with rating above a certain value
+    void printMovies(); // helper function
+    void printMovies(movie *node); // method (already implemented) that will print the movies in order
 };
 
 // Constructor
 bst::bst() {
-	//implement!
+    root = nullptr;
 }
 
 /*
@@ -50,16 +53,15 @@ bst::bst() {
 * @return none
 * Note: recursively destroy nodes, doing a post-order traversal
 */
-void bst::destroy(movie* node)
-{
-	//implement!
+void bst::destroy(movie *node) {
+//    destroy(node);
 }
 
 // Destructor
 // use a post-order traversal to delete movies one at a time by
 // calling destory with root
 bst::~bst() {
-	//implement!
+    //implement!
 }
 
 
@@ -72,9 +74,19 @@ bst::~bst() {
 * 	have to send another node parameter.
 * 	You can call this from various other methods!
 */
-movie* bst::search(string title)
-{
-	//implement!
+movie *bst::search(const string& title) {
+    movie *node = root;
+
+    while(node != nullptr) {
+        if(node->title > title) {
+            node = node->leftChild;
+        } else if (node->title < title) {
+            node = node->rightChild;
+        } else {
+            return node;
+        }
+    }
+    return nullptr;
 }
 
 /*
@@ -88,9 +100,38 @@ movie* bst::search(string title)
 * 	then go through the tree to put it in the lexicographically correct
 * 	spot in the tree.
 */
-void bst::addMovie(string title, int rating, int year)
-{	
-	//implement!
+void bst::addMovie(string title, int rating, int year) {
+    movie *newMovie = new movie();
+    newMovie->title = title;
+    newMovie->rating = rating;
+    newMovie->year = year;
+    newMovie->parent = nullptr;
+    newMovie->leftChild = nullptr;
+    newMovie->rightChild = nullptr;
+
+    if (root == nullptr) {
+        root = newMovie;
+        return;
+    }
+
+    movie *current = root;
+    while (current != nullptr) {
+        if (title < current->title) {
+            if (current->leftChild == nullptr) {
+                current->leftChild = newMovie;
+                newMovie->parent = current;
+                break;
+            }
+            else { current = current->leftChild; }
+        }
+        else {
+            if (current->rightChild == nullptr) {
+                current->rightChild = newMovie;
+                newMovie->parent = current;
+            }
+            else { current = current->rightChild; }
+        }
+    }
 }
 
 
@@ -102,9 +143,8 @@ void bst::addMovie(string title, int rating, int year)
 * @return - the node with the smallest title in the subtree starting at node
 * Note: this is a helper function for deleteMovie!
 */
-movie* bst::findMin(movie* node)
-{
-	//implement!
+movie *bst::findMin(movie *node) {
+    //implement!
 }
 
 /*
@@ -117,9 +157,8 @@ movie* bst::findMin(movie* node)
 * 	around to maintain the BST properties! You must follow the
 * 	pseudocode on pages 178, 179, and 180 in the textbook
 */
-void bst::deleteMovie(string title)
-{
-	//implement!
+void bst::deleteMovie(string title) {
+
 }
 
 /*
@@ -129,15 +168,13 @@ void bst::deleteMovie(string title)
 * Note: find the movie and print out the associated information. Hint,
 * 		if you implement search first, this method is very easy!
 */
-void bst::findMovie(string title)
-{
-	//implement!
+void bst::findMovie(string title) {
+    //implement!
 }
 
 // helper function to call printMoviesRating with root
-void bst::printMoviesRating(int rating)
-{
-	//implement!
+void bst::printMoviesRating(int rating) {
+    //implement!
 }
 
 
@@ -149,16 +186,14 @@ void bst::printMoviesRating(int rating)
 					only print movies with a rating of 3 or higher
 * @return - none
 */
-void bst::printMoviesRating(movie* node, int rating)
-{
-	//implement!
+void bst::printMoviesRating(movie *node, int rating) {
+    //implement!
 }
 
 
 // helper function to call printMovies with root
-void bst::printMovies()
-{
-	printMovies(root);
+void bst::printMovies() {
+    printMovies(root);
 }
 
 /*
@@ -166,13 +201,12 @@ void bst::printMovies()
 * Purpose: prints each movie's information, in-order traversal!
 * @return - none
 */
-void bst::printMovies(movie* node)
-{
-	if(node!=NULL)
-	{
-		printMovies(node->leftChild);
-		cout << "Title: " << node->title << ", Rating: " << node->rating << ", Year: " << node->year << endl;
-		printMovies(node->rightChild);
-	}
+void bst::printMovies(movie *node) {
+    if (node != NULL) {
+        printMovies(node->leftChild);
+        cout << "Title: " << node->title << ", Rating: " << node->rating << ", Year: " << node->year << endl;
+        printMovies(node->rightChild);
+    }
 }
+
 #endif
