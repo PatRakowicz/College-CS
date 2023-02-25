@@ -7,5 +7,4 @@ include_directories(.)
 
 add_executable(HW4
         bst.h
-        hw4-starter.cpp
-        movies.txt)
+        hw4-starter.cpp)

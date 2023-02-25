@@ -145,6 +145,7 @@ void bst::addMovie(string title, int rating, int year) {
 */
 movie *bst::findMin(movie *node) {
     //implement!
+    return nullptr;
 }
 
 /*

@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "hicpp-multiway-paths-covered"
 /**
 	CS280 HW4
 	@file hw4.cpp
@@ -20,9 +22,13 @@ using namespace std;
 */
 
 int main() {
+    string inputFileWindows = "M:/Livid/Desktop/Dev/College-CS/CS-280/HW4/movies.txt";
+    string inputFileMacs = "/Users/patrak/Documents/Dev/College-CS/CS-280/HW4/movies.txt";
+
+
     // get movies from the file, one at a time
-    string inputFile = "movies.txt";
-    ifstream f(inputFile);
+    string inputFile = "./movies.txt";
+    ifstream f(inputFileWindows);
     bst *tree = new bst();
     if (!f.is_open()) {
         cout << "Could not open file!" << endl;
@@ -104,3 +110,4 @@ int main() {
 
     return 0; //return "success" status
 }
+#pragma clang diagnostic pop
