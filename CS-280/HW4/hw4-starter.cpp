@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "hicpp-multiway-paths-covered"
 /**
 	CS280 HW4
 	@file hw4.cpp
@@ -28,7 +26,7 @@ int main() {
 
     // get movies from the file, one at a time
     string inputFile = "./movies.txt";
-    ifstream f(inputFileWindows);
+    ifstream f(inputFile);
     bst *tree = new bst();
     if (!f.is_open()) {
         cout << "Could not open file!" << endl;

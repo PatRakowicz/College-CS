@@ -54,14 +54,17 @@ bst::bst() {
 * Note: recursively destroy nodes, doing a post-order traversal
 */
 void bst::destroy(movie *node) {
-//    destroy(node);
+    if (node->leftChild != nullptr) { destroy(node->leftChild); }
+    if (node->rightChild != nullptr) { destroy(node->rightChild); }
+
+    delete node;
 }
 
 // Destructor
 // use a post-order traversal to delete movies one at a time by
-// calling destory with root
+// calling destroy with root
 bst::~bst() {
-    //implement!
+    destroy(root);
 }
 
 
@@ -159,6 +162,7 @@ movie *bst::findMin(movie *node) {
 * 	pseudocode on pages 178, 179, and 180 in the textbook
 */
 void bst::deleteMovie(string title) {
+    movie *node = search(title);
 
 }
 
