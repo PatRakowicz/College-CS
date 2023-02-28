@@ -8,6 +8,7 @@
 #define BST_H_
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -39,6 +40,7 @@ public:
     printMoviesRating(movie *node, int rating); // method to print all movies in order with rating above a certain value
     void printMovies(); // helper function
     void printMovies(movie *node); // method (already implemented) that will print the movies in order
+
 };
 
 // Constructor
@@ -54,10 +56,11 @@ bst::bst() {
 * Note: recursively destroy nodes, doing a post-order traversal
 */
 void bst::destroy(movie *node) {
-    if (node->leftChild != nullptr) { destroy(node->leftChild); }
-    if (node->rightChild != nullptr) { destroy(node->rightChild); }
-
-    delete node;
+    if (node != nullptr) {
+        destroy(node->leftChild);
+        destroy(node->rightChild);
+        delete node;
+    }
 }
 
 // Destructor
@@ -78,15 +81,15 @@ bst::~bst() {
 * 	You can call this from various other methods!
 */
 movie *bst::search(const string& title) {
-    movie *node = root;
+    movie *current = root;
 
-    while(node != nullptr) {
-        if(node->title > title) {
-            node = node->leftChild;
-        } else if (node->title < title) {
-            node = node->rightChild;
+    while (current != root) {
+        if (current->title == title) {
+            return current;
+        } else if (current->title > title) {
+            current = current->leftChild;
         } else {
-            return node;
+            current = current->rightChild;
         }
     }
     return nullptr;
@@ -114,25 +117,26 @@ void bst::addMovie(string title, int rating, int year) {
 
     if (root == nullptr) {
         root = newMovie;
-        return;
-    }
-
-    movie *current = root;
-    while (current != nullptr) {
-        if (title < current->title) {
-            if (current->leftChild == nullptr) {
-                current->leftChild = newMovie;
-                newMovie->parent = current;
-                break;
+    } else {
+        movie *current = root;
+        movie *parent;
+        while (true) {
+            parent = current;
+            if (title < current->title) {
+                current = current->leftChild;
+                if (current == nullptr) {
+                    parent->leftChild = newMovie;
+                    newMovie->parent = parent;
+                    return;
+                }
+            }else {
+                current = current->rightChild;
+                if (current == nullptr) {
+                    parent->rightChild = newMovie;
+                    newMovie->parent = parent;
+                    return;
+                }
             }
-            else { current = current->leftChild; }
-        }
-        else {
-            if (current->rightChild == nullptr) {
-                current->rightChild = newMovie;
-                newMovie->parent = current;
-            }
-            else { current = current->rightChild; }
         }
     }
 }
@@ -147,8 +151,11 @@ void bst::addMovie(string title, int rating, int year) {
 * Note: this is a helper function for deleteMovie!
 */
 movie *bst::findMin(movie *node) {
-    //implement!
-    return nullptr;
+    if (node == nullptr) { return nullptr; }
+    while (node->leftChild != nullptr) {
+        node = node->leftChild;
+    }
+    return node;
 }
 
 /*
@@ -162,8 +169,48 @@ movie *bst::findMin(movie *node) {
 * 	pseudocode on pages 178, 179, and 180 in the textbook
 */
 void bst::deleteMovie(string title) {
-    movie *node = search(title);
+    movie *nodeDel = search(title);
+    if (nodeDel == nullptr) {
+        return;
+    }
 
+    // Case 1: DelNode is leaf node
+    if (nodeDel->leftChild == nullptr && nodeDel->rightChild == nullptr) {
+        if (nodeDel == root) {
+            root = nullptr;
+        } else if (nodeDel == nodeDel->parent->leftChild) {
+            nodeDel->parent->leftChild = nullptr;
+        } else {
+            nodeDel->parent->rightChild = nullptr;
+        }
+        delete nodeDel;
+        return;
+    }
+
+    // Case 2: DelNode has only 1 child
+    if (nodeDel->leftChild == nullptr || nodeDel->rightChild == nullptr) {
+        movie *child = (nodeDel->leftChild != nullptr) ?
+                nodeDel->leftChild : nodeDel->rightChild;
+        if (nodeDel == root) {
+            root = child;
+            root->parent = nullptr;
+        } else if (nodeDel == nodeDel->parent->leftChild) {
+            nodeDel->parent->leftChild = child;
+            child->parent = nodeDel->parent;
+        } else {
+            nodeDel->parent->rightChild = child;
+            child->parent = nodeDel->parent;
+        }
+        delete nodeDel;
+        return;
+    }
+
+    // Case 3: DelNode has two children
+    movie *minNode = findMin(nodeDel->rightChild);
+    nodeDel->title = minNode->title;
+    nodeDel->rating = minNode->rating;
+    nodeDel->year = minNode->year;
+    deleteMovie(minNode->title);
 }
 
 /*
