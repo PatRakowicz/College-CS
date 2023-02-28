@@ -26,21 +26,23 @@ int main() {
 
     // get movies from the file, one at a time
     string inputFile = "./movies.txt";
-    ifstream f(inputFile);
+    ifstream f(inputFileWindows);
     bst *tree = new bst();
     if (!f.is_open()) {
         cout << "Could not open file!" << endl;
-    } else {
-        string inputLine;
-        while (getline(f, inputLine, '\n')) {
-            stringstream ss(inputLine);
-            string title, rating_s, year_s;
-            getline(ss, title, ',');
-            getline(ss, rating_s, ',');
-            getline(ss, year_s, ',');
-            tree->addMovie(title, stoi(rating_s), stoi(year_s));
-        }
+        return 1;
     }
+
+    string inputLine;
+    while (getline(f, inputLine, '\n')) {
+        stringstream ss(inputLine);
+        string title, rating_s, year_s;
+        getline(ss, title, ',');
+        getline(ss, rating_s, ',');
+        getline(ss, year_s, ',');
+        tree->addMovie(title, stoi(rating_s), stoi(year_s));
+    }
+    tree->printMovies();
 
     // write a loop to keep taking user choices
     bool ok = true;
@@ -108,4 +110,3 @@ int main() {
 
     return 0; //return "success" status
 }
-#pragma clang diagnostic pop
