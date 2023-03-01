@@ -84,13 +84,9 @@ movie *bst::search(const string& title) {
     movie *current = root;
 
     while (current != root) {
-        if (current->title == title) {
-            return current;
-        } else if (current->title > title) {
-            current = current->leftChild;
-        } else {
-            current = current->rightChild;
-        }
+        if (current->title == title) { return current; }
+        else if (current->title > title) { current = current->leftChild; }
+        else { current = current->rightChild; }
     }
     return nullptr;
 }
@@ -221,7 +217,8 @@ void bst::deleteMovie(string title) {
 * 		if you implement search first, this method is very easy!
 */
 void bst::findMovie(string title) {
-    //implement!
+    movie *current = search(title);
+    cout << "Movie Rating searched for: " << current->rating << endl;
 }
 
 // helper function to call printMoviesRating with root
