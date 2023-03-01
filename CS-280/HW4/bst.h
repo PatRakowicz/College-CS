@@ -217,8 +217,14 @@ void bst::deleteMovie(string title) {
 * 		if you implement search first, this method is very easy!
 */
 void bst::findMovie(string title) {
-    movie *current = search(title);
-    cout << "Movie Rating searched for: " << current->rating << endl;
+    movie *node = search(title);
+
+    if (node == nullptr) { cout << "Movie not found \n"; }
+    else {
+        cout << "Title: " << node->title << endl;
+        cout << "Rating: " << node->rating << endl;
+        cout << "Year: " << node->year << endl;
+    }
 }
 
 // helper function to call printMoviesRating with root
