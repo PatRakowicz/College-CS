@@ -42,10 +42,17 @@ int main() {
         getline(ss, year_s, ',');
         tree->addMovie(title, stoi(rating_s), stoi(year_s));
     }
-    tree->printMovies();
+//    tree->printMovies();
+    cout << "testing find movie \n";
+    tree->findMovie("AladdinR");
+    cout << endl;
+
+
+    cout << "Printing tree \n";
+    tree->printTree();
 
     // write a loop to keep taking user choices
-    bool ok = true;
+    bool ok = false;
     while (ok) {
         // prompt user for choice
         string choice;
@@ -104,8 +111,8 @@ int main() {
     }
 
     // print out the BST before exiting
-    cout << "====Printed BST====" << endl;
-    tree->printMovies();
+//    cout << "====Printed BST====" << endl;
+//    tree->printMovies();
     delete tree;
 
     return 0; //return "success" status
