@@ -31,7 +31,7 @@ public:
     bst(); //constructor
     ~bst(); //destructor
     movie *search(const string& title); // returns the node with the matching title
-    void addMovie(string name, int rating, int year); //method for inserting a new movie
+    void addMovie(string title, int rating, int year); //method for inserting a new movie
     void deleteMovie(string title); //method for removing a movie
     movie *findMin(movie *node); //helper function for deleteMovie
     void findMovie(string title); // method for finding and printing out the information about a movie
@@ -41,6 +41,8 @@ public:
     void printMovies(); // helper function
     void printMovies(movie *node); // method (already implemented) that will print the movies in order
 
+    void printTree();
+    void printTreeHelper(movie *node, int level);
 };
 
 // Constructor
@@ -220,11 +222,11 @@ void bst::findMovie(string title) {
     movie *node = search(title);
 
     if (node != nullptr) {
-        cout << "Title: " << node->title << endl;
-        cout << "Rating: " << node->rating << endl;
-        cout << "Year: " << node->year << endl;
+        cout << "Title: " << node->title;
+        cout << " | Rating: " << node->rating;
+        cout << " | Year: " << node->year << endl;
     } else {
-        cout << "Movie w/ " << title << " could not be found \n";
+        cout << "Movie w/ " << title << " could not be found.. \n";
     }
 }
 
@@ -273,5 +275,32 @@ void bst::printMovies(movie *node) {
         printMovies(node->rightChild);
     }
 }
+
+/*
+* Method name: printTree
+* Purpose: prints the tree visually using a depth-first traversal
+* @return - none
+*/
+void bst::printTree() {
+    printTreeHelper(root, 0);
+}
+
+/*
+* Method name: printTreeHelper
+* Purpose: recursively prints the tree nodes and their levels
+* @param node - the current node being printed
+* @param level - the current level of the node in the tree
+* @return - none
+*/
+void bst::printTreeHelper(movie* node, int level) {
+    if (node == nullptr) {
+        return;
+    }
+    printTreeHelper(node->rightChild, level + 1);
+    cout << setw(level * 4) << "";
+    cout << node->title << "(" << node->rating << "," << node->year << ")" << endl;
+    printTreeHelper(node->leftChild, level + 1);
+}
+
 
 #endif
