@@ -219,17 +219,18 @@ void bst::deleteMovie(string title) {
 void bst::findMovie(string title) {
     movie *node = search(title);
 
-    if (node == nullptr) { cout << "Movie not found \n"; }
-    else {
+    if (node != nullptr) {
         cout << "Title: " << node->title << endl;
         cout << "Rating: " << node->rating << endl;
         cout << "Year: " << node->year << endl;
+    } else {
+        cout << "Movie w/ " << title << " could not be found \n";
     }
 }
 
 // helper function to call printMoviesRating with root
 void bst::printMoviesRating(int rating) {
-    //implement!
+    printMoviesRating(root, rating);
 }
 
 
@@ -242,7 +243,16 @@ void bst::printMoviesRating(int rating) {
 * @return - none
 */
 void bst::printMoviesRating(movie *node, int rating) {
-    //implement!
+    if (node == nullptr) {
+        return;
+    }
+    printMoviesRating(node->leftChild, rating);
+    if (node->rating >= rating) {
+        cout << "Title: " << node->title
+            << ", Rating: " << node->rating
+            << ", Year: " << node->year << endl;
+    }
+    printMoviesRating(node->rightChild, rating);
 }
 
 
