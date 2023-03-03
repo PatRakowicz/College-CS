@@ -1,6 +1,6 @@
 Aladdin,5,1992
 The Hunchback of Notre Dame,3,1996
 Pocahontas,4,1995
-test Movie,5,2002
-test Movie 2,3,1990
-test Movie 3,2,2020
+Movie name,1,2002
+The Wandering Cane,2,1990
+The Last Of Us,5,2022
