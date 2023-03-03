@@ -85,10 +85,14 @@ bst::~bst() {
 movie *bst::search(const string& title) {
     movie *current = root;
 
-    while (current != root) {
-        if (current->title == title) { return current; }
-        else if (current->title > title) { current = current->leftChild; }
-        else { current = current->rightChild; }
+    while (current != nullptr) {
+        if (current->title == title) {
+            return current;
+        } else if (current->title > title) {
+            current = current->leftChild;
+        } else {
+            current = current->rightChild;
+        }
     }
     return nullptr;
 }
