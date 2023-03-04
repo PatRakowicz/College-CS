@@ -25,7 +25,7 @@ int main() {
 
 
     // get movies from the file, one at a time
-    string inputFile = "./movies.txt";
+    string inputFile = "movies.txt";
     ifstream f(inputFile);
     bst *tree = new bst();
     if (!f.is_open()) {
