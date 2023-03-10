@@ -191,8 +191,7 @@ void bst::deleteMovie(string title) {
 
     // Case 2: DelNode has only 1 child
     if (nodeDel->leftChild == nullptr || nodeDel->rightChild == nullptr) {
-        movie *child = (nodeDel->leftChild != nullptr) ?
-                nodeDel->leftChild : nodeDel->rightChild;
+        movie *child = (nodeDel->leftChild != nullptr) ? nodeDel->leftChild : nodeDel->rightChild;
         if (nodeDel == root) {
             root = child;
             root->parent = nullptr;
@@ -280,22 +279,22 @@ void bst::printMovies(movie *node) {
     }
 }
 
-/*
 * Method name: printTree
 * Purpose: prints the tree visually using a depth-first traversal
 * @return - none
-*/
+
+
 void bst::printTree() {
     printTreeHelper(root, 0);
 }
 
-/*
 * Method name: printTreeHelper
 * Purpose: recursively prints the tree nodes and their levels
 * @param node - the current node being printed
 * @param level - the current level of the node in the tree
 * @return - none
-*/
+
+
 void bst::printTreeHelper(movie* node, int level) {
     if (node == nullptr) {
         return;

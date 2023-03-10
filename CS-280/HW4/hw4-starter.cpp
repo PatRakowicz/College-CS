@@ -26,7 +26,7 @@ int main() {
 
     // get movies from the file, one at a time
     string inputFile = "movies.txt";
-    ifstream f(inputFile);
+    ifstream f(inputFileMacs);
     bst *tree = new bst();
     if (!f.is_open()) {
         cout << "Could not open file!" << endl;
