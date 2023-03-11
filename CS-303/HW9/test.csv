@@ -1,0 +1,82 @@
+﻿car,cylinders,displacement,horsepower,weight,acceleration,model,origin
+dodge d100,8,318,150,3755,14,76,1
+pontiac sunbird coupe,4,151,88,2740,16,77,1
+dodge aspen,6,225,90,3381,18.7,80,1
+toyota carina,4,97,88,2279,19,73,3
+dodge colt,4,98,79,2255,17.7,76,1
+ford fairmont (man),4,140,88,2720,15.4,78,1
+chevrolet impala,8,350,165,4209,12,71,1
+capri ii,4,140,92,2572,14.9,76,1
+plymouth duster,6,198,95,2833,15.5,70,1
+peugeot 504,4,120,88,3270,21.9,76,2
+chevy s-10,4,119,82,2720,19.4,82,1
+datsun 310,4,86,65,2019,16.4,80,3
+datsun 310 gx,4,91,67,1995,16.2,82,3
+ford galaxie 500,8,351,153,4129,13,72,1
+volkswagen dasher,4,97,78,2190,14.1,77,2
+plymouth fury iii,8,440,215,4312,8.5,70,1
+buick opel isuzu deluxe,4,111,80,2155,14.8,77,1
+audi 5000,5,131,103,2830,15.9,78,2
+dodge diplomat,8,318,140,3735,13.2,78,1
+amc matador,8,304,150,3672,11.5,73,1
+amc matador (sw),8,304,150,4257,15.5,74,1
+amc spirit dl,4,121,80,2670,15,79,1
+renault 12tl,4,101,83,2202,15.3,76,2
+amc gremlin,6,232,100,2634,13,71,1
+mercedes-benz 280s,6,168,120,3820,16.7,76,2
+volkswagen dasher,4,79,67,1963,15.5,74,2
+audi 100ls,4,115,95,2694,15,75,2
+pontiac grand prix,8,400,230,4278,9.5,73,1
+saab 99le,4,121,110,2660,14,73,2
+buick century limited,6,181,110,2945,16.4,82,1
+ford fiesta,4,98,66,1800,14.4,78,1
+pontiac catalina,8,455,225,4425,10,70,1
+oldsmobile starfire sx,4,151,85,2855,17.6,78,1
+mazda rx-7 gs,3,70,100,2420,12.5,80,3
+toyota corolla,4,108,70,2245,16.9,82,3
+oldsmobile vista cruiser,8,350,180,4499,12.5,73,1
+mercury lynx l,4,98,70,2125,17.3,82,1
+ford ltd,8,351,148,4657,13.5,75,1
+chevrolet malibu,8,350,145,3988,13,73,1
+datsun b210 gx,4,85,70,2070,18.6,78,3
+mercury capri v6,6,155,107,2472,14,73,1
+maxda glc deluxe,4,86,65,1975,15.2,79,3
+volvo 245,4,130,102,3150,15.7,76,2
+amc concord dl 6,6,232,90,3265,18.2,79,1
+mercury grand marquis,8,351,138,3955,13.2,79,1
+ford futura,8,302,139,3205,11.2,78,1
+triumph tr7 coupe,4,122,88,2500,15.1,80,2
+amc concord,6,232,90,3210,17.2,78,1
+ford pinto,4,122,80,2451,16.5,74,1
+datsun 280-zx,6,168,132,2910,11.4,80,3
+toyota corolla,4,108,75,2350,16.8,81,3
+plymouth volare premier v8,8,318,150,3940,13.2,76,1
+chevrolet camaro,4,151,90,2950,17.3,82,1
+subaru dl,4,97,67,1985,16.4,77,3
+ford granada,6,250,98,3525,19,77,1
+chevrolet chevette,4,85,52,2035,22.2,76,1
+volvo 145e (sw),4,121,112,2933,14.5,72,2
+volvo 144ea,4,121,112,2868,15.5,73,2
+plymouth champ,4,86,64,1875,16.4,81,1
+ford torino 500,6,250,88,3302,15.5,71,1
+audi 5000s (diesel),5,121,67,2950,19.9,80,2
+dodge coronet custom,8,318,150,3777,12.5,73,1
+honda prelude,4,107,75,2210,14.4,81,3
+ford fairmont,4,140,88,2870,18.1,80,1
+chevrolet cavalier,4,112,88,2605,19.6,82,1
+plymouth valiant custom,6,225,95,3264,16,75,1
+mercury zephyr,6,200,85,3070,16.7,78,1
+renault lecar deluxe,4,85,NA,1835,17.3,80,2
+datsun 210,4,85,65,2110,19.2,80,3
+ford granada gl,6,200,88,3060,17.1,81,1
+plymouth arrow gs,4,122,96,2300,15.5,77,1
+ford thunderbird,8,351,149,4335,14.5,77,1
+ford fairmont futura,4,140,92,2865,16.4,82,1
+dodge magnum xe,8,318,140,4080,13.7,78,1
+dodge colt (sw),4,98,80,2164,15,72,1
+oldsmobile cutlass ciera (diesel),6,262,85,3015,17,82,1
+buick century,6,231,110,3415,15.8,81,1
+oldsmobile omega brougham,6,173,115,2700,12.9,79,1
+chrysler new yorker brougham,8,440,215,4735,11,73,1
+fiat 124 sport coupe,4,98,90,2265,15.5,73,2
+dodge challenger se,8,383,170,3563,10,70,1
