@@ -1,0 +1,52 @@
+100 points total
+
+My output:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Items sold.
+
+bike 50
+dresser 500
+chicken 10
+truck 10000
+
+Items remaining in the message board after reading all lines in the file.
+
+bike, for sale, 100
+microwave, wanted, 40
+bike, for sale, 200
+microwave, for sale, 50
+chicken, for sale, 15
+dresser, wanted, 200
+truck, wanted, 5000
+microwave, wanted, 10
+bike, for sale, 300
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For the input file:
+
+microwave,for sale,20
+microwave,wanted,10
+microwave,wanted,30
+
+You should output:
+
+Items sold.
+microwave 20
+Items remaining in the message board after reading all lines in the file.
+microwave, wanted, 10
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(20/20) code compiles
+(10/10) code is clean and readable
+(5/10) code reads in from file
+(10/10) code parses lines into structs
+(10/10) code stores structs in array (properly handling size increment)
+(15/20) logic for sales is good (10 points for checking if a selling item can be sold 10 points for checking if a buying item can be bought)
+(5/10) removes items from array properly
+(0/10) correct output
+
+TOTAL: (75/100)
