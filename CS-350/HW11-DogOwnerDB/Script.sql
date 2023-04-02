@@ -1,6 +1,3 @@
-# noinspection SqlNoDataSourceInspectionForFile
-
-# noinspection SqlNoDataSourceInspection
 DROP TABLE Rakowicz_owners;
 DROP TABLE Rakowicz_dogs;
 DROP TABLE Rakowicz_breeds;
