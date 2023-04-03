@@ -1,0 +1,483 @@
+AJ;Otterhound
+Abbott;Bedlington Terrier
+Abby;Akita
+Abe;Schipperke
+Ace;Chinese Crested
+Addie;Cairn Terrier
+Aero;Bull Terrier
+Aiden;Black And Tan Coonhound
+Albert;Schipperke
+Alden;Bearded Collie
+Alex;Poodle
+Alexis;Schipperke
+Alfie;Yorkshire Terrier
+Alice;Komondor
+Allie;Basset Hound
+Alvin;Manchester Terrier
+Alyssa;French Bulldog
+Amber;Alaskan Malamute
+Amos;Akita
+Andy;Basset Hound
+Angel;Brussels Griffon
+Angus;Bulldog
+Anna;Irish Wolfhound
+Annie;Mexican Hairless
+Apollo;Akita
+Archie;Labrador Retriever
+Ariel;Briard
+Aries;Saint Bernard
+Artie;Pekingese
+Ash;Rhodesian Ridgeback
+Ashley;Komondor
+Aspen;Foxhound
+Athena;Bull Terrier
+Austin;German Wirehaired Pointer
+Autumn;Manchester Terrier
+Ava;Chinese Crested
+Avery;Skye Terrier
+Axel;Welsh Terrier
+Baby;Affenpinscher
+Bailey;Scottish Terrier
+Bandit;Skye Terrier
+Barkley;Border Terrier
+Barney;Rhodesian Ridgeback
+Baron;French Bulldog
+Basil;Dalmatian
+Baxter;Chinese Crested
+Bean;Border Collie
+Bear;Brussels Griffon
+Beau;Scottish Terrier
+Bella;Dalmatian
+Belle;Bearded Collie
+Benji;Basset Hound
+Benny;English Toy Spaniel
+Bentley;Beagle
+Betsy;English Cocker Spaniel
+Betty;Tibetan Terrier
+Bianca;Doberman Pinscher
+Billy;Mexican Hairless
+Bingo;Chesapeake Bay Retriever
+Birdie;Skye Terrier
+Biscuit;American Staffordshire Terrier
+Blake;Samoyed
+Blaze;Golden Retriever
+Blondie;Kerry Blue Terrier
+Blossom;Bernese Mountain Dog
+Blue;English Toy Spaniel
+Bo;Basenji
+Bonnie;Kuvasz
+Boomer;Chow Chow
+Brady;Sussex Spaniel
+Brandy;Norwich Terrier
+Brody;Norwegian Elkhound
+Brooklyn;Whippet
+Brownie;Weimaraner
+Bruce;English Setter
+Bruno;Lhasa Apso
+Brutus;Boxer
+Bubba;Rottweiler
+Buck;Australian Shepherd
+Buddy;American Staffordshire Terrier
+Buffy;Pointer
+Buster;Bulldog
+Butch;Sealyham Terrier
+Buzz;Chow Chow
+CJ;Basenji
+Cain;Vizsla
+Callie;Bulldog
+Camilla;Weimaraner
+Candy;Beagle
+Captain;English Toy Spaniel
+Carla;Chinese Crested
+Carly;Golden Retriever
+Carmela;Otterhound
+Carter;Sussex Spaniel
+Casey;English Setter
+Cash;Border Terrier
+Casper;English Springer Spaniel
+Cassie;English Cocker Spaniel
+Champ;Brittany
+Chance;Pomeranian
+Chanel;Chihuahua
+Charlie;Rhodesian Ridgeback
+Chase;Pug
+Chester;Papillon
+Chewy;Australian Terrier
+Chico;Mexican Hairless
+Chief;Otterhound
+Chip;Borzoi
+Chloe;Kerry Blue Terrier
+Cinnamon;Samoyed
+Cleo;Cairn Terrier
+Clifford;Border Terrier
+Clyde;Gordon Setter
+Coco;English Toy Spaniel
+Cody;Chihuahua
+Colby;Otterhound
+Cookie;Puli
+Cooper;Labrador Retriever
+Copper;Bull Terrier
+Cricket;Pug
+Daisy;Curly-Coated Retriever
+Dakota;Spitz
+Damien;Sealyham Terrier
+Dana;Shetland Sheepdog
+Dane;Australian Cattle Dog
+Dante;Bulldog
+Daphne;Soft-Coated Wheaten Terrier
+Darla;Alaskan Malamute
+Darlene;Skye Terrier
+Delia;Collie
+Delilah;Flat-Coated Retriever
+Denver;Chihuahua
+Destiny;Australian Shepherd
+Dexter;Brussels Griffon
+Diamond;Lakeland Terrier
+Diego;West Highland White Terrier
+Diesel;Saint Bernard
+Diva;Collie
+Dixie;Brussels Griffon
+Dodge;Pekingese
+Dolly;Irish Water Spaniel
+Drew;Finnish Spitz
+Duchess;Whippet
+Duke;Papillon
+Dylan;Golden Retriever
+Eddie;Bloodhound
+Eden;Chesapeake Bay Retriever
+Edie;Black And Tan Coonhound
+Eli;Cairn Terrier
+Ella;Schnauzer
+Ellie;Labrador Retriever
+Elmer;Kerry Blue Terrier
+Elsa;Chesapeake Bay Retriever
+Emma;Schnauzer
+Emmett;Maltese
+Emmy;French Bulldog
+Eva;Yorkshire Terrier
+Evan;Maltese
+Faith;Flat-Coated Retriever
+Fanny;English Setter
+Felix;Bull Terrier
+Fern;Black And Tan Coonhound
+Finn;Jack Russell Terrier
+Fiona;Irish Water Spaniel
+Fisher;Basset Hound
+Flash;Scottish Deerhound
+Foxy;American Water Spaniel
+Frankie;Weimaraner
+Freddy;Bedlington Terrier
+Fritz;Border Collie
+Gabby;Norwich Terrier
+Gage;Border Terrier
+Gemma;Siberian Husky
+George;Pug
+Georgia;French Bulldog
+Gia;Mastiff
+Gidget;Australian Shepherd
+Gigi;Eskimo Dog
+Ginger;English Toy Spaniel
+Gizmo;Mastiff
+Goldie;Gordon Setter
+Goose;Keeshond
+Gordie;Canaan Dog
+Grace;Kuvasz
+Gracie;Weimaraner
+Greta;Afghan Hound
+Griffin;Pug
+Gunner;Saluki
+Gus;Bedlington Terrier
+Gypsy;Pug
+Hailey;Whippet
+Hank;Kerry Blue Terrier
+Hannah;Scottish Deerhound
+Harley;Chihuahua
+Harper;Sealyham Terrier
+Harvey;Papillon
+Hawkeye;Dalmatian
+Hazel;Bedlington Terrier
+Heidi;Chow Chow
+Henry;German Shepherd
+Hershey;Border Terrier
+Holly;Golden Retriever
+Honey;Affenpinscher
+Hope;Saluki
+Hoss;West Highland White Terrier
+Huck;Saluki
+Hunter;Chesapeake Bay Retriever
+Ibby;Irish Wolfhound
+Iggy;Scottish Terrier
+Inez;Boston Terrier
+Isabella;Irish Wolfhound
+Ivan;Bearded Collie
+Ivy;Welsh Terrier
+Izzy;Norwich Terrier
+Jack;Clumber Spaniel
+Jackie;Spitz
+Jackson;Otterhound
+Jada;Irish Wolfhound
+Jade;Mexican Hairless
+Jake;Briard
+Jasmine;Border Collie
+Jasper;English Springer Spaniel
+Jax;Scottish Terrier
+Jenna;Border Terrier
+Jersey;Komondor
+Jesse;Shetland Sheepdog
+Jessie;Keeshond
+Jill;Affenpinscher
+Joey;Mastiff
+Johnny;Curly-Coated Retriever
+Josie;Irish Setter
+Judge;Airedale Terrier
+Julia;Bedlington Terrier
+Juliet;English Setter
+Juno;West Highland White Terrier
+Kali;Sussex Spaniel
+Kallie;Skye Terrier
+Kane;Cocker Spaniel
+Karma;Bullmastiff
+Kate;Australian Cattle Dog
+Katie;Bullmastiff
+Kayla;West Highland White Terrier
+Kelsey;Lakeland Terrier
+Khloe;Basenji
+Kiki;Basenji
+King;Samoyed
+Kira;Irish Setter
+Kobe;Staffordshire Bull Terrier
+Koda;Australian Shepherd
+Koko;Scottish Terrier
+Kona;Kerry Blue Terrier
+Lacy;Sealyham Terrier
+Lady;Bichon Frise
+Layla;Bichon Frise
+Leia;Pointer
+Lena;Great Dane
+Lenny;Kuvasz
+Leo;Borzoi
+Leroy;Chesapeake Bay Retriever
+Levi;Keeshond
+Lewis;Welsh Terrier
+Lexi;Mexican Hairless
+Libby;French Bulldog
+Liberty;Brussels Griffon
+Lily;Komondor
+Lizzy;Scottish Deerhound
+Logan;Samoyed
+Loki;Puli
+Lola;Briard
+London;Saint Bernard
+Louie;Cocker Spaniel
+Lucky;Flat-Coated Retriever
+Luke;Pomeranian
+Lulu;Pekingese
+Luna;English Springer Spaniel
+Mabel;German Shorthaired Pointer
+Mackenzie;Japanese Spaniel
+Macy;German Wirehaired Pointer
+Maddie;Bernese Mountain Dog
+Madison;Cairn Terrier
+Maggie;Bull Terrier
+Maisy;Australian Shepherd
+Mandy;Dalmatian
+Marley;Airedale Terrier
+Marty;Manchester Terrier
+Matilda;Kuvasz
+Mattie;Bulldog
+Maverick;Manchester Terrier
+Max;Bull Terrier
+Maximus;Affenpinscher
+Maya;Australian Terrier
+Mia;Rottweiler
+Mickey;Norwich Terrier
+Mika;Australian Cattle Dog
+Mila;Bulldog
+Miles;Australian Shepherd
+Miley;Alaskan Malamute
+Millie;Weimaraner
+Milo;Dachshund
+Mimi;Australian Terrier
+Minnie;Jack Russell Terrier
+Missy;Bullmastiff
+Misty;Chinese Crested
+Mitzi;Pomeranian
+Mocha;Irish Setter
+Moe;Brussels Griffon
+Molly;Komondor
+Moose;Bichon Frise
+Morgan;Saluki
+Morris;West Highland White Terrier
+Moxie;Lhasa Apso
+Muffin;Lhasa Apso
+Murphy;Great Dane
+Mya;Cairn Terrier
+Nala;Shih Tzu
+Ned;Great Dane
+Nell;Skye Terrier
+Nellie;Fox Terrier
+Nelson;Boxer
+Nero;Beagle
+Nico;Beagle
+Nikki;Pointer
+Nina;German Shepherd
+Noah;English Cocker Spaniel
+Noel;French Bulldog
+Nola;Fox Terrier
+Nori;Gordon Setter
+Norm;Weimaraner
+Oakley;Samoyed
+Odie;American Water Spaniel
+Odin;Poodle
+Olive;Pekingese
+Oliver;Papillon
+Olivia;Beagle
+Ollie;Australian Cattle Dog
+Oreo;Flat-Coated Retriever
+Oscar;Samoyed
+Otis;Dalmatian
+Otto;Silky Terrier
+Ozzy;Weimaraner
+Pablo;Bearded Collie
+Paisley;Cairn Terrier
+Pandora;Boxer
+Paris;Boxer
+Parker;Kerry Blue Terrier
+Peaches;German Wirehaired Pointer
+Peanut;Black And Tan Coonhound
+Pearl;French Bulldog
+Pebbles;Bouvier Des Flandres
+Penny;Chinese Crested
+Pepper;Gordon Setter
+Petey;Cairn Terrier
+Phoebe;Welsh Terrier
+Piper;Australian Terrier
+Pippa;German Shorthaired Pointer
+Pixie;Skye Terrier
+Polly;Weimaraner
+Poppy;Vizsla
+Porter;Kuvasz
+Precious;Beagle
+Prince;American Water Spaniel
+Princess;Pekingese
+Priscilla;Komondor
+Quincy;Spitz
+Radar;Afghan Hound
+Ralph;Basset Hound
+Rambo;Scottish Deerhound
+Ranger;Tibetan Terrier
+Rascal;Bullmastiff
+Raven;Borzoi
+Rebel;Fox Terrier
+Reese;Irish Setter
+Reggie;Greyhound
+Remy;Brussels Griffon
+Rex;Weimaraner
+Ricky;Flat-Coated Retriever
+Rider;Australian Cattle Dog
+Riley;Borzoi
+Ringo;English Toy Spaniel
+Rocco;Affenpinscher
+Rockwell;Eskimo Dog
+Rocky;Chesapeake Bay Retriever
+Romeo;Shih Tzu
+Rosco;Shih Tzu
+Rose;Golden Retriever
+Rosie;Chinese Shar-Pei
+Roxy;French Bulldog
+Ruby;Rhodesian Ridgeback
+Rudy;Samoyed
+Rufus;Shih Tzu
+Rusty;Labrador Retriever
+Sadie;Pointer
+Sage;Saint Bernard
+Sally;Irish Setter
+Sam;Border Collie
+Samantha;Boxer
+Sammie;Chow Chow
+Sammy;Brussels Griffon
+Samson;Australian Cattle Dog
+Sandy;Maltese
+Sarge;Schipperke
+Sasha;Komondor
+Sassy;Australian Cattle Dog
+Savannah;Schnauzer
+Sawyer;Collie
+Scarlet;Australian Cattle Dog
+Scooby;American Water Spaniel
+Scooter;Maltese
+Scout;Greyhound
+Scrappy;Irish Wolfhound
+Shadow;Vizsla
+Shamus;Keeshond
+Sheba;Border Terrier
+Shelby;Australian Cattle Dog
+Shiloh;Jack Russell Terrier
+Sierra;Basenji
+Simba;Tibetan Terrier
+Simon;Bouvier Des Flandres
+Sissy;Australian Shepherd
+Sky;Mastiff
+Smokey;Australian Shepherd
+Smoky;Poodle
+Snickers;Weimaraner
+Snoopy;Bullmastiff
+Sophia;Flat-Coated Retriever
+Sophie;Bernese Mountain Dog
+Sparky;Whippet
+Spencer;Lakeland Terrier
+Spike;Cairn Terrier
+Spot;Maltese
+Stanley;Mastiff
+Star;American Staffordshire Terrier
+Stella;Norwegian Elkhound
+Stewie;Basenji
+Storm;Foxhound
+Sugar;Pointer
+Suki;Maltese
+Summer;Lakeland Terrier
+Sunny;Japanese Spaniel
+Sweetie;Collie
+Sydney;Chesapeake Bay Retriever
+TJ;Brittany
+Taco;Pomeranian
+Tank;Saint Bernard
+Tasha;Collie
+Taz;Bullmastiff
+Teddy;Chesapeake Bay Retriever
+Tesla;Finnish Spitz
+Tessa;Bichon Frise
+Theo;Pomeranian
+Thor;Papillon
+Tilly;Clumber Spaniel
+Titus;Golden Retriever
+Toby;Collie
+Tootsie;Scottish Deerhound
+Trapper;Australian Terrier
+Tripp;Afghan Hound
+Trixie;Golden Retriever
+Tucker;Norwegian Elkhound
+Tyler;Lakeland Terrier
+Tyson;Beagle
+Vince;Australian Terrier
+Vinnie;Kerry Blue Terrier
+Violet;Brussels Griffon
+Wally;Irish Wolfhound
+Walter;Chesapeake Bay Retriever
+Watson;Bichon Frise
+Willow;Doberman Pinscher
+Willy;West Highland White Terrier
+Winnie;Australian Shepherd
+Winston;West Highland White Terrier
+Woody;Cairn Terrier
+Wrigley;English Springer Spaniel
+Wyatt;Chinese Shar-Pei
+Xena;Border Terrier
+Yogi;German Shorthaired Pointer
+Yoshi;Sussex Spaniel
+Yukon;Komondor
+Zane;Rottweiler
+Zelda;Clumber Spaniel
+Zeus;Newfoundland
+Ziggy;Skye Terrier
+Zoe;Pekingese
