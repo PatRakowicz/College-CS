@@ -4,4 +4,4 @@ project(HW6)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(HW6
-        Mergesort-Implementation.cpp)
+        Heap-Sort-Implementation.cpp)

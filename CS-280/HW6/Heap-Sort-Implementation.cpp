@@ -43,9 +43,10 @@ int main() {
     vector<int> A = {5, 10, 3, 2, 5, 80, 15, 72};
     vector<int> B = {10, 3, 2, 13, 14, 5, 6, 40, 34, 7};
 
-    buildHeap(B);
+    buildHeap(A);
 
-    for (int num : B)
+    cout << "Final Array: ";
+    for (int num : A)
         cout << num << " ";
 
     return 0;
