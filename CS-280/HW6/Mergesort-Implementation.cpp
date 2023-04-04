@@ -21,13 +21,22 @@ void maxHeapify(vector<int>& A, int x) {
 
     if (largest != x) {
         swap(A[x], A[largest]);
+        cout << "Array after swap: ";
+        for (int num : A)
+            cout << num << " ";
+        cout << endl;
         maxHeapify(A, largest);
     }
 }
 
 void buildHeap(vector<int>& A) {
-    for (int x = A.size() / 2 - 1; x >= 0; x--)
+    for (int x = A.size() / 2 - 1; x >= 0; x--) {
         maxHeapify(A, x);
+        cout << "Array after maxHeapify: ";
+        for (int num : A)
+            cout << num << " ";
+        cout << endl;
+    }
 }
 
 int main() {
