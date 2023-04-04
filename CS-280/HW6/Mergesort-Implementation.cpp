@@ -1,57 +1,43 @@
+/*
+ * Patrick Rakowicz
+ * Merge Sort Algorithm
+ * */
+
 #include <iostream>
+#include <vector>
+
 using namespace std;
 
-void merge (int*, int, int, int);
-void mergeSort(int* arr, int min, int max) {
+void maxHeapify(vector<int>& A, int x) {
+    int left = 2 * x + 1;
+    int right = 2 * x + 2;
+    int largest = x;
 
-	int mid;
-	if (min < max) {
-		mid = (min + max) /2;
-		
-		mergeSort(arr, min, mid);
-		mergeSort(arr, mid + 1, max);
-		merge(arr, min, max, mid);
-	}
+    if (left < A.size() && A[left] > A[largest])
+        largest = left;
+
+    if (right < A.size() && A[right] > A[largest])
+        largest = right;
+
+    if (largest != x) {
+        swap(A[x], A[largest]);
+        maxHeapify(A, largest);
+    }
 }
 
-void merge (int* arr, int min, int max, int mid) {
-	int i, j, k, c[50];
-	i = min;
-	k = min;
-	j = mid + 1;
-
-	while (i <= mid && j <= max) {
-		if (arr[i] < arr[j] {
-			c[k] = arr[i];
-			k++;
-			i++;
-		} else {
-			c[k] = arr[j];
-			k++;
-			j++;
-		}
-	}
-
-	while (i <= mid) {
-		c[k] = arr[i];
-		k++;
-		i++;
-	}
-
-	for (i = min; i < k; i++) { arr[i] = c[i]; }
+void buildHeap(vector<int>& A) {
+    for (int x = A.size() / 2 - 1; x >= 0; x--)
+        maxHeapify(A, x);
 }
 
 int main() {
-	int array[30], num;
+    vector<int> A = {5, 10, 3, 2, 5, 80, 15, 72};
+    vector<int> B = {10, 3, 2, 13, 14, 5, 6, 40, 34, 7};
 
-	cout << "Enter % of elements in array: ";
-	cin >> num;
-	cout << "Enter " << num << " elements to be stored: ";
+    buildHeap(B);
 
-	for (int i = 0; i < num; i++) { cin >> array[i]; }
+    for (int num : B)
+        cout << num << " ";
 
-	mergeSort (array, 0, num - 1);
-	cout << "Sorted array:\n";
-	
-	for ( int i = 0; i < num; i++) { cout << array[i] << " "; }
-}		
+    return 0;
+}
