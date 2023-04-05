@@ -1,11 +1,13 @@
-//
-// Created by Rako on 4/4/23.
-//
-
 #include <iostream>
 #include <vector>
 
 using namespace std;
+
+void printArray(vector<int>& arr) {
+    for (int i : arr)
+        cout << i << " ";
+    cout << endl;
+}
 
 void merge(vector<int>& arr, int l, int m, int r) {
     int i, j, k;
@@ -46,42 +48,32 @@ void merge(vector<int>& arr, int l, int m, int r) {
         j++;
         k++;
     }
-
-    cout << "Merge step: ";
-    for (int i = l; i <= r; i++)
-        cout << arr[i] << " ";
-    cout << endl;
 }
 
 void mergeSort(vector<int>& arr, int l, int r) {
     if (l < r) {
         int m = l + (r - l) / 2;
-
-        cout << "Sorting subarray: ";
-        for (int i = l; i <= r; i++)
-            cout << arr[i] << " ";
-        cout << endl;
-
+        cout << "Dividing array from index " << l << " to " << r << ": ";
+        printArray(arr);
         mergeSort(arr, l, m);
         mergeSort(arr, m + 1, r);
-
         merge(arr, l, m, r);
+        cout << "Merging arrays from index " << l << " to " << r << ": ";
+        printArray(arr);
     }
 }
 
 int main() {
     vector<int> arr = {4, 22, 98, 1, 18, 15, 3, 91, 72, 5, 9, 34, 2, 17, 46, 55};
+    int n = arr.size();
 
     cout << "Original array: ";
-    for (int i = 0; i < arr.size(); i++)
-        cout << arr[i] << " ";
-    cout << endl << endl;
+    printArray(arr);
 
-    mergeSort(arr, 0, arr.size() - 1);
+    mergeSort(arr, 0, n - 1);
 
     cout << endl << "Sorted array: ";
-    for (int i = 0; i < arr.size(); i++)
-        cout << arr[i] << " ";
+    printArray(arr);
 
     return 0;
 }
