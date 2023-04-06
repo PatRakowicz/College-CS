@@ -1,31 +1,58 @@
 <?php
-// Connect to MySQL database
+// Connect to the database
+$dsn = 'mysql:host=localhost;dbname=cs_350';
+$username = 'student';
+$password = 'CS350';
 try {
-    $pdo = new PDO('mysql:host=localhost;dbname=cs_350', 'student', 'CS350');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = new PDO($dsn, $username, $password);
 } catch (PDOException $e) {
-    die("Error connecting to database: " . $e->getMessage());
+    echo "Connection failed: " . $e->getMessage();
+    exit;
 }
 
-// Retrieve all records from "products" table
-try {
-    $stmt = $pdo->query('SELECT * FROM products');
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error retrieving records: " . $e->getMessage());
-}
+// Retrieve all records from the table
+$stmt = $db->prepare('SELECT * FROM products');
+$stmt->execute();
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
-// Display records in table format
-echo '<table>';
-echo '<tr><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th>Update</th><th>Delete</th></tr>';
-foreach ($rows as $row) {
-    echo '<tr>';
-    echo '<td>' . $row['id'] . '</td>';
-    echo '<td>' . $row['name'] . '</td>';
-    echo '<td>' . $row['description'] . '</td>';
-    echo '<td>' . $row['price'] . '</td>';
-    echo '<td><a href="update.php?id=' . $row['id'] . '">Update</a></td>';
-    echo '<td><a href="delete.php?id=' . $row['id'] . '">Delete</a></td>';
-    echo '</tr>';
-}
-echo '</table>';
+
+<head>
+    <title>Read Products</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h1>Products</h1>
+<nav>
+    <a href="read.php">Read</a>
+    <a href="create.php">Create</a>
+</nav>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($products as $product): ?>
+        <tr>
+            <td><?= $product['id'] ?></td>
+            <td><?= $product['name'] ?></td>
+            <td><?= $product['description'] ?></td>
+            <td><?= $product['price'] ?></td>
+            <td>
+                <a href="update.php?id=<?= $product['id'] ?>">Update</a>
+                <a href="delete.php?id=<?= $product['id'] ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>
+
+</body>
+

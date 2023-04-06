@@ -3,13 +3,17 @@
 session_start();
 
 // Connect to the database
+$dsn = 'mysql:host=localhost;dbname=cs_350';
+$username = 'student';
+$password = 'CS350';
 try {
-    $db = new PDO('mysql:host=localhost;dbname=cs_350', 'student', 'CS350');
+    $db = new PDO($dsn, $username, $password);
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Database connection failed: ' . $e->getMessage();
+    echo "Connection failed: " . $e->getMessage();
     header('Location: read.php');
     exit;
 }
+
 
 // If the form has been submitted, insert the new record
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,15 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         $_SESSION['success'] = 'Record created successfully.';
         header('Location: read.php');
+        exit;
     } else {
         $_SESSION['error'] = 'Record creation failed.';
         header('Location: create.php');
+        exit;
     }
-    exit;
 }
-
-// If the form hasn't been submitted, display the form
 ?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -49,31 +53,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 
-
 <body>
-    <nav>
-        <a href="read.php">Read</a>
-        <a href="create.php">Create</a>
-    </nav>
+<nav>
+    <a href="read.php">Read</a>
+    <a href="create.php">Create</a>
+</nav>
 
-    <h1>Create a new record</h1>
-
-    <?php if (isset($_SESSION['error'])): ?>
-        <p class="error"><?= $_SESSION['error'] ?></p>
-        <?php unset($_SESSION['error']) ?>
-    <?php endif ?>
-
-    <form method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea>
-        <br>
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" step="0.01" required>
-        <br>
-        <input type="submit" value="Create">
-    </form>
-
+<h1>Create a new record</h1>
+<?php if (isset($_SESSION['error'])): ?>
+    <p class="error"><?= $_SESSION['error'] ?></p>
+    <?php unset($_SESSION['error']) ?>
+<?php endif ?>
+<form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+    <br>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" step="0.01" required>
+    <br>
+    <input type="submit" value="Create">
+</form>
 </body>
+

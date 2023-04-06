@@ -1,14 +1,14 @@
 <?php
-// connect to the database
+// Connect to the database
+$dsn = 'mysql:host=localhost;dbname=cs_350';
+$username = 'student';
+$password = 'CS350';
 try {
-    $db = new PDO('mysql:host=localhost;dbname=cs_350', 'student', 'CS350');
+    $db = new PDO($dsn, $username, $password);
 } catch (PDOException $e) {
-    $_SESSION['error'] = 'Database connection failed: ' . $e->getMessage();
-    header('Location: read.php');
+    echo "Connection failed: " . $e->getMessage();
     exit;
 }
-
-
 
 // check if ID parameter exists
 if (!isset($_GET['id'])) {
@@ -19,7 +19,7 @@ if (!isset($_GET['id'])) {
 $id = $_GET['id'];
 
 // retrieve the record from the database
-$sql = "SELECT * FROM cs_350 WHERE id = ?";
+$sql = "SELECT * FROM products WHERE id = ?";
 $stmt = $db->prepare($sql);
 $stmt->execute([$id]);
 $record = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,11 +34,12 @@ if (!$record) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $description = $_POST['description'];
+    $price = $_POST['price'];
 
     // update the record in the database
-    $sql = "UPDATE cs_350 SET name = ?, description = ? WHERE id = ?";
+    $sql = "UPDATE products SET name = ?, description = ?, price = ? WHERE id = ?";
     $stmt = $db->prepare($sql);
-    $stmt->execute([$name, $description, $id]);
+    $stmt->execute([$name, $description, $price, $id]);
 
     // redirect to the Read page
     header('Location: read.php');
@@ -51,13 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Update Record</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 <nav>
-    <ul>
-        <li><a href="read.php">Read</a></li>
-        <li><a href="create.php">Create</a></li>
-    </ul>
+    <a href="read.php">Read</a>
+    <a href="create.php">Create</a>
 </nav>
 
 <h1>Update Record</h1>
@@ -70,7 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="description">Description:</label>
         <textarea id="description" name="description" required><?php echo $record['description']; ?></textarea>
     </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" value="<?php echo $record['price']; ?>" required>
+    </div>
     <button type="submit">Update Record</button>
 </form>
 </body>
-
