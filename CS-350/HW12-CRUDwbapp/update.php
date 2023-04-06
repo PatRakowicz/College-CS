@@ -34,7 +34,7 @@ if (!$record) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $description = $_POST['description'];
-    $price = $_POST['price'];
+    $price = floatval($_POST['price']);
 
     // update the record in the database
     $sql = "UPDATE products SET name = ?, description = ?, price = ? WHERE id = ?";
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <div>
         <label for="price">Price:</label>
-        <input type="number" id="price" name="price" value="<?php echo $record['price']; ?>" required>
+        <input type="text" id="price" name="price" value="<?php echo $record['price']; ?>" required pattern="\d+(\.\d{1,2})?">
     </div>
     <button type="submit">Update Record</button>
 </form>
