@@ -1,8 +1,8 @@
 /**
 	CS280 HW6
-	@file hw6.cpp
-	@author Sam Micka
-	@version 10/21/2020
+	@file hw7.cpp
+	@author Patrick Rakowicz
+	@version 10/04/2023
 */
 
 #include <iostream>

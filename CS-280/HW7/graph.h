@@ -1,13 +1,16 @@
 /**
 	CS280 graphs
 	@file bst.h
-	@author Sam Micka
-	@version 10/21/2020
+	@author Patrick Rakowicz
+	@version 10/04/2023
 */
 #ifndef GRAPH_H_
 #define GRAPH_H_
+
 #include <iostream>
+
 using namespace std;
+
 #include <vector>
 #include <queue> // for use with BFS
 #include <stack> // for use with DFS
@@ -17,50 +20,47 @@ using namespace std;
 // they represent the vertices in our graph
 struct adjCity;
 struct city;
-struct adjCity
-{
-	city *v;
-	int weight;
+struct adjCity {
+    city *v;
+    int weight;
 };
-struct city
-{
-	string key; // stores the name of the city
-	vector<adjCity*> adjacent;
-	bool visited; // for traversals (DFS/BFS)
-	bool solved; // for Dijsktra's
-	int distance; // for keeping track of distance in Dijkstra's
-	city* parent; // for keeping track of parent in Dijkstra's
+struct city {
+    string key; // stores the name of the city
+    vector<adjCity *> adjacent;
+    bool visited; // for traversals (DFS/BFS)
+    bool solved; // for Dijsktra's
+    int distance; // for keeping track of distance in Dijkstra's
+    city *parent; // for keeping track of parent in Dijkstra's
 };
 
 class graph {
 private:
-	vector<city*> vertices;
+    vector<city *> vertices;
 public:
-	graph(); //constructor
-	~graph(); //destructor
-	void insertCity(string cityName); // inserts a new vertex (city)
-	void insertEdge(string firstCity, string secondCity, int weight); // inserts edge with specified weight
-	void printGraph(); // prints each vertex and it's adj vertices
-	city* search(string cityName); // finds and returns city 
-	void bft(string startCity); // prints out the vertices in a BF traversal from the starting city
-	void dft(string startCity); // prints out the vertices in a DF traversal from the starting city
-	city* dijkstras(string start, string end); // Dijkstra's algorithm!
-	void printShortestPath(city* endV); // to be called after Dijkstra's
+    graph(); //constructor
+    ~graph(); //destructor
+    void insertCity(string cityName); // inserts a new vertex (city)
+    void insertEdge(string firstCity, string secondCity, int weight); // inserts edge with specified weight
+    void printGraph(); // prints each vertex and it's adj vertices
+    city *search(string cityName); // finds and returns city
+    void bft(string startCity); // prints out the vertices in a BF traversal from the starting city
+    void dft(string startCity); // prints out the vertices in a DF traversal from the starting city
+    city *dijkstras(string start, string end); // Dijkstra's algorithm!
+    void printShortestPath(city *endV); // to be called after Dijkstra's
 };
 
 
 // Constructor
 graph::graph() {
-	cout << "Constructing." << endl;
+    cout << "Constructing." << endl;
 }
 
 // Destructor
 // need to actually call delete on each struct we made with new
 // Should loop through, for each city, delete all adjacent cities, then delete the city
-graph::~graph()
-{
-	cout << "Destructing." << endl;
-	// TODO: implement
+graph::~graph() {
+    cout << "Destructing." << endl;
+    for (auto &vertice: vertices) { delete vertice; }
 }
 
 /*
@@ -71,10 +71,16 @@ graph::~graph()
 * Notes - should only add if there isn't already a vertex with that key,
 * if there is a vertex with that key, print out an "error message"
 */
-void graph::insertCity(string cityName)
-{
-	cout << "Inserting " << cityName << endl;
-	// TODO: implement
+void graph::insertCity(string cityName) {
+    cout << "Inserting " << cityName << endl;
+
+    city* newCity = new city;
+    newCity->key = cityName;
+    newCity->visited = false;
+    newCity->solved = false;
+    newCity->distance = INT_MAX;
+    newCity->parent = nullptr;
+    vertices.push_back(newCity);
 }
 
 /*
@@ -89,23 +95,19 @@ void graph::insertCity(string cityName)
 * You can follow most of the pseudocode in the book, but will need to add some additional
 * functionality to add both edges.
 */
-void graph::insertEdge(string firstCity, string secondCity, int weight)
-{
-	cout << "Inserting edges between " << firstCity <<" and " << secondCity << " with weight " << weight << endl;
-	// TODO: implement, make sure to add both edges
+void graph::insertEdge(string firstCity, string secondCity, int weight) {
+    cout << "Inserting edges between " << firstCity << " and " << secondCity << " with weight " << weight << endl;
+    // TODO: implement, make sure to add both edges
 }
 
-void graph::printGraph()
-{
-	for(int i = 0; i < vertices.size(); i++)
-	{
-		cout << vertices[i]->key << "-->";
-		for(int j = 0; j < vertices[i]->adjacent.size(); j++)
-		{
-			cout << vertices[i]->adjacent[j]->v->key << "(" << vertices[i]->adjacent[j]->weight << ") ";
-		}
-		cout << endl;
-	}
+void graph::printGraph() {
+    for (int i = 0; i < vertices.size(); i++) {
+        cout << vertices[i]->key << "-->";
+        for (int j = 0; j < vertices[i]->adjacent.size(); j++) {
+            cout << vertices[i]->adjacent[j]->v->key << "(" << vertices[i]->adjacent[j]->weight << ") ";
+        }
+        cout << endl;
+    }
 }
 
 /*
@@ -114,11 +116,10 @@ void graph::printGraph()
 * @param cityName - the key we are searching for
 * @return - the pointer to that city, return NULL if the city we want is not in the graph
 */
-city* graph::search(string cityName)
-{
-	cout << "Searching for " << cityName << endl;
-	// TODO: implement
-	return NULL;
+city *graph::search(string cityName) {
+    cout << "Searching for " << cityName << endl;
+    // TODO: implement
+    return NULL;
 }
 
 /*
@@ -129,10 +130,9 @@ city* graph::search(string cityName)
 * Notes - just print each city key as you traverse it, must use a queue!
 * At the end, make sure to loop back through vertices, setting visited to false for each!
 */
-void graph::bft(string startCity)
-{
-	cout << "Running BFT starting at " << startCity << endl;
-	// TODO: implement
+void graph::bft(string startCity) {
+    cout << "Running BFT starting at " << startCity << endl;
+    // TODO: implement
 }
 
 /*
@@ -143,10 +143,9 @@ void graph::bft(string startCity)
 * Notes - just print each city key as you traverse it, must use a stack!
 * At the end, make sure to loop back through vertices, setting visited to false for each!
 */
-void graph::dft(string startCity)
-{
-	cout << "Running DFT starting at " << startCity << endl;
-	// TODO: implement
+void graph::dft(string startCity) {
+    cout << "Running DFT starting at " << startCity << endl;
+    // TODO: implement
 }
 
 /*
@@ -158,9 +157,9 @@ void graph::dft(string startCity)
 * Notes - use the parent pointers, may need a data structure to store
 * 	the path in the right order
 */
-void graph::printShortestPath(city* endV)
-{
-	//implement here!
+void graph::printShortestPath(city *endV) {
+    if (endV->parent != nullptr) { printShortestPath(endV->parent;) }
+    cout << endV->key << endl;
 }
 
 /*
@@ -173,9 +172,9 @@ void graph::printShortestPath(city* endV)
 * Notes - use the pseudocode from the book. You can feel free to create
 * 	another vector to use to keep track of solved vertices
 */
-city* graph::dijkstras(string start, string end)
-{
-	//implement here!
-	return NULL;
+city *graph::dijkstras(string start, string end) {
+    //implement here!
+    return NULL;
 }
+
 #endif
