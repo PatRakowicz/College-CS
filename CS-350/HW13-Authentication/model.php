@@ -1,38 +1,86 @@
 <?php
 
-class Model {
+class Model
+{
     private $db;
 
-    function __construct() {
-        $dsn = 'mysql:host=localhost; dbname=cs_350';
+    public function __construct()
+    {
+        // Connect to MySQL database using PDO
+        $host = 'localhost';
+        $dbname = 'cs_350';
         $username = 'student';
         $password = 'CS350';
 
-        try {
-            $this->db = new PDO($dsn, $username, $password);
-        } catch (PDOException $e) {
-            exit('connection Failed: ' . $e->getMessage());
+        $this->db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    // Get all users from the database
+    public function getAllUsers()
+    {
+        $stmt = $this->db->query("SELECT * FROM users");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createUser($username, $password)
+    {
+        $stmt = $this->db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+        $stmt->execute(array(':username' => $username, ':password' => password_hash($password, PASSWORD_DEFAULT)));
+        return $stmt->rowCount() > 0;
+    }
+
+    public function getUserByUsername($username)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username=:username");
+        $stmt->execute(array(':username' => $username));
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function isLoggedIn()
+    {
+        session_start();
+        return isset($_SESSION['user']);
+    }
+
+    public function loginUser($username, $password)
+    {
+        $user = $this->getUserByUsername($username);
+        if ($user && password_verify($password, $user['password'])) {
+            session_start();
+            $_SESSION['user'] = $user;
+            return true;
         }
+        return false;
     }
 
-    function createUser($username, $password) {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->db->prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
-        $stmt->bindValue(1, $username);
-        $stmt->bindValue(2, $hash);
-        $stmt->execute();
+    public function logoutUser()
+    {
+        session_start();
+        unset($_SESSION['user']);
+        session_destroy();
     }
 
-    function getUser($username) {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->bindValue(1, $username);
-        $stmt->execute();
-        return $stmt->fetch();
+    public function getSecret()
+    {
+        if ($this->isLoggedIn()) {
+            $username = $_SESSION['username'];
+            $sql = "SELECT password FROM users WHERE username = :username";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":username", $username);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $password = $result['password'];
+            return "Your password hash is: $password";
+        }
+        return false;
     }
 
-    function getAllUsers() {
-        $stmt = $this->db->prepare("SELECT * FROM users");
+    public function getUsers()
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM users');
         $stmt->execute();
+
         return $stmt->fetchAll();
     }
 }
