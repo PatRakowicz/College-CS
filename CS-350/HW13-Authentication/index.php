@@ -1,6 +1,5 @@
 <?php
 require_once ('model.php');
-require_once ('view/header.php');
 
 $action = $_GET['action'] ?? 'home';
 
@@ -31,21 +30,13 @@ switch ($action) {
             $password = $_POST['password'];
             $result = (new Model)->loginUser($username, $password);
             if ($result === true) {
-                header('Location: index.php?action=secret');
+                header('Location: index.php?action=home');
                 exit;
             } else {
                 $error = $result;
             }
         }
         require('view/login.php');
-        break;
-
-    case 'secret':
-        if (!(new Model)->isLoggedIn()) {
-            header('Location: index.php?action=login');
-            exit;
-        }
-        require('view/secret.php');
         break;
 
     case 'logout':

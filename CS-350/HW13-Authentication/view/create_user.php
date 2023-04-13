@@ -6,7 +6,7 @@
     <p class="error"><?= $error ?></p>
 <?php endif; ?>
 
-<form method="post" action="./../index.php?action=create_user">
+<form method="post" action="">
     <div>
         <label for="username">Username:</label>
         <input type="text" name="username" required>

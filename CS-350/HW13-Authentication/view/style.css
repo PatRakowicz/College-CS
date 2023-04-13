@@ -34,14 +34,14 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #424242;
     text-decoration: none;
     padding: 0.5rem;
     border-radius: 5px;
 }
 
 nav ul li a:hover {
-    background-color: #fff;
+    background-color: #4c97e3;
     color: #333;
 }
 
