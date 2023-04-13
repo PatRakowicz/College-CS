@@ -1,4 +1,4 @@
-<?php include_once('header.php'); ?>
+<?php require('header.php'); ?>
 
 <body>
 <h2>Login</h2>

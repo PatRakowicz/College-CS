@@ -7,13 +7,18 @@ class Model
     public function __construct()
     {
         // Connect to MySQL database using PDO
-        $host = 'localhost';
-        $dbname = 'cs_350';
-        $username = 'student';
-        $password = 'CS350';
+        $dsn = 'mysql:host=localhost;dbname=cs_350';
+        $db_username = 'student';
+        $db_password = 'CS350';
 
-        $this->db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+            $this->db = new PDO($dsn, $db_username, $db_password);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            exit();
+        }
+//        $this->db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+//        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     // Get all users from the database
@@ -78,7 +83,7 @@ class Model
 
     public function getUsers()
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM users');
+        $stmt = $this->db->prepare('SELECT * FROM users');
         $stmt->execute();
 
         return $stmt->fetchAll();

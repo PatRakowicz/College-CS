@@ -1,6 +1,6 @@
 <?php
-require_once('header.php');
-require_once('');
+require('header.php');
+require_once('model.php');
 
 $model = new Model();
 $user = $model->getUsers($_SESSION['user_id']);

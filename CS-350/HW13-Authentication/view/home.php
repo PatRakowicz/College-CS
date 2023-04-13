@@ -1,6 +1,6 @@
 <?php
-include_once('header.php');
-include_once('./model.php');
+require('header.php');
+require_once('./model.php');
 
 $users = (new Model)->getUsers();
 ?>

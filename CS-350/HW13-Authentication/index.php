@@ -1,12 +1,13 @@
 <?php
 require_once ('model.php');
+require_once ('view/header.php');
 
 $action = $_GET['action'] ?? 'home';
 
 switch ($action) {
     case 'home':
         $users = (new Model)->getAllUsers();
-        require 'view/home.php';
+        require('view/home.php');
         break;
 
     case 'create_user':
@@ -21,7 +22,7 @@ switch ($action) {
                 $error = $result;
             }
         }
-        require 'view/create_user.php';
+        require('view/create_user.php');
         break;
 
     case 'login':
@@ -36,7 +37,7 @@ switch ($action) {
                 $error = $result;
             }
         }
-        require 'view/login.php';
+        require('view/login.php');
         break;
 
     case 'secret':
@@ -44,7 +45,7 @@ switch ($action) {
             header('Location: index.php?action=login');
             exit;
         }
-        require 'view/secret.php';
+        require('view/secret.php');
         break;
 
     case 'logout':

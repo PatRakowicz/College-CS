@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+<?php require('header.php'); ?>
 
 <h2>Create User</h2>
 

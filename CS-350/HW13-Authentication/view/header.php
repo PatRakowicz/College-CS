@@ -1,5 +1,5 @@
 <?php
-include_once './../model.php';
+require_once('model.php');
 $isLoggedIn = (new Model)->isLoggedIn();
 ?>
 
