@@ -1,6 +1,6 @@
 <?php
 
-class UserModel {
+class Model {
     private $db;
 
     function __construct() {
@@ -15,24 +15,24 @@ class UserModel {
         }
     }
 
-    function getAllUsers() {
-        $data = $this->db->prepare('SELECT * FROM users');
-        $data->execute();
-        return $data->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    function getUserByUsername($username) {
-        $data = $this->db->prepare('SELECT * FROM users WHERE username = :username');
-        $data->bindValue(':username', $username);
-        $data->execute();
-        return $data->fetch(PDO::FETCH_ASSOC);
-    }
-
     function createUser($username, $password) {
-        $hashedPass = password_hash($password, PASSWORD_DEFAULT);
-        $data = $this->db->prepare('INSERT INTO users (username, password) VALUES (:username, :password)');
-        $data->bindValue(':username', $username);
-        $data->bindValue(':password', $hashedPass);
-        return $data->execute();
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
+        $stmt->bindValue(1, $username);
+        $stmt->bindValue(2, $hash);
+        $stmt->execute();
+    }
+
+    function getUser($username) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->bindValue(1, $username);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    function getAllUsers() {
+        $stmt = $this->db->prepare("SELECT * FROM users");
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

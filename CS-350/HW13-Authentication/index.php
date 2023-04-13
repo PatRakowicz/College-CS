@@ -1,15 +1,12 @@
 <?php
-require_once('./model.php');
-include('./views/top.php');
+// Start session
+session_start();
 
+// Load the controller
+require_once('controller.php');
 
-if (isset ($_POST['action'])) {
-    if ($_POST['action'] == 'create') {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        createUser($username, $password);
-    }
-}
+// Get the requested action
+$action = isset($_GET['action']) ? $_GET['action'] : 'home';
 
-$users = getAllUsers();
-
+// Call the controller function
+controller($action);
