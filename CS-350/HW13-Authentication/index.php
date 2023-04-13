@@ -1,7 +1,7 @@
 <?php
-//include('./views/top.php');
+require_once('./model.php');
+include('./views/top.php');
 
-require('./model.php');
 
 if (isset ($_POST['action'])) {
     if ($_POST['action'] == 'create') {
