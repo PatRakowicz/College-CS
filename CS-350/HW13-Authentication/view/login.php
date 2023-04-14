@@ -1,4 +1,4 @@
-<?php require('header.php'); ?>
+<?php require((realpath(dirname(__FILE__) . '/..') . '/header.php')); ?>
 
 <body>
 <h2>Login</h2>

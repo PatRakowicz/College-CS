@@ -1,9 +1,10 @@
 <?php
-require('header.php');
-require_once('model.php');
+require((realpath(dirname(__FILE__) . '/..') . '/header.php'));
+require_once((realpath(dirname(__FILE__) . '/..') . '/model.php'));
+
 
 $model = new Model();
-$user = $model->getUsers($_SESSION['user_id']);
+$user = $model->getUsers();
 
 if ($model->isLoggedIn()) {
     $secret = $model->getSecret();

@@ -1,11 +1,9 @@
 <?php
-require('header.php');
-require_once('./model.php');
+require((realpath(dirname(__FILE__) . '/..') . '/header.php'));
+require_once((realpath(dirname(__FILE__) . '/..') . '/model.php'));
 
 $users = (new Model)->getUsers();
 ?>
-
-<?php  ?>
 
 <div class="container">
     <h2>Home</h2>

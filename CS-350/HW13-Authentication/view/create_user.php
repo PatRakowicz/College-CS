@@ -1,4 +1,4 @@
-<?php require('header.php'); ?>
+<?php require((realpath(dirname(__FILE__) . '/..') . '/header.php')); ?>
 
 <h2>Create User</h2>
 
