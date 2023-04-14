@@ -97,14 +97,33 @@ void graph::insertCity(string cityName) {
 */
 void graph::insertEdge(string firstCity, string secondCity, int weight) {
     cout << "Inserting edges between " << firstCity << " and " << secondCity << " with weight " << weight << endl;
-    // TODO: implement, make sure to add both edges
+
+    city *firstVertex = search(firstCity);
+    city *secondVertex = search(secondCity);
+
+    if (firstVertex == nullptr || secondVertex == nullptr) {
+        cout << "One or both cities are not found. \n";
+        cout << "Edge not created \n";
+        return;
+    }
+
+    auto *firstAdjCity = new adjCity;
+    auto *secondAdjCity = new adjCity;
+
+    firstAdjCity->v = secondVertex;
+    firstAdjCity->weight = weight;
+    secondAdjCity->v = firstVertex;
+    secondAdjCity->weight = weight;
+
+    firstVertex->adjacent.push_back(firstAdjCity);
+    secondVertex->adjacent.push_back(secondAdjCity);
 }
 
 void graph::printGraph() {
-    for (int i = 0; i < vertices.size(); i++) {
-        cout << vertices[i]->key << "-->";
-        for (int j = 0; j < vertices[i]->adjacent.size(); j++) {
-            cout << vertices[i]->adjacent[j]->v->key << "(" << vertices[i]->adjacent[j]->weight << ") ";
+    for (auto & vertice : vertices) {
+        cout << vertice->key << "-->";
+        for (auto & j : vertice->adjacent) {
+            cout << j->v->key << "(" << j->weight << ") ";
         }
         cout << endl;
     }
@@ -118,8 +137,11 @@ void graph::printGraph() {
 */
 city *graph::search(string cityName) {
     cout << "Searching for " << cityName << endl;
-    // TODO: implement
-    return NULL;
+
+    for (city *currentCity : vertices) {
+        if (currentCity->key == cityName) { return currentCity; }
+    }
+    return nullptr;
 }
 
 /*
@@ -132,7 +154,7 @@ city *graph::search(string cityName) {
 */
 void graph::bft(string startCity) {
     cout << "Running BFT starting at " << startCity << endl;
-    // TODO: implement
+    // TODO: BFT
 }
 
 /*
@@ -145,7 +167,7 @@ void graph::bft(string startCity) {
 */
 void graph::dft(string startCity) {
     cout << "Running DFT starting at " << startCity << endl;
-    // TODO: implement
+    // TODO: DFT
 }
 
 /*
@@ -173,7 +195,7 @@ void graph::printShortestPath(city *endV) {
 * 	another vector to use to keep track of solved vertices
 */
 city *graph::dijkstras(string start, string end) {
-    //implement here!
+    // TODO: dijkstras
     return NULL;
 }
 
