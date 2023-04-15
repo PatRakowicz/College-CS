@@ -1,7 +1,4 @@
-<?php
-require((realpath(dirname(__FILE__) . '/..') . '/header.php'));
-session_start();
-session_unset();
-session_destroy();
-header('Location: index.php?action=login');
-exit();
+<?php function render_logout() { ?>
+    <h2>Logout</h2>
+    <p>You have been successfully logged out.</p>
+<?php } ?>

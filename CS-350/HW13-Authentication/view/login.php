@@ -1,15 +1,13 @@
-<?php require((realpath(dirname(__FILE__) . '/..') . '/header.php')); ?>
-
-<body>
-<h2>Login</h2>
-<?php if (isset($error)): ?>
-    <p><?= $error ?></p>
-<?php endif; ?>
-<form method="post">
+<?php function render_login($error = null) { ?>
+    <h2>Login</h2>
+    <?php if ($error): ?>
+        <p class="error"><?= $error ?></p>
+    <?php endif; ?>
+    <form action="./index.php?action=login" method="post">
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username"><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password"><br><br>
-    <input type="submit" value="Login">
-</form>
-</body>
+        <input type="text" name="username" id="username" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+        <button type="submit">Login</button>
+    </form>
+<?php } ?>

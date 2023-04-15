@@ -1,21 +1,13 @@
-<?php require((realpath(dirname(__FILE__) . '/..') . '/header.php')); ?>
-
-<h2>Create User</h2>
-
-<?php if (!empty($error)): ?>
-    <p class="error"><?= $error ?></p>
-<?php endif; ?>
-
-<form method="post" action="">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-    </div>
-    <div>
+<?php function render_create_user($error = null) { ?>
+    <h2>Create User</h2>
+    <?php if ($error): ?>
+        <p class="error"><?= $error ?></p>
+    <?php endif; ?>
+    <form action="./index.php?action=create_user" method="post">
+    <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
         <label for="password">Password:</label>
-        <input type="password" name="password" required>
-    </div>
-    <div>
+        <input type="password" name="password" id="password" required>
         <button type="submit">Create User</button>
-    </div>
-</form>
+    </form>
+<?php } ?>
