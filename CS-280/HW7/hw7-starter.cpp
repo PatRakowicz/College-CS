@@ -23,10 +23,12 @@ int main() {
     graph *cities = new graph();
 
     // Call the test function
-    cities->testFunction();
+//    cities->testFunction();
+//    cout << endl;
+
 
     // write a loop to keep taking user choices
-    bool ok = true;
+    bool ok = false;
     while (ok) {
         // prompt user for choice
         string choice;

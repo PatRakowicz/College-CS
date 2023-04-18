@@ -53,8 +53,9 @@ public:
 };
 
 // Test function to test what each item does
+// Call this function to test multiple item's iva. cities->testFunction();
 void graph::testFunction() {
-    cout << "Running tests...\n";
+    cout << "~~ Running tests...\n";
 
     // Test 1: Add cities and print the graph
     insertCity("New York");
@@ -62,6 +63,7 @@ void graph::testFunction() {
     insertCity("Chicago");
     insertCity("Miami");
     printGraph();
+    cout << endl;
 
     // Test 2: Add edges and print the graph
     insertEdge("New York", "Los Angeles", 100);
@@ -69,12 +71,15 @@ void graph::testFunction() {
     insertEdge("Chicago", "Los Angeles", 75);
     insertEdge("Chicago", "Miami", 60);
     printGraph();
+    cout << endl;
 
     // Test 3: Run breadth-first traversal
     bft("New York");
+    cout << endl;
 
     // Test 4: Run depth-first traversal
     dft("New York");
+    cout << endl;
 
     // Test 5: Run Dijkstra's algorithm
     city *result = dijkstras("New York", "Miami");
@@ -84,6 +89,7 @@ void graph::testFunction() {
     } else {
         cout << "No shortest path found.\n";
     }
+    cout << "~~End test~~" << endl;
 }
 
 // Constructor
