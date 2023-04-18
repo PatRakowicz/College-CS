@@ -300,58 +300,49 @@ void graph::printShortestPath(city *endV) {
 * 	another vector to use to keep track of solved vertices
 */
 city *graph::dijkstras(string start, string end) {
-    // Find the starting and ending cities
-    city *startVertex = search(start);
-    city *endVertex = search(end);
+    city *startV = search(start);
+    city *endV = search(end);
 
-    // If one or both cities are not found, return nullptr
-    if (startVertex == nullptr || endVertex == nullptr) {
+    if (startV == nullptr || endV == nullptr) {
         cout << "One or both cities not found.\n";
         return nullptr;
     }
 
-    // Initialize the starting city
-    startVertex->solved = true;
-    startVertex->distance = 0;
+    startV->solved = true;
+    startV->distance = 0;
 
-    // Create a vector to keep track of solved cities
-    vector < city * > solvedCities;
-    solvedCities.push_back(startVertex);
+    vector<city *> solved;
+    solved.push_back(startV);
 
-    while (!endVertex->solved) {
-        int minDistance = std::numeric_limits<int>::max();
-        city *solved = nullptr;
+    while (!endV->solved) {
+        int minDistance = INT_MAX;
+        city *solvedV = nullptr;
 
-        // Iterate through each solved city
-        for (city *current: solvedCities) {
-            // Iterate through each adjacent city
-            for (adjCity *adj: current->adjacent) {
-                if (!adj->v->solved) {
-                    int newDistance = current->distance + adj->weight;
-                    if (newDistance < adj->v->distance) {
-                        adj->v->distance = newDistance;
-                        adj->v->parent = current;
-                    }
-                    if (adj->v->distance < minDistance) {
-                        minDistance = adj->v->distance;
-                        solved = adj->v;
+        for (auto s : solved) {
+            for (size_t y = 0; y < s->adjacent.size(); y++) {
+                if (!s->adjacent[y]->v->solved) {
+                    int dist = s->distance + s->adjacent[y]->weight;
+
+                    if (dist < minDistance) {
+                        solvedV = s->adjacent[y]->v;
+                        minDistance = dist;
+                        solvedV->parent = s;
                     }
                 }
             }
         }
 
-        // If solved is nullptr, there's no path between the start and end cities
-        if (solved == nullptr) {
+        if (solvedV == nullptr) {
             cout << "No path found between " << start << " and " << end << ".\n";
             return nullptr;
         }
 
-        // Add the solved city with the minimum distance to the solvedCities vector
-        solved->solved = true;
-        solvedCities.push_back(solved);
+        solvedV->distance = minDistance;
+        solvedV->solved = true;
+        solved.push_back(solvedV);
     }
 
-    return endVertex;
+    return endV;
 }
 
 #endif
