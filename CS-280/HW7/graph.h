@@ -8,6 +8,7 @@
 #define GRAPH_H_
 
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -47,8 +48,43 @@ public:
     void dft(string startCity); // prints out the vertices in a DF traversal from the starting city
     city *dijkstras(string start, string end); // Dijkstra's algorithm!
     void printShortestPath(city *endV); // to be called after Dijkstra's
+
+    void testFunction();
 };
 
+// Test function to test what each item does
+void graph::testFunction() {
+    cout << "Running tests...\n";
+
+    // Test 1: Add cities and print the graph
+    insertCity("New York");
+    insertCity("Los Angeles");
+    insertCity("Chicago");
+    insertCity("Miami");
+    printGraph();
+
+    // Test 2: Add edges and print the graph
+    insertEdge("New York", "Los Angeles", 100);
+    insertEdge("New York", "Chicago", 50);
+    insertEdge("Chicago", "Los Angeles", 75);
+    insertEdge("Chicago", "Miami", 60);
+    printGraph();
+
+    // Test 3: Run breadth-first traversal
+    bft("New York");
+
+    // Test 4: Run depth-first traversal
+    dft("New York");
+
+    // Test 5: Run Dijkstra's algorithm
+    city *result = dijkstras("New York", "Miami");
+    if (result != nullptr) {
+        cout << "Shortest path found:\n";
+        printShortestPath(result);
+    } else {
+        cout << "No shortest path found.\n";
+    }
+}
 
 // Constructor
 graph::graph() {
@@ -166,36 +202,36 @@ city *graph::search(string cityName) {
 void graph::bft(string startCity) {
     cout << "Running BFT starting at " << startCity << endl;
 
-    city *startVertex = search(startCity);
+    city *vertex = search(startCity);
 
-    // If the starting city is not found, return
-    if (startVertex == nullptr) {
+    if (vertex == nullptr) {
         cout << "City " << startCity << " not found.\n";
         return;
     }
 
-    // Create a queue to store the cities during the traversal
+    vertex->visited = true;
     queue < city * > q;
-    q.push(startVertex);
-    startVertex->visited = true;
+    q.push(vertex);
 
     while (!q.empty()) {
-        city *current = q.front();
+        city *n = q.front();
         q.pop();
-        cout << current->key << endl;
 
-        for (adjCity *adj: current->adjacent) {
-            if (!adj->v->visited) {
-                q.push(adj->v);
-                adj->v->visited = true;
+        for (size_t x = 0; x < n->adjacent.size(); x++) {
+            if (!n->adjacent[x]->v->visited) {
+                n->adjacent[x]->v->visited = true;
+                cout << n->adjacent[x]->v->key << endl;
+                q.push(n->adjacent[x]->v);
             }
         }
     }
 
     // Reset visited flag for all cities in the graph
-    for (city *vertex: vertices) {
-        vertex->visited = false;
+    for (city *v: vertices) {
+        v->visited = false;
     }
+}
+
 }
 
 /*
@@ -209,35 +245,34 @@ void graph::bft(string startCity) {
 void graph::dft(string startCity) {
     cout << "Running DFT starting at " << startCity << endl;
 
-    city *startVertex = search(startCity);
+    city *vertex = search(startCity);
 
-    // If the starting city is not found, return
-    if (startVertex == nullptr) {
-        cout << "City " << startCity << " no0t found. \n";
+    if (vertex == nullptr) {
+        cout << "City " << startCity << " not found.\n";
         return;
     }
 
-    // Create a stck to store the cities during the traversal
+    vertex->visited = true;
+    vertex->distance = 0;
     stack < city * > s;
-    s.push(startVertex);
-    startVertex->visited = true;
+    s.push(vertex);
 
     while (!s.empty()) {
-        city *current = s.top();
+        city *ve = s.top();
         s.pop();
-        cout << current->key << endl;
+        cout << ve->key << endl;
 
-        for (adjCity *adj: current->adjacent) {
-            if (!adj->v->visited) {
-                s.push(adj->v);
-                adj->v->visited = true;
+        for (auto & x : ve->adjacent) {
+            if (!x->v->visited) {
+                x->v->visited = true;
+                s.push(x->v);
             }
         }
     }
 
-    // reset visited flag for all cities in the graph
-    for (city *vertex: vertices) {
-        vertex->visited = false;
+    // Reset visited flag for all cities in the graph
+    for (city *v: vertices) {
+        v->visited = false;
     }
 }
 
