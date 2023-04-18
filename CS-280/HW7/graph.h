@@ -232,7 +232,6 @@ void graph::bft(string startCity) {
     }
 }
 
-}
 
 /*
 * Method name: dft (depth first traversal)

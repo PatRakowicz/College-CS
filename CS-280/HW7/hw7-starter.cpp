@@ -24,8 +24,6 @@ int main() {
 
     // Call the test function
     cities->testFunction();
-    cout << endl;
-    cout << endl;
 
     // write a loop to keep taking user choices
     bool ok = true;
