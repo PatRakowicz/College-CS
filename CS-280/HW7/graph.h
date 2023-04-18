@@ -60,7 +60,12 @@ graph::graph() {
 // Should loop through, for each city, delete all adjacent cities, then delete the city
 graph::~graph() {
     cout << "Destructing." << endl;
-    for (auto &vertice: vertices) { delete vertice; }
+    for (auto &vertex: vertices) {
+        for (auto &adjCity: vertex->adjacent) {
+            delete adjCity;
+        }
+        delete vertex;
+    }
 }
 
 /*
@@ -74,7 +79,13 @@ graph::~graph() {
 void graph::insertCity(string cityName) {
     cout << "Inserting " << cityName << endl;
 
-    city* newCity = new city;
+    city *existingCity = search(cityName);
+    if (existingCity != nullptr) {
+        cout << "City " << cityName << " already exists in the graph. \n";
+        return;
+    }
+
+    city *newCity = new city;
     newCity->key = cityName;
     newCity->visited = false;
     newCity->solved = false;
@@ -120,9 +131,9 @@ void graph::insertEdge(string firstCity, string secondCity, int weight) {
 }
 
 void graph::printGraph() {
-    for (auto & vertice : vertices) {
+    for (auto &vertice: vertices) {
         cout << vertice->key << "-->";
-        for (auto & j : vertice->adjacent) {
+        for (auto &j: vertice->adjacent) {
             cout << j->v->key << "(" << j->weight << ") ";
         }
         cout << endl;
@@ -136,10 +147,10 @@ void graph::printGraph() {
 * @return - the pointer to that city, return NULL if the city we want is not in the graph
 */
 city *graph::search(string cityName) {
-    cout << "Searching for " << cityName << endl;
-
-    for (city *currentCity : vertices) {
-        if (currentCity->key == cityName) { return currentCity; }
+    for (city *vertex: vertices) {
+        if (vertex->key == cityName) {
+            return vertex;
+        }
     }
     return nullptr;
 }
@@ -154,7 +165,37 @@ city *graph::search(string cityName) {
 */
 void graph::bft(string startCity) {
     cout << "Running BFT starting at " << startCity << endl;
-    // TODO: BFT
+
+    city *startVertex = search(startCity);
+
+    // If the starting city is not found, return
+    if (startVertex == nullptr) {
+        cout << "City " << startCity << " not found.\n";
+        return;
+    }
+
+    // Create a queue to store the cities during the traversal
+    queue < city * > q;
+    q.push(startVertex);
+    startVertex->visited = true;
+
+    while (!q.empty()) {
+        city *current = q.front();
+        q.pop();
+        cout << current->key << endl;
+
+        for (adjCity *adj: current->adjacent) {
+            if (!adj->v->visited) {
+                q.push(adj->v);
+                adj->v->visited = true;
+            }
+        }
+    }
+
+    // Reset visited flag for all cities in the graph
+    for (city *vertex: vertices) {
+        vertex->visited = false;
+    }
 }
 
 /*
@@ -167,7 +208,37 @@ void graph::bft(string startCity) {
 */
 void graph::dft(string startCity) {
     cout << "Running DFT starting at " << startCity << endl;
-    // TODO: DFT
+
+    city *startVertex = search(startCity);
+
+    // If the starting city is not found, return
+    if (startVertex == nullptr) {
+        cout << "City " << startCity << " no0t found. \n";
+        return;
+    }
+
+    // Create a stck to store the cities during the traversal
+    stack < city * > s;
+    s.push(startVertex);
+    startVertex->visited = true;
+
+    while (!s.empty()) {
+        city *current = s.top();
+        s.pop();
+        cout << current->key << endl;
+
+        for (adjCity *adj: current->adjacent) {
+            if (!adj->v->visited) {
+                s.push(adj->v);
+                adj->v->visited = true;
+            }
+        }
+    }
+
+    // reset visited flag for all cities in the graph
+    for (city *vertex: vertices) {
+        vertex->visited = false;
+    }
 }
 
 /*
@@ -180,7 +251,7 @@ void graph::dft(string startCity) {
 * 	the path in the right order
 */
 void graph::printShortestPath(city *endV) {
-    if (endV->parent != nullptr) { printShortestPath(endV->parent;) }
+    if (endV->parent != nullptr) { printShortestPath(endV->parent); }
     cout << endV->key << endl;
 }
 
@@ -195,8 +266,58 @@ void graph::printShortestPath(city *endV) {
 * 	another vector to use to keep track of solved vertices
 */
 city *graph::dijkstras(string start, string end) {
-    // TODO: dijkstras
-    return NULL;
+    // Find the starting and ending cities
+    city *startVertex = search(start);
+    city *endVertex = search(end);
+
+    // If one or both cities are not found, return nullptr
+    if (startVertex == nullptr || endVertex == nullptr) {
+        cout << "One or both cities not found.\n";
+        return nullptr;
+    }
+
+    // Initialize the starting city
+    startVertex->solved = true;
+    startVertex->distance = 0;
+
+    // Create a vector to keep track of solved cities
+    vector < city * > solvedCities;
+    solvedCities.push_back(startVertex);
+
+    while (!endVertex->solved) {
+        int minDistance = std::numeric_limits<int>::max();
+        city *solved = nullptr;
+
+        // Iterate through each solved city
+        for (city *current: solvedCities) {
+            // Iterate through each adjacent city
+            for (adjCity *adj: current->adjacent) {
+                if (!adj->v->solved) {
+                    int newDistance = current->distance + adj->weight;
+                    if (newDistance < adj->v->distance) {
+                        adj->v->distance = newDistance;
+                        adj->v->parent = current;
+                    }
+                    if (adj->v->distance < minDistance) {
+                        minDistance = adj->v->distance;
+                        solved = adj->v;
+                    }
+                }
+            }
+        }
+
+        // If solved is nullptr, there's no path between the start and end cities
+        if (solved == nullptr) {
+            cout << "No path found between " << start << " and " << end << ".\n";
+            return nullptr;
+        }
+
+        // Add the solved city with the minimum distance to the solvedCities vector
+        solved->solved = true;
+        solvedCities.push_back(solved);
+    }
+
+    return endVertex;
 }
 
 #endif
