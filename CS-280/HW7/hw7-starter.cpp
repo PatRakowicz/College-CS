@@ -23,8 +23,8 @@ int main() {
     graph *cities = new graph();
 
     // Call the test function
-//    cities->testFunction();
-//    cout << endl;
+    cities->testFunction();
+    cout << endl;
 
 
     // write a loop to keep taking user choices
