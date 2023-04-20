@@ -8,6 +8,7 @@
 #define GRAPH_H_
 
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -47,8 +48,49 @@ public:
     void dft(string startCity); // prints out the vertices in a DF traversal from the starting city
     city *dijkstras(string start, string end); // Dijkstra's algorithm!
     void printShortestPath(city *endV); // to be called after Dijkstra's
+
+    void testFunction();
 };
 
+// Test function to test what each item does
+// Call this function to test multiple item's iva. cities->testFunction();
+void graph::testFunction() {
+    cout << "~~ Running tests...\n";
+
+    // Test 1: Add cities and print the graph
+    insertCity("New York");
+    insertCity("Los Angeles");
+    insertCity("Chicago");
+    insertCity("Miami");
+    printGraph();
+    cout << endl;
+
+    // Test 2: Add edges and print the graph
+    insertEdge("New York", "Los Angeles", 100);
+    insertEdge("New York", "Chicago", 50);
+    insertEdge("Chicago", "Los Angeles", 75);
+    insertEdge("Chicago", "Miami", 60);
+    printGraph();
+    cout << endl;
+
+    // Test 3: Run breadth-first traversal
+    bft("New York");
+    cout << endl;
+
+    // Test 4: Run depth-first traversal
+    dft("New York");
+    cout << endl;
+
+    // Test 5: Run Dijkstra's algorithm
+    city *result = dijkstras("New York", "Miami");
+    if (result != nullptr) {
+        cout << "Shortest path found:\n";
+        printShortestPath(result);
+    } else {
+        cout << "No shortest path found.\n";
+    }
+    cout << "~~End test~~" << endl;
+}
 
 // Constructor
 graph::graph() {
@@ -60,7 +102,12 @@ graph::graph() {
 // Should loop through, for each city, delete all adjacent cities, then delete the city
 graph::~graph() {
     cout << "Destructing." << endl;
-    for (auto &vertice: vertices) { delete vertice; }
+    for (auto &vertex: vertices) {
+        for (auto &adjCity: vertex->adjacent) {
+            delete adjCity;
+        }
+        delete vertex;
+    }
 }
 
 /*
@@ -74,7 +121,13 @@ graph::~graph() {
 void graph::insertCity(string cityName) {
     cout << "Inserting " << cityName << endl;
 
-    city* newCity = new city;
+    city *existingCity = search(cityName);
+    if (existingCity != nullptr) {
+        cout << "City " << cityName << " already exists in the graph. \n";
+        return;
+    }
+
+    city *newCity = new city;
     newCity->key = cityName;
     newCity->visited = false;
     newCity->solved = false;
@@ -120,9 +173,9 @@ void graph::insertEdge(string firstCity, string secondCity, int weight) {
 }
 
 void graph::printGraph() {
-    for (auto & vertice : vertices) {
+    for (auto &vertice: vertices) {
         cout << vertice->key << "-->";
-        for (auto & j : vertice->adjacent) {
+        for (auto &j: vertice->adjacent) {
             cout << j->v->key << "(" << j->weight << ") ";
         }
         cout << endl;
@@ -136,10 +189,10 @@ void graph::printGraph() {
 * @return - the pointer to that city, return NULL if the city we want is not in the graph
 */
 city *graph::search(string cityName) {
-    cout << "Searching for " << cityName << endl;
-
-    for (city *currentCity : vertices) {
-        if (currentCity->key == cityName) { return currentCity; }
+    for (city *vertex: vertices) {
+        if (vertex->key == cityName) {
+            return vertex;
+        }
     }
     return nullptr;
 }
@@ -154,8 +207,37 @@ city *graph::search(string cityName) {
 */
 void graph::bft(string startCity) {
     cout << "Running BFT starting at " << startCity << endl;
-    // TODO: BFT
+
+    city *vertex = search(startCity);
+
+    if (vertex == nullptr) {
+        cout << "City " << startCity << " not found.\n";
+        return;
+    }
+
+    vertex->visited = true;
+    queue < city * > q;
+    q.push(vertex);
+
+    while (!q.empty()) {
+        city *n = q.front();
+        q.pop();
+
+        for (size_t x = 0; x < n->adjacent.size(); x++) {
+            if (!n->adjacent[x]->v->visited) {
+                n->adjacent[x]->v->visited = true;
+                cout << n->adjacent[x]->v->key << endl;
+                q.push(n->adjacent[x]->v);
+            }
+        }
+    }
+
+    // Reset visited flag for all cities in the graph
+    for (city *v: vertices) {
+        v->visited = false;
+    }
 }
+
 
 /*
 * Method name: dft (depth first traversal)
@@ -167,7 +249,36 @@ void graph::bft(string startCity) {
 */
 void graph::dft(string startCity) {
     cout << "Running DFT starting at " << startCity << endl;
-    // TODO: DFT
+
+    city *vertex = search(startCity);
+
+    if (vertex == nullptr) {
+        cout << "City " << startCity << " not found.\n";
+        return;
+    }
+
+    vertex->visited = true;
+    vertex->distance = 0;
+    stack < city * > s;
+    s.push(vertex);
+
+    while (!s.empty()) {
+        city *ve = s.top();
+        s.pop();
+        cout << ve->key << endl;
+
+        for (auto & x : ve->adjacent) {
+            if (!x->v->visited) {
+                x->v->visited = true;
+                s.push(x->v);
+            }
+        }
+    }
+
+    // Reset visited flag for all cities in the graph
+    for (city *v: vertices) {
+        v->visited = false;
+    }
 }
 
 /*
@@ -180,7 +291,7 @@ void graph::dft(string startCity) {
 * 	the path in the right order
 */
 void graph::printShortestPath(city *endV) {
-    if (endV->parent != nullptr) { printShortestPath(endV->parent;) }
+    if (endV->parent != nullptr) { printShortestPath(endV->parent); }
     cout << endV->key << endl;
 }
 
@@ -195,8 +306,49 @@ void graph::printShortestPath(city *endV) {
 * 	another vector to use to keep track of solved vertices
 */
 city *graph::dijkstras(string start, string end) {
-    // TODO: dijkstras
-    return NULL;
+    city *startV = search(start);
+    city *endV = search(end);
+
+    if (startV == nullptr || endV == nullptr) {
+        cout << "One or both cities not found.\n";
+        return nullptr;
+    }
+
+    startV->solved = true;
+    startV->distance = 0;
+
+    vector<city *> solved;
+    solved.push_back(startV);
+
+    while (!endV->solved) {
+        int minDistance = INT_MAX;
+        city *solvedV = nullptr;
+
+        for (auto s : solved) {
+            for (size_t y = 0; y < s->adjacent.size(); y++) {
+                if (!s->adjacent[y]->v->solved) {
+                    int dist = s->distance + s->adjacent[y]->weight;
+
+                    if (dist < minDistance) {
+                        solvedV = s->adjacent[y]->v;
+                        minDistance = dist;
+                        solvedV->parent = s;
+                    }
+                }
+            }
+        }
+
+        if (solvedV == nullptr) {
+            cout << "No path found between " << start << " and " << end << ".\n";
+            return nullptr;
+        }
+
+        solvedV->distance = minDistance;
+        solvedV->solved = true;
+        solved.push_back(solvedV);
+    }
+
+    return endV;
 }
 
 #endif
