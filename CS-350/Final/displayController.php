@@ -8,9 +8,9 @@ require_once 'view/product/create_prod.php';
 require_once 'view/product/view_prod.php';
 require_once 'view/product/update_prod.php';
 
-function display_home($users) {
+function display_home($user = null) {
 	render_header();
-	render_home($users);
+	render_home($user);
 	render_footer();
 }
 

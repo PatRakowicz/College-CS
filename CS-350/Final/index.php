@@ -10,7 +10,11 @@ $action = $_GET['action'] ?? 'home';
 switch ($action) {
 	case 'home':
 		$users = $model->getAllUsers();
-		display_home($users);
+		$user = null;
+		if ($model->isLoggedIn()) {
+			$user = $model->getUserById($_SESSION['user_id']);
+		}
+		display_home($user);
 		break;
 
 	case 'create_user':
@@ -22,7 +26,7 @@ switch ($action) {
 				display_create_user("Username already exists.");
 			} else {
 				$model->createUser($username, $password);
-				header("Location: index.php");
+				header("Location: index.php?action=login");
 				exit;
 			}
 		} else {
