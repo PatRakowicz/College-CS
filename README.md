@@ -14,4 +14,4 @@
     
 [CS 303](https://github.com/PatRakowicz/College-CS/tree/main/CS-303) ~ Machine Learning w/ Python
     
-[CS 350](https://github.com/PatRakowicz/College-CS/tree/main/CS-250) ~ Web Dev II w/ PhP
+[CS 350](https://github.com/PatRakowicz/College-CS/tree/main/CS-350) ~ Web Dev II w/ PhP
