@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
                 state.aluResult = state.readRegA + state.readRegB;
                 break;
             case SUB:
-                state.aluResult = state.readRegA - state.readRegB;
+                state.aluResult = state.readRegA - state.readRegB;  // Changed to regB
                 break;
             case AND:
                 state.aluResult = state.readRegA & state.readRegB;
@@ -202,13 +202,13 @@ int main(int argc, char *argv[]) {
         case ALU:
             switch (funct(state.instr)) {
             case ADD:
-            case SUB:
             case AND:
-                state.reg[field1(state.instr)] = state.aluResult;
-                break;
-            case OR:
             case XOR:
-                state.reg[field0(state.instr)] = state.aluResult;
+            case OR:
+                state.reg[field0(state.instr)] = state.aluResult;  // Use field0 as destination
+                break;
+            case SUB:
+                state.reg[field0(state.instr)] = state.aluResult;  // Use field0 as destination for SUB
                 break;
             default:
                 printf("Unknown ALU function\n");
