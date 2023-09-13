@@ -88,32 +88,32 @@ typedef struct stateStruct {
 
 // Instruction Opcode
 static inline int opcode(int instruction) {
-  return (instruction & 0xFC000000) >> 26;
+    return (instruction & 0xFC000000) >> 26;
 }
 
 // Dest Register
 static inline int field0(int instruction) {
-    //ADD CODE
+    return (instruction & 0x03E00000) >> 21;
 }
 
 // Src Reg 1
 static inline int field1(int instruction) {
-    //ADD CODE
+    return (instruction & 0x001F0000) >> 16;
 }
 
 // Src Reg 2
 static inline int field2(int instruction) {
-    //ADD CODE
+    return (instruction & 0x0000F800) >> 11;
 }
 
 // Inst Field
 static inline int instant(int instruction) {
-    //ADD CODE
+    return (instruction & 0x0000FFFF);
 }
 
 // Instruction Function
 static inline int funct(int instruction) {
-    //ADD CODE
+    return (instruction & 0x0000003F);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -147,17 +147,53 @@ int main(int argc, char *argv[]) {
     while (opcode(state.instr) != HALT) {
 
         // Fetch
-        // ADD CODE
+        state.instr = state.instrMem[state.pc];
+        state.pc += 1;
 
         // Decode
-        // ADD CODE
+        int op = opcode(state.instr);
+        state.readRegA = state.reg[field1(state.instr)];
+        state.readRegB = state.reg[field2(state.instr)];
+
+        if (op == ADDI || op == ANDI) {
+            state.immed = instant(state.instr);
+        }
 
         // Execute
-        // ADD CODE
+        switch (op) {
+        case ALU:
+            switch (funct(state.instr)) {
+            case ADD:
+                state.aluResult = state.readRegA + state.readRegB;
+                break;
+            case SUB:
+                state.aluResult = state.readRegA - state.readRegB;
+                break;
+            case AND:
+                state.aluResult = state.readRegA & state.readRegB;
+                break;
+            case OR:
+                state.aluResult = state.readRegA | state.readRegB;
+                break;
+            case XOR:
+                state.aluResult = state.readRegA ^ state.readRegB;
+                break;
+            }
+            break;
+        case ADDI:
+            state.aluResult = state.readRegA + state.immed;
+            break;
+        case ANDI:
+            state.aluResult = state.readRegA & state.immed;
+            break;
+        }
 
 
         // Writeback
-        // ADD CODE
+        if (op != NOOP && op != HALT) {
+            state.reg[field0(state.instr)] = state.aluResult;
+        }        
+        
         state.cycles++;
         printState(&state);
     }
