@@ -67,7 +67,7 @@ const char* funct_to_str_map[] = {
 // System State
 ///////////////////////////////////////////////////////////////
 
-// Overall system state
+// Overall system state 
 typedef struct stateStruct {
 	int pc;
   int instr;
@@ -88,32 +88,32 @@ typedef struct stateStruct {
 
 // Instruction Opcode
 static inline int opcode(int instruction) {
-    return (instruction & 0xFC000000) >> 26;
+    return (instruction >> 26) & 0x3F;
 }
 
 // Dest Register
 static inline int field0(int instruction) {
-    return (instruction & 0x03E00000) >> 21;
+    return (instruction >> 21) & 0x1F;
 }
 
 // Src Reg 1
 static inline int field1(int instruction) {
-    return (instruction & 0x001F0000) >> 16;
+    return (instruction >> 16) & 0x1F;
 }
 
 // Src Reg 2
 static inline int field2(int instruction) {
-    return (instruction & 0x0000F800) >> 11;
+    return (instruction >> 11) & 0x1F;
 }
 
 // Inst Field
 static inline int instant(int instruction) {
-    return (instruction & 0x0000FFFF);
+    return instruction & 0xFFFF;
 }
 
 // Instruction Function
 static inline int funct(int instruction) {
-    return (instruction & 0x0000003F);
+    return instruction & 0x3F;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -146,21 +146,23 @@ int main(int argc, char *argv[]) {
 
     while (opcode(state.instr) != HALT) {
 
-        // Fetch
+        // Fetch 
         state.instr = state.instrMem[state.pc];
-        state.pc += 1;
+        state.pc++;
 
         // Decode
-        int op = opcode(state.instr);
         state.readRegA = state.reg[field1(state.instr)];
         state.readRegB = state.reg[field2(state.instr)];
-
-        if (op == ADDI || op == ANDI) {
-            state.immed = instant(state.instr);
-        }
+        state.immed = instant(state.instr);
 
         // Execute
-        switch (op) {
+        switch (opcode(state.instr)) {
+        case ADDI:
+            state.aluResult = state.readRegA + state.immed;
+            break;
+        case ANDI:
+            state.aluResult = state.readRegA & state.immed;
+            break;
         case ALU:
             switch (funct(state.instr)) {
             case ADD:
@@ -180,27 +182,20 @@ int main(int argc, char *argv[]) {
                 break;
             }
             break;
+        }
+  
+        // Writeback
+        switch (opcode(state.instr)) {
         case ADDI:
-            state.aluResult = state.readRegA + state.immed;
-            break;
         case ANDI:
-            state.aluResult = state.readRegA & state.immed;
+            state.reg[field0(state.instr)] = state.aluResult;
             break;
-        case HALT:
-            exit(0);
+        case ALU:
+            state.reg[field2(state.instr)] = state.aluResult;
             break;
-        default:
-            fprintf(stderr, "Unknown opcode detected\n");
-            exit(1);
         }
 
-
-        // Writeback
-        if (op != NOOP && op != HALT) {
-            state.reg[field0(state.instr)] = state.aluResult;
-        }        
-        
-        state.cycles++;
+        state.cycles++;        
         printState(&state);
     }
     printf("machine halted\n");
@@ -223,9 +218,9 @@ void printInstruction(int instr) {
     char instr_opcode_str[10];
     char instr_funct_str[10];
     int instr_opcode = opcode(instr);
-
+   
     strcpy(instr_opcode_str, opcode_to_str_map[instr_opcode]);
-
+    
     if (instr_opcode == ALU){
       int instr_funct = funct(instr);
       strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
@@ -263,14 +258,14 @@ void printState(stateType *statePtr) {
     printf("\treadRegA = %d", statePtr->readRegA);
     printf("\n");
     printf("\treadRegB = %d", statePtr->readRegB);
-    printf("\n");
+    printf("\n"); 
     printf("\timmed = %d", statePtr->immed);
-    printf("\n");
+    printf("\n"); 
     printf("\taluResult = %d", statePtr->aluResult);
     printf("\n");
 
     printf("end state\n");
-
+   
 }
 
 
@@ -289,7 +284,7 @@ void readMachineCode(stateType *state, char* filename) {
     }
 
     printf("loading instruction memory with program:\n");
-
+    
     while(fgets(line, MAXLINELENGTH, filePtr)) {
         printf("%s", line);
         char* token = strtok(line, "#");
