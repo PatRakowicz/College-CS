@@ -186,6 +186,12 @@ int main(int argc, char *argv[]) {
         case ANDI:
             state.aluResult = state.readRegA & state.immed;
             break;
+        case HALT:
+            exit(0);
+            break;
+        default:
+            fprintf(stderr, "Unknown opcode detected\n");
+            exit(1);
         }
 
 
