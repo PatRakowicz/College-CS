@@ -156,35 +156,64 @@ int main(int argc, char *argv[]) {
         state.immed = instant(state.instr);
 
         // Execute
-        switch (funct(state->instr)) {
-        case ADD:
-            state->aluResult = state->readRegA + state->readRegB;
+        switch (opcode(state.instr)) {
+        case ADDI:
+            state.aluResult = state.readRegA + state.immed;
             break;
-        case SUB:
-            state->aluResult = state->readRegA - state->readRegB;
+        case ANDI:
+            state.aluResult = state.readRegA & state.immed;
             break;
-        case AND:
-            state->aluResult = state->readRegA & state->readRegB;
+        case ALU:
+            switch (funct(state.instr)) {
+            case ADD:
+                state.aluResult = state.readRegA + state.readRegB;
+                break;
+            case SUB:
+                state.aluResult = state.readRegA - state.readRegB;
+                break;
+            case AND:
+                state.aluResult = state.readRegA & state.readRegB;
+                break;
+            case OR:
+                state.aluResult = state.readRegA | state.readRegB;
+                break;
+            case XOR:
+                state.aluResult = state.readRegA ^ state.readRegB;
+                break;
+            default:
+                printf("Unknown ALU function\n");
+                exit(1);
+            }
             break;
-        case OR:
-            state->aluResult = state->readRegA | state->readRegB;
-            break;
-        case XOR:
-            state->aluResult = state->readRegA ^ state->readRegB;
+        case NOOP:
+            // Do nothing
             break;
         default:
-            printf("Unknown ALU function\n");
+            printf("Unknown instruction opcode\n");
             exit(1);
         }
 
         // Writeback
-        switch (opcode(state->instr)) {
+        switch (opcode(state.instr)) {
         case ADDI:
         case ANDI:
-            state->reg[field1(state->instr)] = state->aluResult;
+            state.reg[field1(state.instr)] = state.aluResult;
             break;
         case ALU:
-            state->reg[field0(state->instr)] = state->aluResult;  // field0 is the destination register for ALU operations
+            switch (funct(state.instr)) {
+            case ADD:
+            case SUB:
+            case AND:
+                state.reg[field1(state.instr)] = state.aluResult;
+                break;
+            case OR:
+            case XOR:
+                state.reg[field0(state.instr)] = state.aluResult;
+                break;
+            default:
+                printf("Unknown ALU function\n");
+                exit(1);
+            }
             break;
         case NOOP:
         case HALT:
