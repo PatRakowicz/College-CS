@@ -103,14 +103,12 @@ static inline int field1(int instruction) {
 
 // Src Reg 2
 static inline int field2(int instruction) {
-    return (instruction >> 11) & 0x1F;
+    return instruction & 0xFFFF;
 }
 
 // Inst Field
 static inline int instant(int instruction) {
-    // Sign extend the immediate
-    int immed = instruction & 0xFFFF;
-    return (immed & 0x8000) ? (immed | 0xFFFF0000) : immed;
+    return instruction & 0xFFFF;
 }
 
 // Instruction Function
@@ -153,8 +151,8 @@ int main(int argc, char *argv[]) {
         state.pc++;
 
         // Decode
-        state.readRegA = state.reg[field1(state.instr)];
-        state.readRegB = state.reg[field2(state.instr)];
+        state.readRegA = state.reg[field0(state.instr)];
+        state.readRegB = state.reg[field1(state.instr)];
         state.immed = instant(state.instr);
 
         // Execute
@@ -182,22 +180,36 @@ int main(int argc, char *argv[]) {
             case XOR:
                 state.aluResult = state.readRegA ^ state.readRegB;
                 break;
+            default:
+                printf("Unknown ALU function\n");
+                exit(1);
             }
             break;
+        case NOOP:
+            // Do nothing
+            break;
+        default:
+            printf("Unknown instruction opcode\n");
+            exit(1);
         }
-  
+
         // Writeback
         switch (opcode(state.instr)) {
         case ADDI:
         case ANDI:
-            state.reg[field0(state.instr)] = state.aluResult;
-            break;
         case ALU:
             state.reg[field1(state.instr)] = state.aluResult;
             break;
+        case NOOP:
+        case HALT:
+            // Do nothing
+            break;
+        default:
+            printf("Unknown instruction opcode\n");
+            exit(1);
         }
 
-        state.cycles++;        
+        state.cycles++;
         printState(&state);
     }
     printf("machine halted\n");
