@@ -79,7 +79,7 @@ static inline int field1(int instruction) { return (instruction >> 16) & 0x1F; }
 
 // Src Reg 2
 static inline int field2(int instruction) {
-  return (instruction >> 11) & 0xFFFF;
+  return (instruction >> 11) & 0x1F;
 }
 
 // Inst Field
