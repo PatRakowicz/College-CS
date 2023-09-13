@@ -19,6 +19,9 @@
 // I Type Instructions
 #define ADDI 2
 #define ANDI 3
+#define XORI 5
+#define ORI 6
+#define LUI 7
 
 // General control functions
 #define HALT 4
@@ -41,7 +44,7 @@
 //  |  op  |  rs  |  rd |immediate|
 
 // Printable map of instructions
-const char *opcode_to_str_map[] = {"noop", "alu", "addi", "andi", "halt"};
+const char *opcode_to_str_map[] = {"noop", "alu", "addi", "andi", "halt", "xori", "ori", "lui"};
 
 // Printable map of functions for R-Type
 const char *funct_to_str_map[] = {"add", "sub", "and", "or", "xor"};
@@ -156,10 +159,19 @@ int main(int argc, char *argv[]) {
     case ANDI:
       state.aluResult = state.readRegA & state.immed;
       break;
+    case XORI:
+      state.aluResult = state.readRegA ^ state.immed;
+      break;
+    case ORI:
+      state.aluResult = state.readRegA | state.immed;
+      break;
+    case LUI:
+      state.aluResult = state.immed << 16;
+      break;
     }
 
     // Writeback
-    if(op == ALU || op == ADDI || op == ANDI) {
+    if(op == ALU || op == ADDI || op == ANDI || op == XORI || op == ORI || op == LUI) {
       state.reg[field0(state.instr)] = state.aluResult;
     }
     
