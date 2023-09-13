@@ -197,8 +197,23 @@ int main(int argc, char *argv[]) {
         switch (opcode(state.instr)) {
         case ADDI:
         case ANDI:
-        case ALU:
             state.reg[field1(state.instr)] = state.aluResult;
+            break;
+        case ALU:
+            switch (funct(state.instr)) {
+            case ADD:
+            case SUB:
+            case AND:
+                state.reg[field1(state.instr)] = state.aluResult;
+                break;
+            case OR:
+            case XOR:
+                state.reg[field0(state.instr)] = state.aluResult;
+                break;
+            default:
+                printf("Unknown ALU function\n");
+                exit(1);
+            }
             break;
         case NOOP:
         case HALT:
@@ -208,6 +223,7 @@ int main(int argc, char *argv[]) {
             printf("Unknown instruction opcode\n");
             exit(1);
         }
+
 
         state.cycles++;
         printState(&state);
