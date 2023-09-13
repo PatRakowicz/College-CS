@@ -108,7 +108,9 @@ static inline int field2(int instruction) {
 
 // Inst Field
 static inline int instant(int instruction) {
-    return instruction & 0xFFFF;
+    // Sign extend the immediate
+    int immed = instruction & 0xFFFF;
+    return (immed & 0x8000) ? (immed | 0xFFFF0000) : immed;
 }
 
 // Instruction Function
@@ -191,7 +193,7 @@ int main(int argc, char *argv[]) {
             state.reg[field0(state.instr)] = state.aluResult;
             break;
         case ALU:
-            state.reg[field2(state.instr)] = state.aluResult;
+            state.reg[field1(state.instr)] = state.aluResult;
             break;
         }
 
