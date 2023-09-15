@@ -35,6 +35,14 @@ int  lex();
 #define DIV_OP 24
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
+#define FOR_CODE 30
+#define IF_CODE 31
+#define ELSE_CODE 32
+#define WHILE_CODE 33
+#define DO_CODE 34
+#difine INT_CODE 35
+#define FLOAT_CODE 36
+#define SWITCH_CODE 37
 
 /******************************************************/
 /* main driver */
@@ -75,7 +83,7 @@ int  lookup(char  ch) {
     case  '-':
       addChar();
       nextToken = SUB_OP;
-      break; 
+      break;
 
     case  '*':
       addChar();
@@ -90,6 +98,9 @@ int  lookup(char  ch) {
       addChar();
       nextToken = EOF;
       break;
+
+    case 'for':
+
   }
   return  nextToken;
 }
@@ -114,7 +125,7 @@ void getChar() {
     	charClass = LETTER;
     else if(isdigit(nextChar))
     	charClass = DIGIT;
-    else  
+    else
     	charClass = UNKNOWN;
    }
    else
@@ -173,7 +184,7 @@ int lex() {
       lexeme[3] = 0;
 	  break;
   } /* End of switch */
-  printf("Next token is: %d, Next lexeme is %s\n", 
+  printf("Next token is: %d, Next lexeme is %s\n",
           nextToken, lexeme);
   return  nextToken;
 }  /* End of function lex */
