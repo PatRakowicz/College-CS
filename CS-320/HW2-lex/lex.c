@@ -97,13 +97,21 @@ int lookup(char ch) {
             addChar();
             nextToken = DIV_OP;
             break;
+
+        case 'for':
+            addChar();
+            nextToken = FOR_CODE;
+            break;
+
+        case 'if':
+            addChar();
+            nextToken = IF_CODE;
+            break;
+
         default:
             addChar();
             nextToken = EOF;
             break;
-
-        case 'for':
-
     }
     return nextToken;
 }
