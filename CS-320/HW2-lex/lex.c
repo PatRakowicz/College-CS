@@ -2,6 +2,7 @@
              arithmetic expressions */
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 /* Global declarations */
 /* Variables */
@@ -38,14 +39,32 @@ int lex();
 #define DIV_OP 24
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
+
 #define FOR_CODE 30
 #define IF_CODE 31
 #define ELSE_CODE 32
 #define WHILE_CODE 33
 #define DO_CODE 34
-#difine INT_CODE 35
+#define INT_CODE 35
 #define FLOAT_CODE 36
 #define SWITCH_CODE 37
+
+typedef struct {
+    char *word;
+    int tokenCode;
+} KeywordTokenPair;
+
+KeywordTokenPair reservedWords[] = {
+        {"for", FOR_CODE},
+        {"if", IF_CODE},
+        {"else", ELSE_CODE},
+        {"while", WHILE_CODE},
+        {"do", DO_CODE},
+        {"int", INT_CODE},
+        {"float", FLOAT_CODE},
+        {"switch", SWITCH_CODE},
+        {NULL, 0}
+};
 
 /******************************************************/
 /* main driver */
@@ -98,16 +117,6 @@ int lookup(char ch) {
             nextToken = DIV_OP;
             break;
 
-        case 'for':
-            addChar();
-            nextToken = FOR_CODE;
-            break;
-
-        case 'if':
-            addChar();
-            nextToken = IF_CODE;
-            break;
-
         default:
             addChar();
             nextToken = EOF;
@@ -149,8 +158,7 @@ void getNonBlank() {
         getChar();
 }
 
-/*****************************************************/
-/* lex - a simple lexical analyzer for arithmetic 
+/* lex - a simple lexical analyzer for arithmetic
          expressions */
 int lex() {
     lexLen = 0;
@@ -165,6 +173,12 @@ int lex() {
                 getChar();
             }
             nextToken = IDENT;
+            for (KeywordTokenPair *pair = reservedWords; pair->word != NULL; pair++) {
+                if (strcmp(lexeme, pair->word) == 0) {
+                    nextToken = pair->tokenCode;
+                    break;
+                }
+            }
             break;
 
 /* Parse integer literals */
