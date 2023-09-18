@@ -45,21 +45,21 @@
 
 
 // Printable map of instructions
-const char* opcode_to_str_map[] = {
-    "noop",
-    "alu",
-    "addi",
-    "andi",
-    "halt"
+const char *opcode_to_str_map[] = {
+		"noop",
+		"alu",
+		"addi",
+		"andi",
+		"halt"
 };
 
 // Printable map of functions for R-Type
-const char* funct_to_str_map[] = {
-    "add",
-    "sub",
-    "and",
-    "or",
-    "xor"
+const char *funct_to_str_map[] = {
+		"add",
+		"sub",
+		"and",
+		"or",
+		"xor"
 };
 
 
@@ -82,7 +82,7 @@ typedef struct IDEXStruct {
 typedef struct EXMEMStruct {
 	int instr;
 	//int branchTarget;  //TBD - will we do branching?
-  //int eq;
+	//int eq;
 	int aluResult;
 } EXMEMType;
 
@@ -117,52 +117,110 @@ typedef struct stateStruct {
 
 // Instruction Opcode
 static inline int opcode(int instruction) {
-    return instruction>>26;
+	return instruction >> 26;
 }
 
 // RS
 static inline int field0(int instruction) {
-    return (instruction>>21) & 0x1F;
+	return (instruction >> 21) & 0x1F;
 }
 
 // RT
 static inline int field1(int instruction) {
-    return (instruction>>16) & 0x1F;
+	return (instruction >> 16) & 0x1F;
 }
 
 // RD
 static inline int field2(int instruction) {
-    return (instruction>>11) & 0x1F;
+	return (instruction >> 11) & 0x1F;
 }
 
 // Inst Field
 static inline int instant(int instruction) {
-    return (instruction) & 0xFFFF;
+	return (instruction) & 0xFFFF;
 }
 
 // Instruction Function
 static inline int funct(int instruction) {
-    return instruction & 0x3F;
+	return instruction & 0x3F;
 }
 
 ///////////////////////////////////////////////////////////////
 // Declarations of helper functions
 ///////////////////////////////////////////////////////////////
 
-void printState(stateType*);
+void printState(stateType *);
+
 void printInstruction(int);
-void readMachineCode(stateType*, char*);
+
+void readMachineCode(stateType *, char *);
 
 
 ///////////////////////////////////////////////////////////////
 // STUDENT CODE: students will write these funtions
 ///////////////////////////////////////////////////////////////
 
-void if_stage(stateType *statePtr, stateType *newStatePtr){}
-void id_stage(stateType *statePtr, stateType *newStatePtr){}
-void ex_stage(stateType *statePtr, stateType *newStatePtr){}
-void mem_stage(stateType *statePtr, stateType *newStatePtr){}
-void wb_stage(stateType *statePtr, stateType *newStatePtr){}
+void if_stage(stateType *statePtr, stateType *newStatePtr) {
+	newStatePtr->IFID.instr = statePtr->instrMem[statePtr->pc];
+	newStatePtr->IFID.pcPlus1 = statePtr->pc + 1;
+}
+
+void id_stage(stateType *statePtr, stateType *newStatePtr) {
+	int instr = statePtr->IFID.instr;
+
+	newStatePtr->IDEX.instr = instr;
+	newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
+	newStatePtr->IDEX.readRegB = statePtr->reg[field1(instr)];
+	newStatePtr->IDEX.offset = instant(instr);
+}
+
+void ex_stage(stateType *statePtr, stateType *newStatePtr) {
+	int instr = statePtr->IDEX.instr;
+	int aluResult = 0;
+
+	if (opcode(instr) == ALU) {
+		switch (funct(instr)) {
+			case ADD:
+				aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.readRegB;
+				break;
+			case SUB:
+				aluResult = statePtr->IDEX.readRegA - statePtr->IDEX.readRegB;
+				break;
+			case AND:
+				aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.readRegB;
+				break;
+			case OR:
+				aluResult = statePtr->IDEX.readRegA | statePtr->IDEX.readRegB;
+				break;
+			case XOR:
+				aluResult = statePtr->IDEX.readRegA ^ statePtr->IDEX.readRegB;
+				break;
+		}
+	} else if(opcode(instr) == ADDI) {
+		aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.offset;
+	} else if(opcode(instr) == ANDI) {
+		aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.offset;
+	}
+
+	newStatePtr->EXMEM.instr = instr;
+	newStatePtr->EXMEM.aluResult = aluResult;
+}
+
+void mem_stage(stateType *statePtr, stateType *newStatePtr) {
+	newStatePtr->MEMWB.instr = statePtr->EXMEM.instr;
+	newStatePtr->MEMWB.writeData = statePtr->EXMEM.aluResult;
+}
+
+void wb_stage(stateType *statePtr, stateType *newStatePtr) {
+	int instr = statePtr->MEMWB.instr;
+
+	if(opcode(instr) == ALU || opcode(instr) == ADDI || opcode(instr) == ANDI) {
+		newStatePtr->reg[field1(instr)] = statePtr->MEMWB.writeData;
+	}
+
+	newStatePtr->WBEND.instr = instr;
+	newStatePtr->WBEND.writeData = statePtr->MEMWB.writeData;
+}
 
 
 
@@ -176,49 +234,49 @@ void wb_stage(stateType *statePtr, stateType *newStatePtr){}
 ///////////////////////////////////////////////////////////////
 int main(int argc, char *argv[]) {
 
-    static stateType state, newState;
+	static stateType state, newState;
 
-    if (argc != 2) {
-        printf("error: usage: %s <machine-code file>\n", argv[0]);
-        exit(1);
-    }
+	if (argc != 2) {
+		printf("error: usage: %s <machine-code file>\n", argv[0]);
+		exit(1);
+	}
 
-    readMachineCode(&state, argv[1]);
+	readMachineCode(&state, argv[1]);
 
-    int xx = 0;
+	int xx = 0;
 
-    printf("SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY\n");
-    printState(&state);
+	printf("SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY\n");
+	printState(&state);
 
-    while (opcode(state.MEMWB.instr) != HALT) {
-        newState = state;
-        newState.cycles++;
+	while (opcode(state.MEMWB.instr) != HALT) {
+		newState = state;
+		newState.cycles++;
 
-        /* ---------------------- IF stage --------------------- */
-        if_stage(&state, &newState);
+		/* ---------------------- IF stage --------------------- */
+		if_stage(&state, &newState);
 
-        /* ---------------------- ID stage --------------------- */
-        id_stage(&state, &newState);
+		/* ---------------------- ID stage --------------------- */
+		id_stage(&state, &newState);
 
-        /* ---------------------- EX stage --------------------- */
-        ex_stage(&state, &newState);
+		/* ---------------------- EX stage --------------------- */
+		ex_stage(&state, &newState);
 
-        /* --------------------- MEM stage --------------------- */
-        mem_stage(&state, &newState);
+		/* --------------------- MEM stage --------------------- */
+		mem_stage(&state, &newState);
 
-        /* ---------------------- WB stage --------------------- */
-        wb_stage(&state, &newState);
+		/* ---------------------- WB stage --------------------- */
+		wb_stage(&state, &newState);
 
-        /* ------------------------ END ------------------------ */
-        state = newState; /* this is the last statement before end of the loop. It marks the end
+		/* ------------------------ END ------------------------ */
+		state = newState; /* this is the last statement before end of the loop. It marks the end
         of the cycle and updates the current state with the values calculated in this cycle */
-        printState(&state);
-        
-    }
-    printf("machine halted\n");
-    printf("total of %d cycles executed\n", state.cycles);
-    printf("final state of machine:\n");
-    printState(&state);
+		printState(&state);
+
+	}
+	printf("machine halted\n");
+	printf("total of %d cycles executed\n", state.cycles);
+	printf("final state of machine:\n");
+	printState(&state);
 }
 
 
@@ -228,116 +286,116 @@ int main(int argc, char *argv[]) {
 //
 
 void printInstruction(int instr) {
-    char instr_opcode_str[10];
-    char instr_funct_str[10];
-    int instr_opcode = opcode(instr);
-   
-    strcpy(instr_opcode_str, opcode_to_str_map[instr_opcode]);
-    
-    if (instr_opcode == ALU){
-      int instr_funct = funct(instr);
-      strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
-    }
+	char instr_opcode_str[10];
+	char instr_funct_str[10];
+	int instr_opcode = opcode(instr);
 
-    switch (instr_opcode) {
-        case ALU:
-            printf("%s %d %d %d", instr_funct_str, field0(instr), field1(instr), field2(instr));
-            break;
-        case ADDI:
-        case ANDI:
-            printf("%s %d %d %d", instr_opcode_str, field0(instr), field1(instr), instant(instr));
-            break;
-        case NOOP:
-        case HALT:
-            printf("%s", instr_opcode_str);
-            break;
-        default:
-            printf(".fill %d", instr);
-            return;
-    }
+	strcpy(instr_opcode_str, opcode_to_str_map[instr_opcode]);
+
+	if (instr_opcode == ALU) {
+		int instr_funct = funct(instr);
+		strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
+	}
+
+	switch (instr_opcode) {
+		case ALU:
+			printf("%s %d %d %d", instr_funct_str, field0(instr), field1(instr), field2(instr));
+			break;
+		case ADDI:
+		case ANDI:
+			printf("%s %d %d %d", instr_opcode_str, field0(instr), field1(instr), instant(instr));
+			break;
+		case NOOP:
+		case HALT:
+			printf("%s", instr_opcode_str);
+			break;
+		default:
+			printf(".fill %d", instr);
+			return;
+	}
 }
 
 void printState(stateType *statePtr) {
-    printf("STATE AT CYCLE: %d\n", statePtr->cycles);
-    printf("\tpc = %d\n", statePtr->pc);
+	printf("STATE AT CYCLE: %d\n", statePtr->cycles);
+	printf("\tpc = %d\n", statePtr->pc);
 
-    printf("\tregisters:\n");
-    for (int i=0; i<NUMREGS; ++i) {
-        printf("\t\treg[ %d ] = %d\n", i, statePtr->reg[i]);
-    }
+	printf("\tregisters:\n");
+	for (int i = 0; i < NUMREGS; ++i) {
+		printf("\t\treg[ %d ] = %d\n", i, statePtr->reg[i]);
+	}
 
-    // IF/ID
-    printf("\tIF/ID pipeline register:\n");
-    printf("\t\tinstruction = %x ( ", statePtr->IFID.instr);
-    printInstruction(statePtr->IFID.instr);
-    printf(" )\n");
-    printf("\t\tpcPlus1 = %d", statePtr->IFID.pcPlus1);
-    printf("\n");
- 
-    // ID/EX
-    int idexOp = opcode(statePtr->IDEX.instr);
-    printf("\tID/EX pipeline register:\n");
-    printf("\t\tinstruction = %x ( ", statePtr->IDEX.instr);
-    printInstruction(statePtr->IDEX.instr);
-    printf(" )\n");
-    printf("\t\treadRegA = %d", statePtr->IDEX.readRegA);
-    printf("\n");
-    printf("\t\treadRegB = %d", statePtr->IDEX.readRegB);
-    printf("\n");
-   
-    // EX/MEM
-    int exmemOp = opcode(statePtr->EXMEM.instr);
-    printf("\tEX/MEM pipeline register:\n");
-    printf("\t\tinstruction = %x ( ", statePtr->EXMEM.instr);
-    printInstruction(statePtr->EXMEM.instr);
-    printf(" )\n");
-    printf("\t\taluResult = %d", statePtr->EXMEM.aluResult);
-    printf("\n");
+	// IF/ID
+	printf("\tIF/ID pipeline register:\n");
+	printf("\t\tinstruction = %x ( ", statePtr->IFID.instr);
+	printInstruction(statePtr->IFID.instr);
+	printf(" )\n");
+	printf("\t\tpcPlus1 = %d", statePtr->IFID.pcPlus1);
+	printf("\n");
 
-    // MEM/WB
-	  int memwbOp = opcode(statePtr->MEMWB.instr);
-    printf("\tMEM/WB pipeline register:\n");
-    printf("\t\tinstruction = %x ( ", statePtr->MEMWB.instr);
-    printInstruction(statePtr->MEMWB.instr);
-    printf(" )\n");
-    printf("\t\twriteData = %d", statePtr->MEMWB.writeData);
-    printf("\n");
+	// ID/EX
+	int idexOp = opcode(statePtr->IDEX.instr);
+	printf("\tID/EX pipeline register:\n");
+	printf("\t\tinstruction = %x ( ", statePtr->IDEX.instr);
+	printInstruction(statePtr->IDEX.instr);
+	printf(" )\n");
+	printf("\t\treadRegA = %d", statePtr->IDEX.readRegA);
+	printf("\n");
+	printf("\t\treadRegB = %d", statePtr->IDEX.readRegB);
+	printf("\n");
 
-    // WB/END
-	  int wbendOp = opcode(statePtr->WBEND.instr);
-    printf("\tWB/END pipeline register:\n");
-    printf("\t\tinstruction = %x ( ", statePtr->WBEND.instr);
-    printInstruction(statePtr->WBEND.instr);
-    printf(" )\n");
-    printf("\t\twriteData = %d", statePtr->WBEND.writeData);
-    printf("\n");
-    printf("end state\n");
-   
+	// EX/MEM
+	int exmemOp = opcode(statePtr->EXMEM.instr);
+	printf("\tEX/MEM pipeline register:\n");
+	printf("\t\tinstruction = %x ( ", statePtr->EXMEM.instr);
+	printInstruction(statePtr->EXMEM.instr);
+	printf(" )\n");
+	printf("\t\taluResult = %d", statePtr->EXMEM.aluResult);
+	printf("\n");
+
+	// MEM/WB
+	int memwbOp = opcode(statePtr->MEMWB.instr);
+	printf("\tMEM/WB pipeline register:\n");
+	printf("\t\tinstruction = %x ( ", statePtr->MEMWB.instr);
+	printInstruction(statePtr->MEMWB.instr);
+	printf(" )\n");
+	printf("\t\twriteData = %d", statePtr->MEMWB.writeData);
+	printf("\n");
+
+	// WB/END
+	int wbendOp = opcode(statePtr->WBEND.instr);
+	printf("\tWB/END pipeline register:\n");
+	printf("\t\tinstruction = %x ( ", statePtr->WBEND.instr);
+	printInstruction(statePtr->WBEND.instr);
+	printf(" )\n");
+	printf("\t\twriteData = %d", statePtr->WBEND.writeData);
+	printf("\n");
+	printf("end state\n");
+
 }
 
 
 // Load our "program file" into our instruction memory
 #define MAXLINELENGTH 100 // MAXLINELENGTH is the max number of characters we read
 
-void readMachineCode(stateType *state, char* filename) {
-    char line[MAXLINELENGTH];
-    int instruction;
-    int inst_count = 0;
+void readMachineCode(stateType *state, char *filename) {
+	char line[MAXLINELENGTH];
+	int instruction;
+	int inst_count = 0;
 
-    FILE *filePtr = fopen(filename, "r");
-    if (filePtr == NULL) {
-        printf("error: can't open file %s", filename);
-        exit(1);
-    }
+	FILE *filePtr = fopen(filename, "r");
+	if (filePtr == NULL) {
+		printf("error: can't open file %s", filename);
+		exit(1);
+	}
 
-    printf("loading instruction memory with program:\n");
-    
-    while(fgets(line, MAXLINELENGTH, filePtr)) {
-        printf("%s", line);
-        char* token = strtok(line, "#");
-        instruction = (int)strtol(token, NULL, 16);
-        //instruction = (int)strtol(line, NULL, 16);
-        state->instrMem[inst_count] = instruction;
-        inst_count++;
-    }
+	printf("loading instruction memory with program:\n");
+
+	while (fgets(line, MAXLINELENGTH, filePtr)) {
+		printf("%s", line);
+		char *token = strtok(line, "#");
+		instruction = (int) strtol(token, NULL, 16);
+		//instruction = (int)strtol(line, NULL, 16);
+		state->instrMem[inst_count] = instruction;
+		inst_count++;
+	}
 }
