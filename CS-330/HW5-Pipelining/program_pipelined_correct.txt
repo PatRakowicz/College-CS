@@ -1,0 +1,667 @@
+loading instruction memory with program:
+080700FF # addi 0 7 255
+00000000 # noop
+00000000 # noop
+00000000 # noop
+0CE3000F # andi 7 3 15
+00000000 # noop
+00000000 # noop
+00000000 # noop
+04E30804 # xor 7 3 1
+04E31003 # or 7 3 2
+00000000 # noop
+00000000 # noop
+00000000 # noop
+04431801 # sub 2 3 3
+00000000 # noop
+10000000 # halt
+SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY
+STATE AT CYCLE: 0
+	pc = 0
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 0
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 0
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 1
+	pc = 1
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 0
+	IF/ID pipeline register:
+		instruction = 80700ff ( addi 0 7 255 )
+		pcPlus1 = 1
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 2
+	pc = 2
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 0
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 2
+	ID/EX pipeline register:
+		instruction = 80700ff ( addi 0 7 255 )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA ff
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 3
+	pc = 3
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 0
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 3
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 80700ff ( addi 0 7 255 )
+		aluResult = 255
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA ff
+WEB DATA 0
+STATE AT CYCLE: 4
+	pc = 4
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 0
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 4
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 80700ff ( addi 0 7 255 )
+		writeData = 255
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA ff
+STATE AT CYCLE: 5
+	pc = 5
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = ce3000f ( andi 7 3 15 )
+		pcPlus1 = 5
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 80700ff ( addi 0 7 255 )
+		writeData = 255
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 6
+	pc = 6
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 6
+	ID/EX pipeline register:
+		instruction = ce3000f ( andi 7 3 15 )
+		readRegA = 255
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA f
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 7
+	pc = 7
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 7
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = ce3000f ( andi 7 3 15 )
+		aluResult = 15
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA f
+WEB DATA 0
+STATE AT CYCLE: 8
+	pc = 8
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 0
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 8
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = ce3000f ( andi 7 3 15 )
+		writeData = 15
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA f
+STATE AT CYCLE: 9
+	pc = 9
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 4e30804 ( xor 7 3 1 )
+		pcPlus1 = 9
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = ce3000f ( andi 7 3 15 )
+		writeData = 15
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 10
+	pc = 10
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 4e31003 ( or 7 3 2 )
+		pcPlus1 = 10
+	ID/EX pipeline register:
+		instruction = 4e30804 ( xor 7 3 1 )
+		readRegA = 255
+		readRegB = 15
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+CODE f0, ff, f
+ALU RESULTMEMWEB DATA f0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 11
+	pc = 11
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 11
+	ID/EX pipeline register:
+		instruction = 4e31003 ( or 7 3 2 )
+		readRegA = 255
+		readRegB = 15
+	EX/MEM pipeline register:
+		instruction = 4e30804 ( xor 7 3 1 )
+		aluResult = 240
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA ff
+MEMWEB DATA f0
+WEB DATA 0
+STATE AT CYCLE: 12
+	pc = 12
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 0
+		reg[ 2 ] = 0
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 12
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 4e31003 ( or 7 3 2 )
+		aluResult = 255
+	MEM/WB pipeline register:
+		instruction = 4e30804 ( xor 7 3 1 )
+		writeData = 240
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA ff
+WEB DATA f0
+STATE AT CYCLE: 13
+	pc = 13
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 0
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 13
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 4e31003 ( or 7 3 2 )
+		writeData = 255
+	WB/END pipeline register:
+		instruction = 4e30804 ( xor 7 3 1 )
+		writeData = 240
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA ff
+STATE AT CYCLE: 14
+	pc = 14
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 4431801 ( sub 2 3 3 )
+		pcPlus1 = 14
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 4e31003 ( or 7 3 2 )
+		writeData = 255
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 15
+	pc = 15
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 15
+	ID/EX pipeline register:
+		instruction = 4431801 ( sub 2 3 3 )
+		readRegA = 255
+		readRegB = 15
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA f0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 16
+	pc = 16
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 10000000 ( halt )
+		pcPlus1 = 16
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 4431801 ( sub 2 3 3 )
+		aluResult = 240
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA f0
+WEB DATA 0
+STATE AT CYCLE: 17
+	pc = 17
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 15
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 17
+	ID/EX pipeline register:
+		instruction = 10000000 ( halt )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 4431801 ( sub 2 3 3 )
+		writeData = 240
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA f0
+STATE AT CYCLE: 18
+	pc = 18
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 240
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 18
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 10000000 ( halt )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 4431801 ( sub 2 3 3 )
+		writeData = 240
+end state
+ALU RESULTMEMWEB DATA 0
+MEMWEB DATA 0
+WEB DATA 0
+STATE AT CYCLE: 19
+	pc = 19
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 240
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 19
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 10000000 ( halt )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
+machine halted
+total of 19 cycles executed
+final state of machine:
+STATE AT CYCLE: 19
+	pc = 19
+	registers:
+		reg[ 0 ] = 0
+		reg[ 1 ] = 240
+		reg[ 2 ] = 255
+		reg[ 3 ] = 240
+		reg[ 4 ] = 0
+		reg[ 5 ] = 0
+		reg[ 6 ] = 0
+		reg[ 7 ] = 255
+	IF/ID pipeline register:
+		instruction = 0 ( noop )
+		pcPlus1 = 19
+	ID/EX pipeline register:
+		instruction = 0 ( noop )
+		readRegA = 0
+		readRegB = 0
+	EX/MEM pipeline register:
+		instruction = 0 ( noop )
+		aluResult = 0
+	MEM/WB pipeline register:
+		instruction = 10000000 ( halt )
+		writeData = 0
+	WB/END pipeline register:
+		instruction = 0 ( noop )
+		writeData = 0
+end state
