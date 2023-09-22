@@ -160,11 +160,78 @@ void readMachineCode(stateType *, char *);
 // STUDENT CODE: students will write these funtions
 ///////////////////////////////////////////////////////////////
 
-void if_stage(stateType *statePtr, stateType *newStatePtr) {}
+void if_stage(stateType *statePtr, stateType *newStatePtr) {
+    // Fetch the instruction from instruction memory at the program counter address
+    newStatePtr->IFID.instr = statePtr->instrMem[statePtr->pc];
 
-void id_stage(stateType *statePtr, stateType *newStatePtr) {}
+    // Update the pcPlus1 to the next instruction's address.
+    newStatePtr->IFID.pcPlus1 = statePtr->pc + 1;
 
-void ex_stage(stateType *statePtr, stateType *newStatePtr) {}
+    // Update the program counter for the next IF stage.
+    newStatePtr->pc = statePtr->pc + 1;
+}
+
+void id_stage(stateType *statePtr, stateType *newStatePtr) {
+    int instr = statePtr->IFID.instr;
+    int opcode_val = opcode(instr);
+
+    // Copy the instruction to the next pipeline stage
+    newStatePtr->IDEX.instr = instr;
+
+    // Based on the instruction type, handle register reads and immediate offset calculations
+    if(opcode_val == ALU) { // R-type
+        newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
+        newStatePtr->IDEX.readRegB = statePtr->reg[field1(instr)];
+        newStatePtr->IDEX.offset = 0; // No offset for R-type
+    } else if(opcode_val == ADDI || opcode_val == ANDI) { // I-type
+        newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
+        newStatePtr->IDEX.readRegB = 0; // No second register for I-type
+        newStatePtr->IDEX.offset = instant(instr); // Immediate value as offset
+    } else { // For NOOP, HALT or other potential instructions
+        newStatePtr->IDEX.readRegA = 0;
+        newStatePtr->IDEX.readRegB = 0;
+        newStatePtr->IDEX.offset = 0;
+    }
+}
+
+void ex_stage(stateType *statePtr, stateType *newStatePtr) {
+    int instr = statePtr->IDEX.instr;
+    int opcode_val = opcode(instr);
+
+    // Copy the instruction to the next pipeline stage
+    newStatePtr->EXMEM.instr = instr;
+
+    // If it's an ALU operation
+    if (opcode_val == ALU) {
+        switch (funct(instr)) {
+            case ADD:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.readRegB;
+                break;
+            case SUB:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA - statePtr->IDEX.readRegB;
+                break;
+            case AND:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.readRegB;
+                break;
+            case OR:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA | statePtr->IDEX.readRegB;
+                break;
+            case XOR:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA ^ statePtr->IDEX.readRegB;
+                break;
+            default:
+                // Handle undefined function codes, probably set an error state or do nothing
+                break;
+        }
+    } else if (opcode_val == ADDI) {
+        newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.offset;
+    } else if (opcode_val == ANDI) {
+        newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.offset;
+    } else {
+        // For NOOP, HALT or other potential instructions
+        newStatePtr->EXMEM.aluResult = 0;
+    }
+}
 
 void mem_stage(stateType *statePtr, stateType *newStatePtr) {}
 
@@ -176,11 +243,48 @@ void wb_stage(stateType *statePtr, stateType *newStatePtr) {}
 * DO NOT MODIFY ANY OF THE CODE BELOW.
 */
 
+// test function
+int main() {
+    stateType state;
+    stateType newState;
+
+    // Initialize the state.
+    memset(&state, 0, sizeof(stateType));
+    memset(&newState, 0, sizeof(stateType));
+
+    // Load the instructions into instruction memory.
+    state.instrMem[0] = 0x080700FF; // Represents the "addi 0 7 255" instruction
+    state.instrMem[1] = 0x00000000; // Represents the "noop" instruction
+    state.instrMem[2] = 0x00000000; // Represents the "noop" instruction
+    state.instrMem[3] = 0x00000000; // Represents the "noop" instruction
+    state.instrMem[4] = 0x0CE3000F; // Represents the "andi 7 3 15" instruction
+
+    int numCycles = 8; // Run for 8 cycles to observe the pipeline progress. Adjust as needed.
+
+    for(int cycle = 1; cycle <= numCycles; cycle++) {
+        printf("Cycle %d:\n", cycle);
+
+        // You can add mem_stage, wb_stage here when they are implemented.
+        ex_stage(&state, &newState);
+        id_stage(&state, &newState);
+        if_stage(&state, &newState);
+
+        printState(&newState);
+
+        // Progress the pipeline.
+        state = newState;
+        memset(&newState, 0, sizeof(stateType));
+
+        printf("\n");
+    }
+
+    return 0;
+}
 
 ///////////////////////////////////////////////////////////////
 // Main Function
 ///////////////////////////////////////////////////////////////
-int main(int argc, char *argv[]) {
+/*int main(int argc, char *argv[]) {
 
     static stateType state, newState;
 
@@ -200,24 +304,24 @@ int main(int argc, char *argv[]) {
         newState = state;
         newState.cycles++;
 
-        /* ---------------------- IF stage --------------------- */
+        *//* ---------------------- IF stage --------------------- *//*
         if_stage(&state, &newState);
 
-        /* ---------------------- ID stage --------------------- */
+        *//* ---------------------- ID stage --------------------- *//*
         id_stage(&state, &newState);
 
-        /* ---------------------- EX stage --------------------- */
+        *//* ---------------------- EX stage --------------------- *//*
         ex_stage(&state, &newState);
 
-        /* --------------------- MEM stage --------------------- */
+        *//* --------------------- MEM stage --------------------- *//*
         mem_stage(&state, &newState);
 
-        /* ---------------------- WB stage --------------------- */
+        *//* ---------------------- WB stage --------------------- *//*
         wb_stage(&state, &newState);
 
-        /* ------------------------ END ------------------------ */
-        state = newState; /* this is the last statement before end of the loop. It marks the end
-        of the cycle and updates the current state with the values calculated in this cycle */
+        *//* ------------------------ END ------------------------ *//*
+        state = newState; *//* this is the last statement before end of the loop. It marks the end
+        of the cycle and updates the current state with the values calculated in this cycle *//*
         printState(&state);
 
     }
@@ -225,7 +329,7 @@ int main(int argc, char *argv[]) {
     printf("total of %d cycles executed\n", state.cycles);
     printf("final state of machine:\n");
     printState(&state);
-}
+}*/
 
 
 ///////////////////////////////////////////////////////////////
