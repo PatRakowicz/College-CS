@@ -45,21 +45,21 @@
 
 
 // Printable map of instructions
-const char* opcode_to_str_map[] = {
-    "noop",
-    "alu",
-    "addi",
-    "andi",
-    "halt"
+const char *opcode_to_str_map[] = {
+        "noop",
+        "alu",
+        "addi",
+        "andi",
+        "halt"
 };
 
 // Printable map of functions for R-Type
-const char* funct_to_str_map[] = {
-    "add",
-    "sub",
-    "and",
-    "or",
-    "xor"
+const char *funct_to_str_map[] = {
+        "add",
+        "sub",
+        "and",
+        "or",
+        "xor"
 };
 
 
@@ -68,46 +68,46 @@ const char* funct_to_str_map[] = {
 ///////////////////////////////////////////////////////////////
 
 typedef struct IFIDStruct {
-	int instr;
-	int pcPlus1;
+    int instr;
+    int pcPlus1;
 } IFIDType;
 
 typedef struct IDEXStruct {
-	int instr;
-	int readRegA;
-	int readRegB;
-	int offset;
+    int instr;
+    int readRegA;
+    int readRegB;
+    int offset;
 } IDEXType;
 
 typedef struct EXMEMStruct {
-	int instr;
-	//int branchTarget;  //TBD - will we do branching?
-  //int eq;
-	int aluResult;
+    int instr;
+    //int branchTarget;  //TBD - will we do branching?
+    //int eq;
+    int aluResult;
 } EXMEMType;
 
 typedef struct MEMWBStruct {
-	int instr;
-	int writeData;
+    int instr;
+    int writeData;
 } MEMWBType;
 
 typedef struct WBENDStruct {
-	int instr;
-	int writeData;
+    int instr;
+    int writeData;
 } WBENDType;
 
 // Overall system state 
 typedef struct stateStruct {
-	int pc;
-	int instrMem[NUMMEMORY];
-	//int dataMem[NUMMEMORY]; //TBD - will we use datamem
-	int reg[NUMREGS];
-	IFIDType IFID;
-	IDEXType IDEX;
-	EXMEMType EXMEM;
-	MEMWBType MEMWB;
-	WBENDType WBEND;
-	int cycles; // number of cycles run so far
+    int pc;
+    int instrMem[NUMMEMORY];
+    //int dataMem[NUMMEMORY]; //TBD - will we use datamem
+    int reg[NUMREGS];
+    IFIDType IFID;
+    IDEXType IDEX;
+    EXMEMType EXMEM;
+    MEMWBType MEMWB;
+    WBENDType WBEND;
+    int cycles; // number of cycles run so far
 } stateType;
 
 
@@ -117,22 +117,22 @@ typedef struct stateStruct {
 
 // Instruction Opcode
 static inline int opcode(int instruction) {
-    return instruction>>26;
+    return instruction >> 26;
 }
 
 // RS
 static inline int field0(int instruction) {
-    return (instruction>>21) & 0x1F;
+    return (instruction >> 21) & 0x1F;
 }
 
 // RT
 static inline int field1(int instruction) {
-    return (instruction>>16) & 0x1F;
+    return (instruction >> 16) & 0x1F;
 }
 
 // RD
 static inline int field2(int instruction) {
-    return (instruction>>11) & 0x1F;
+    return (instruction >> 11) & 0x1F;
 }
 
 // Inst Field
@@ -149,20 +149,26 @@ static inline int funct(int instruction) {
 // Declarations of helper functions
 ///////////////////////////////////////////////////////////////
 
-void printState(stateType*);
+void printState(stateType *);
+
 void printInstruction(int);
-void readMachineCode(stateType*, char*);
+
+void readMachineCode(stateType *, char *);
 
 
 ///////////////////////////////////////////////////////////////
 // STUDENT CODE: students will write these funtions
 ///////////////////////////////////////////////////////////////
 
-void if_stage(stateType *statePtr, stateType *newStatePtr){}
-void id_stage(stateType *statePtr, stateType *newStatePtr){}
-void ex_stage(stateType *statePtr, stateType *newStatePtr){}
-void mem_stage(stateType *statePtr, stateType *newStatePtr){}
-void wb_stage(stateType *statePtr, stateType *newStatePtr){}
+void if_stage(stateType *statePtr, stateType *newStatePtr) {}
+
+void id_stage(stateType *statePtr, stateType *newStatePtr) {}
+
+void ex_stage(stateType *statePtr, stateType *newStatePtr) {}
+
+void mem_stage(stateType *statePtr, stateType *newStatePtr) {}
+
+void wb_stage(stateType *statePtr, stateType *newStatePtr) {}
 
 
 
@@ -213,7 +219,7 @@ int main(int argc, char *argv[]) {
         state = newState; /* this is the last statement before end of the loop. It marks the end
         of the cycle and updates the current state with the values calculated in this cycle */
         printState(&state);
-        
+
     }
     printf("machine halted\n");
     printf("total of %d cycles executed\n", state.cycles);
@@ -231,12 +237,12 @@ void printInstruction(int instr) {
     char instr_opcode_str[10];
     char instr_funct_str[10];
     int instr_opcode = opcode(instr);
-   
+
     strcpy(instr_opcode_str, opcode_to_str_map[instr_opcode]);
-    
-    if (instr_opcode == ALU){
-      int instr_funct = funct(instr);
-      strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
+
+    if (instr_opcode == ALU) {
+        int instr_funct = funct(instr);
+        strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
     }
 
     switch (instr_opcode) {
@@ -262,7 +268,7 @@ void printState(stateType *statePtr) {
     printf("\tpc = %d\n", statePtr->pc);
 
     printf("\tregisters:\n");
-    for (int i=0; i<NUMREGS; ++i) {
+    for (int i = 0; i < NUMREGS; ++i) {
         printf("\t\treg[ %d ] = %d\n", i, statePtr->reg[i]);
     }
 
@@ -273,7 +279,7 @@ void printState(stateType *statePtr) {
     printf(" )\n");
     printf("\t\tpcPlus1 = %d", statePtr->IFID.pcPlus1);
     printf("\n");
- 
+
     // ID/EX
     int idexOp = opcode(statePtr->IDEX.instr);
     printf("\tID/EX pipeline register:\n");
@@ -284,7 +290,7 @@ void printState(stateType *statePtr) {
     printf("\n");
     printf("\t\treadRegB = %d", statePtr->IDEX.readRegB);
     printf("\n");
-   
+
     // EX/MEM
     int exmemOp = opcode(statePtr->EXMEM.instr);
     printf("\tEX/MEM pipeline register:\n");
@@ -295,7 +301,7 @@ void printState(stateType *statePtr) {
     printf("\n");
 
     // MEM/WB
-	  int memwbOp = opcode(statePtr->MEMWB.instr);
+    int memwbOp = opcode(statePtr->MEMWB.instr);
     printf("\tMEM/WB pipeline register:\n");
     printf("\t\tinstruction = %x ( ", statePtr->MEMWB.instr);
     printInstruction(statePtr->MEMWB.instr);
@@ -304,7 +310,7 @@ void printState(stateType *statePtr) {
     printf("\n");
 
     // WB/END
-	  int wbendOp = opcode(statePtr->WBEND.instr);
+    int wbendOp = opcode(statePtr->WBEND.instr);
     printf("\tWB/END pipeline register:\n");
     printf("\t\tinstruction = %x ( ", statePtr->WBEND.instr);
     printInstruction(statePtr->WBEND.instr);
@@ -312,14 +318,14 @@ void printState(stateType *statePtr) {
     printf("\t\twriteData = %d", statePtr->WBEND.writeData);
     printf("\n");
     printf("end state\n");
-   
+
 }
 
 
 // Load our "program file" into our instruction memory
 #define MAXLINELENGTH 100 // MAXLINELENGTH is the max number of characters we read
 
-void readMachineCode(stateType *state, char* filename) {
+void readMachineCode(stateType *state, char *filename) {
     char line[MAXLINELENGTH];
     int instruction;
     int inst_count = 0;
@@ -331,11 +337,11 @@ void readMachineCode(stateType *state, char* filename) {
     }
 
     printf("loading instruction memory with program:\n");
-    
-    while(fgets(line, MAXLINELENGTH, filePtr)) {
+
+    while (fgets(line, MAXLINELENGTH, filePtr)) {
         printf("%s", line);
-        char* token = strtok(line, "#");
-        instruction = (int)strtol(token, NULL, 16);
+        char *token = strtok(line, "#");
+        instruction = (int) strtol(token, NULL, 16);
         //instruction = (int)strtol(line, NULL, 16);
         state->instrMem[inst_count] = instruction;
         inst_count++;
