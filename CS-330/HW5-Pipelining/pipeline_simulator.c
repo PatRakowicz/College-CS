@@ -46,20 +46,20 @@
 
 // Printable map of instructions
 const char *opcode_to_str_map[] = {
-		"noop",
-		"alu",
-		"addi",
-		"andi",
-		"halt"
+        "noop",
+        "alu",
+        "addi",
+        "andi",
+        "halt"
 };
 
 // Printable map of functions for R-Type
 const char *funct_to_str_map[] = {
-		"add",
-		"sub",
-		"and",
-		"or",
-		"xor"
+        "add",
+        "sub",
+        "and",
+        "or",
+        "xor"
 };
 
 
@@ -68,46 +68,46 @@ const char *funct_to_str_map[] = {
 ///////////////////////////////////////////////////////////////
 
 typedef struct IFIDStruct {
-	int instr;
-	int pcPlus1;
+    int instr;
+    int pcPlus1;
 } IFIDType;
 
 typedef struct IDEXStruct {
-	int instr;
-	int readRegA;
-	int readRegB;
-	int offset;
+    int instr;
+    int readRegA;
+    int readRegB;
+    int offset;
 } IDEXType;
 
 typedef struct EXMEMStruct {
-	int instr;
-	//int branchTarget;  //TBD - will we do branching?
-	//int eq;
-	int aluResult;
+    int instr;
+    //int branchTarget;  //TBD - will we do branching?
+    //int eq;
+    int aluResult;
 } EXMEMType;
 
 typedef struct MEMWBStruct {
-	int instr;
-	int writeData;
+    int instr;
+    int writeData;
 } MEMWBType;
 
 typedef struct WBENDStruct {
-	int instr;
-	int writeData;
+    int instr;
+    int writeData;
 } WBENDType;
 
 // Overall system state 
 typedef struct stateStruct {
-	int pc;
-	int instrMem[NUMMEMORY];
-	//int dataMem[NUMMEMORY]; //TBD - will we use datamem
-	int reg[NUMREGS];
-	IFIDType IFID;
-	IDEXType IDEX;
-	EXMEMType EXMEM;
-	MEMWBType MEMWB;
-	WBENDType WBEND;
-	int cycles; // number of cycles run so far
+    int pc;
+    int instrMem[NUMMEMORY];
+    //int dataMem[NUMMEMORY]; //TBD - will we use datamem
+    int reg[NUMREGS];
+    IFIDType IFID;
+    IDEXType IDEX;
+    EXMEMType EXMEM;
+    MEMWBType MEMWB;
+    WBENDType WBEND;
+    int cycles; // number of cycles run so far
 } stateType;
 
 
@@ -117,32 +117,32 @@ typedef struct stateStruct {
 
 // Instruction Opcode
 static inline int opcode(int instruction) {
-	return instruction >> 26;
+    return instruction >> 26;
 }
 
 // RS
 static inline int field0(int instruction) {
-	return (instruction >> 21) & 0x1F;
+    return (instruction >> 21) & 0x1F;
 }
 
 // RT
 static inline int field1(int instruction) {
-	return (instruction >> 16) & 0x1F;
+    return (instruction >> 16) & 0x1F;
 }
 
 // RD
 static inline int field2(int instruction) {
-	return (instruction >> 11) & 0x1F;
+    return (instruction >> 11) & 0x1F;
 }
 
 // Inst Field
 static inline int instant(int instruction) {
-	return (instruction) & 0xFFFF;
+    return (instruction) & 0xFFFF;
 }
 
 // Instruction Function
 static inline int funct(int instruction) {
-	return instruction & 0x3F;
+    return instruction & 0x3F;
 }
 
 ///////////////////////////////////////////////////////////////
@@ -161,66 +161,81 @@ void readMachineCode(stateType *, char *);
 ///////////////////////////////////////////////////////////////
 
 void if_stage(stateType *statePtr, stateType *newStatePtr) {
-	newStatePtr->IFID.instr = statePtr->instrMem[statePtr->pc];
-	newStatePtr->IFID.pcPlus1 = statePtr->pc + 1;
+    // Fetch the instruction from instruction memory at the program counter address
+    newStatePtr->IFID.instr = statePtr->instrMem[statePtr->pc];
+
+    // Update the pcPlus1 to the next instruction's address.
+    newStatePtr->IFID.pcPlus1 = statePtr->pc + 1;
+
+    // Update the program counter for the next IF stage.
+    newStatePtr->pc = statePtr->pc + 1;
 }
 
 void id_stage(stateType *statePtr, stateType *newStatePtr) {
-	int instr = statePtr->IFID.instr;
+    int instr = statePtr->IFID.instr;
+    int opcode_val = opcode(instr);
 
-	newStatePtr->IDEX.instr = instr;
-	newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
-	newStatePtr->IDEX.readRegB = statePtr->reg[field1(instr)];
-	newStatePtr->IDEX.offset = instant(instr);
+    // Copy the instruction to the next pipeline stage
+    newStatePtr->IDEX.instr = instr;
+
+    // Based on the instruction type, handle register reads and immediate offset calculations
+    if(opcode_val == ALU) { // R-type
+        newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
+        newStatePtr->IDEX.readRegB = statePtr->reg[field1(instr)];
+        newStatePtr->IDEX.offset = 0; // No offset for R-type
+    } else if(opcode_val == ADDI || opcode_val == ANDI) { // I-type
+        newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
+        newStatePtr->IDEX.readRegB = 0; // No second register for I-type
+        newStatePtr->IDEX.offset = instant(instr); // Immediate value as offset
+    } else { // For NOOP, HALT or other potential instructions
+        newStatePtr->IDEX.readRegA = 0;
+        newStatePtr->IDEX.readRegB = 0;
+        newStatePtr->IDEX.offset = 0;
+    }
 }
 
 void ex_stage(stateType *statePtr, stateType *newStatePtr) {
-	int instr = statePtr->IDEX.instr;
-	int aluResult = 0;
+    int instr = statePtr->IDEX.instr;
+    int opcode_val = opcode(instr);
 
-	if (opcode(instr) == ALU) {
-		switch (funct(instr)) {
-			case ADD:
-				aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.readRegB;
-				break;
-			case SUB:
-				aluResult = statePtr->IDEX.readRegA - statePtr->IDEX.readRegB;
-				break;
-			case AND:
-				aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.readRegB;
-				break;
-			case OR:
-				aluResult = statePtr->IDEX.readRegA | statePtr->IDEX.readRegB;
-				break;
-			case XOR:
-				aluResult = statePtr->IDEX.readRegA ^ statePtr->IDEX.readRegB;
-				break;
-		}
-	} else if(opcode(instr) == ADDI) {
-		aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.offset;
-	} else if(opcode(instr) == ANDI) {
-		aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.offset;
-	}
+    // Copy the instruction to the next pipeline stage
+    newStatePtr->EXMEM.instr = instr;
 
-	newStatePtr->EXMEM.instr = instr;
-	newStatePtr->EXMEM.aluResult = aluResult;
+    // If it's an ALU operation
+    if (opcode_val == ALU) {
+        switch (funct(instr)) {
+            case ADD:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.readRegB;
+                break;
+            case SUB:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA - statePtr->IDEX.readRegB;
+                break;
+            case AND:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.readRegB;
+                break;
+            case OR:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA | statePtr->IDEX.readRegB;
+                break;
+            case XOR:
+                newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA ^ statePtr->IDEX.readRegB;
+                break;
+            default:
+                // Handle undefined function codes, probably set an error state or do nothing
+                break;
+        }
+    } else if (opcode_val == ADDI) {
+        newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.offset;
+    } else if (opcode_val == ANDI) {
+        newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.offset;
+    } else {
+        // For NOOP, HALT or other potential instructions
+        newStatePtr->EXMEM.aluResult = 0;
+    }
 }
 
-void mem_stage(stateType *statePtr, stateType *newStatePtr) {
-	newStatePtr->MEMWB.instr = statePtr->EXMEM.instr;
-	newStatePtr->MEMWB.writeData = statePtr->EXMEM.aluResult;
-}
+void mem_stage(stateType *statePtr, stateType *newStatePtr) {}
 
-void wb_stage(stateType *statePtr, stateType *newStatePtr) {
-	int instr = statePtr->MEMWB.instr;
-
-	if(opcode(instr) == ALU || opcode(instr) == ADDI || opcode(instr) == ANDI) {
-		newStatePtr->reg[field1(instr)] = statePtr->MEMWB.writeData;
-	}
-
-	newStatePtr->WBEND.instr = instr;
-	newStatePtr->WBEND.writeData = statePtr->MEMWB.writeData;
-}
+void wb_stage(stateType *statePtr, stateType *newStatePtr) {}
 
 
 
@@ -228,56 +243,93 @@ void wb_stage(stateType *statePtr, stateType *newStatePtr) {
 * DO NOT MODIFY ANY OF THE CODE BELOW.
 */
 
+// test function
+int main() {
+    stateType state;
+    stateType newState;
+
+    // Initialize the state.
+    memset(&state, 0, sizeof(stateType));
+    memset(&newState, 0, sizeof(stateType));
+
+    // Load the instructions into instruction memory.
+    state.instrMem[0] = 0x080700FF; // Represents the "addi 0 7 255" instruction
+    state.instrMem[1] = 0x00000000; // Represents the "noop" instruction
+    state.instrMem[2] = 0x00000000; // Represents the "noop" instruction
+    state.instrMem[3] = 0x00000000; // Represents the "noop" instruction
+    state.instrMem[4] = 0x0CE3000F; // Represents the "andi 7 3 15" instruction
+
+    int numCycles = 8; // Run for 8 cycles to observe the pipeline progress. Adjust as needed.
+
+    for(int cycle = 1; cycle <= numCycles; cycle++) {
+        printf("Cycle %d:\n", cycle);
+
+        // You can add mem_stage, wb_stage here when they are implemented.
+        ex_stage(&state, &newState);
+        id_stage(&state, &newState);
+        if_stage(&state, &newState);
+
+        printState(&newState);
+
+        // Progress the pipeline.
+        state = newState;
+        memset(&newState, 0, sizeof(stateType));
+
+        printf("\n");
+    }
+
+    return 0;
+}
 
 ///////////////////////////////////////////////////////////////
 // Main Function
 ///////////////////////////////////////////////////////////////
-int main(int argc, char *argv[]) {
+/*int main(int argc, char *argv[]) {
 
-	static stateType state, newState;
+    static stateType state, newState;
 
-	if (argc != 2) {
-		printf("error: usage: %s <machine-code file>\n", argv[0]);
-		exit(1);
-	}
+    if (argc != 2) {
+        printf("error: usage: %s <machine-code file>\n", argv[0]);
+        exit(1);
+    }
 
-	readMachineCode(&state, argv[1]);
+    readMachineCode(&state, argv[1]);
 
-	int xx = 0;
+    int xx = 0;
 
-	printf("SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY\n");
-	printState(&state);
+    printf("SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY\n");
+    printState(&state);
 
-	while (opcode(state.MEMWB.instr) != HALT) {
-		newState = state;
-		newState.cycles++;
+    while (opcode(state.MEMWB.instr) != HALT) {
+        newState = state;
+        newState.cycles++;
 
-		/* ---------------------- IF stage --------------------- */
-		if_stage(&state, &newState);
+        *//* ---------------------- IF stage --------------------- *//*
+        if_stage(&state, &newState);
 
-		/* ---------------------- ID stage --------------------- */
-		id_stage(&state, &newState);
+        *//* ---------------------- ID stage --------------------- *//*
+        id_stage(&state, &newState);
 
-		/* ---------------------- EX stage --------------------- */
-		ex_stage(&state, &newState);
+        *//* ---------------------- EX stage --------------------- *//*
+        ex_stage(&state, &newState);
 
-		/* --------------------- MEM stage --------------------- */
-		mem_stage(&state, &newState);
+        *//* --------------------- MEM stage --------------------- *//*
+        mem_stage(&state, &newState);
 
-		/* ---------------------- WB stage --------------------- */
-		wb_stage(&state, &newState);
+        *//* ---------------------- WB stage --------------------- *//*
+        wb_stage(&state, &newState);
 
-		/* ------------------------ END ------------------------ */
-		state = newState; /* this is the last statement before end of the loop. It marks the end
-        of the cycle and updates the current state with the values calculated in this cycle */
-		printState(&state);
+        *//* ------------------------ END ------------------------ *//*
+        state = newState; *//* this is the last statement before end of the loop. It marks the end
+        of the cycle and updates the current state with the values calculated in this cycle *//*
+        printState(&state);
 
-	}
-	printf("machine halted\n");
-	printf("total of %d cycles executed\n", state.cycles);
-	printf("final state of machine:\n");
-	printState(&state);
-}
+    }
+    printf("machine halted\n");
+    printf("total of %d cycles executed\n", state.cycles);
+    printf("final state of machine:\n");
+    printState(&state);
+}*/
 
 
 ///////////////////////////////////////////////////////////////
@@ -286,90 +338,90 @@ int main(int argc, char *argv[]) {
 //
 
 void printInstruction(int instr) {
-	char instr_opcode_str[10];
-	char instr_funct_str[10];
-	int instr_opcode = opcode(instr);
+    char instr_opcode_str[10];
+    char instr_funct_str[10];
+    int instr_opcode = opcode(instr);
 
-	strcpy(instr_opcode_str, opcode_to_str_map[instr_opcode]);
+    strcpy(instr_opcode_str, opcode_to_str_map[instr_opcode]);
 
-	if (instr_opcode == ALU) {
-		int instr_funct = funct(instr);
-		strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
-	}
+    if (instr_opcode == ALU) {
+        int instr_funct = funct(instr);
+        strcpy(instr_funct_str, funct_to_str_map[instr_funct]);
+    }
 
-	switch (instr_opcode) {
-		case ALU:
-			printf("%s %d %d %d", instr_funct_str, field0(instr), field1(instr), field2(instr));
-			break;
-		case ADDI:
-		case ANDI:
-			printf("%s %d %d %d", instr_opcode_str, field0(instr), field1(instr), instant(instr));
-			break;
-		case NOOP:
-		case HALT:
-			printf("%s", instr_opcode_str);
-			break;
-		default:
-			printf(".fill %d", instr);
-			return;
-	}
+    switch (instr_opcode) {
+        case ALU:
+            printf("%s %d %d %d", instr_funct_str, field0(instr), field1(instr), field2(instr));
+            break;
+        case ADDI:
+        case ANDI:
+            printf("%s %d %d %d", instr_opcode_str, field0(instr), field1(instr), instant(instr));
+            break;
+        case NOOP:
+        case HALT:
+            printf("%s", instr_opcode_str);
+            break;
+        default:
+            printf(".fill %d", instr);
+            return;
+    }
 }
 
 void printState(stateType *statePtr) {
-	printf("STATE AT CYCLE: %d\n", statePtr->cycles);
-	printf("\tpc = %d\n", statePtr->pc);
+    printf("STATE AT CYCLE: %d\n", statePtr->cycles);
+    printf("\tpc = %d\n", statePtr->pc);
 
-	printf("\tregisters:\n");
-	for (int i = 0; i < NUMREGS; ++i) {
-		printf("\t\treg[ %d ] = %d\n", i, statePtr->reg[i]);
-	}
+    printf("\tregisters:\n");
+    for (int i = 0; i < NUMREGS; ++i) {
+        printf("\t\treg[ %d ] = %d\n", i, statePtr->reg[i]);
+    }
 
-	// IF/ID
-	printf("\tIF/ID pipeline register:\n");
-	printf("\t\tinstruction = %x ( ", statePtr->IFID.instr);
-	printInstruction(statePtr->IFID.instr);
-	printf(" )\n");
-	printf("\t\tpcPlus1 = %d", statePtr->IFID.pcPlus1);
-	printf("\n");
+    // IF/ID
+    printf("\tIF/ID pipeline register:\n");
+    printf("\t\tinstruction = %x ( ", statePtr->IFID.instr);
+    printInstruction(statePtr->IFID.instr);
+    printf(" )\n");
+    printf("\t\tpcPlus1 = %d", statePtr->IFID.pcPlus1);
+    printf("\n");
 
-	// ID/EX
-	int idexOp = opcode(statePtr->IDEX.instr);
-	printf("\tID/EX pipeline register:\n");
-	printf("\t\tinstruction = %x ( ", statePtr->IDEX.instr);
-	printInstruction(statePtr->IDEX.instr);
-	printf(" )\n");
-	printf("\t\treadRegA = %d", statePtr->IDEX.readRegA);
-	printf("\n");
-	printf("\t\treadRegB = %d", statePtr->IDEX.readRegB);
-	printf("\n");
+    // ID/EX
+    int idexOp = opcode(statePtr->IDEX.instr);
+    printf("\tID/EX pipeline register:\n");
+    printf("\t\tinstruction = %x ( ", statePtr->IDEX.instr);
+    printInstruction(statePtr->IDEX.instr);
+    printf(" )\n");
+    printf("\t\treadRegA = %d", statePtr->IDEX.readRegA);
+    printf("\n");
+    printf("\t\treadRegB = %d", statePtr->IDEX.readRegB);
+    printf("\n");
 
-	// EX/MEM
-	int exmemOp = opcode(statePtr->EXMEM.instr);
-	printf("\tEX/MEM pipeline register:\n");
-	printf("\t\tinstruction = %x ( ", statePtr->EXMEM.instr);
-	printInstruction(statePtr->EXMEM.instr);
-	printf(" )\n");
-	printf("\t\taluResult = %d", statePtr->EXMEM.aluResult);
-	printf("\n");
+    // EX/MEM
+    int exmemOp = opcode(statePtr->EXMEM.instr);
+    printf("\tEX/MEM pipeline register:\n");
+    printf("\t\tinstruction = %x ( ", statePtr->EXMEM.instr);
+    printInstruction(statePtr->EXMEM.instr);
+    printf(" )\n");
+    printf("\t\taluResult = %d", statePtr->EXMEM.aluResult);
+    printf("\n");
 
-	// MEM/WB
-	int memwbOp = opcode(statePtr->MEMWB.instr);
-	printf("\tMEM/WB pipeline register:\n");
-	printf("\t\tinstruction = %x ( ", statePtr->MEMWB.instr);
-	printInstruction(statePtr->MEMWB.instr);
-	printf(" )\n");
-	printf("\t\twriteData = %d", statePtr->MEMWB.writeData);
-	printf("\n");
+    // MEM/WB
+    int memwbOp = opcode(statePtr->MEMWB.instr);
+    printf("\tMEM/WB pipeline register:\n");
+    printf("\t\tinstruction = %x ( ", statePtr->MEMWB.instr);
+    printInstruction(statePtr->MEMWB.instr);
+    printf(" )\n");
+    printf("\t\twriteData = %d", statePtr->MEMWB.writeData);
+    printf("\n");
 
-	// WB/END
-	int wbendOp = opcode(statePtr->WBEND.instr);
-	printf("\tWB/END pipeline register:\n");
-	printf("\t\tinstruction = %x ( ", statePtr->WBEND.instr);
-	printInstruction(statePtr->WBEND.instr);
-	printf(" )\n");
-	printf("\t\twriteData = %d", statePtr->WBEND.writeData);
-	printf("\n");
-	printf("end state\n");
+    // WB/END
+    int wbendOp = opcode(statePtr->WBEND.instr);
+    printf("\tWB/END pipeline register:\n");
+    printf("\t\tinstruction = %x ( ", statePtr->WBEND.instr);
+    printInstruction(statePtr->WBEND.instr);
+    printf(" )\n");
+    printf("\t\twriteData = %d", statePtr->WBEND.writeData);
+    printf("\n");
+    printf("end state\n");
 
 }
 
@@ -378,24 +430,24 @@ void printState(stateType *statePtr) {
 #define MAXLINELENGTH 100 // MAXLINELENGTH is the max number of characters we read
 
 void readMachineCode(stateType *state, char *filename) {
-	char line[MAXLINELENGTH];
-	int instruction;
-	int inst_count = 0;
+    char line[MAXLINELENGTH];
+    int instruction;
+    int inst_count = 0;
 
-	FILE *filePtr = fopen(filename, "r");
-	if (filePtr == NULL) {
-		printf("error: can't open file %s", filename);
-		exit(1);
-	}
+    FILE *filePtr = fopen(filename, "r");
+    if (filePtr == NULL) {
+        printf("error: can't open file %s", filename);
+        exit(1);
+    }
 
-	printf("loading instruction memory with program:\n");
+    printf("loading instruction memory with program:\n");
 
-	while (fgets(line, MAXLINELENGTH, filePtr)) {
-		printf("%s", line);
-		char *token = strtok(line, "#");
-		instruction = (int) strtol(token, NULL, 16);
-		//instruction = (int)strtol(line, NULL, 16);
-		state->instrMem[inst_count] = instruction;
-		inst_count++;
-	}
+    while (fgets(line, MAXLINELENGTH, filePtr)) {
+        printf("%s", line);
+        char *token = strtok(line, "#");
+        instruction = (int) strtol(token, NULL, 16);
+        //instruction = (int)strtol(line, NULL, 16);
+        state->instrMem[inst_count] = instruction;
+        inst_count++;
+    }
 }
