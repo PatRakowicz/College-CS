@@ -233,9 +233,32 @@ void ex_stage(stateType *statePtr, stateType *newStatePtr) {
     }
 }
 
-void mem_stage(stateType *statePtr, stateType *newStatePtr) {}
+void mem_stage(stateType *statePtr, stateType *newStatePtr) {
+	int instr = statePtr->EXMEM.instr;
+	newStatePtr->MEMWB.instr = instr;
 
-void wb_stage(stateType *statePtr, stateType *newStatePtr) {}
+	// Assuming no memory operation in this case as per your provided details.
+	// Directly passing aluResult to writeData
+	newStatePtr->MEMWB.writeData = statePtr->EXMEM.aluResult;
+}
+
+void wb_stage(stateType *statePtr, stateType *newStatePtr) {
+	int instr = statePtr->MEMWB.instr;
+	newStatePtr->WBEND.instr = instr;
+
+	int opcode_val = opcode(instr);
+
+	if (opcode_val != NOOP) {
+		int writeReg = field1(instr); // For I-type instructions
+		if (opcode_val == ALU) {
+			writeReg = field2(instr); // For R-type instructions
+		}
+
+		newStatePtr->reg[writeReg] = statePtr->MEMWB.writeData;
+	}
+
+	newStatePtr->WBEND.writeData = statePtr->MEMWB.writeData;
+}
 
 
 
@@ -244,92 +267,95 @@ void wb_stage(stateType *statePtr, stateType *newStatePtr) {}
 */
 
 // test function
-int main() {
-    stateType state;
-    stateType newState;
+/*int main() {
+	stateType state;
+	stateType newState;
 
-    // Initialize the state.
-    memset(&state, 0, sizeof(stateType));
-    memset(&newState, 0, sizeof(stateType));
+	// Initialize the state.
+	memset(&state, 0, sizeof(stateType));
+	memset(&newState, 0, sizeof(stateType));
 
-    // Load the instructions into instruction memory.
-    state.instrMem[0] = 0x080700FF; // Represents the "addi 0 7 255" instruction
-    state.instrMem[1] = 0x00000000; // Represents the "noop" instruction
-    state.instrMem[2] = 0x00000000; // Represents the "noop" instruction
-    state.instrMem[3] = 0x00000000; // Represents the "noop" instruction
-    state.instrMem[4] = 0x0CE3000F; // Represents the "andi 7 3 15" instruction
+	// Load the instructions into instruction memory.
+	state.instrMem[0] = 0x080700FF; // addi 0 7 255
+	state.instrMem[1] = 0x00000000; // noop
+	state.instrMem[2] = 0x00000000; // noop
+	state.instrMem[3] = 0x00000000; // noop
+	state.instrMem[4] = 0x0CE3000F; // andi 7 3 15
 
-    int numCycles = 8; // Run for 8 cycles to observe the pipeline progress. Adjust as needed.
+	int numCycles = 9; // Run for 9 cycles to see all instructions pass through all stages of the pipeline.
 
-    for(int cycle = 1; cycle <= numCycles; cycle++) {
-        printf("Cycle %d:\n", cycle);
+	for(int cycle = 0; cycle < numCycles; cycle++) {
+		printf("Cycle %d:\n", cycle + 1);
 
-        // You can add mem_stage, wb_stage here when they are implemented.
-        ex_stage(&state, &newState);
-        id_stage(&state, &newState);
-        if_stage(&state, &newState);
+		// Execute all the stages of the pipeline.
+		wb_stage(&state, &newState);
+		mem_stage(&state, &newState);
+		ex_stage(&state, &newState);
+		id_stage(&state, &newState);
+		if_stage(&state, &newState);
 
-        printState(&newState);
+		// Print the new state after executing all stages.
+		printState(&newState);
 
-        // Progress the pipeline.
-        state = newState;
-        memset(&newState, 0, sizeof(stateType));
+		// Update the state for the next cycle.
+		state = newState;
+		memset(&newState, 0, sizeof(stateType));
 
-        printf("\n");
-    }
+		printf("\n");
+	}
 
-    return 0;
-}
+	return 0;
+}*/
 
 ///////////////////////////////////////////////////////////////
 // Main Function
 ///////////////////////////////////////////////////////////////
-/*int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 
-    static stateType state, newState;
+	static stateType state, newState;
 
-    if (argc != 2) {
-        printf("error: usage: %s <machine-code file>\n", argv[0]);
-        exit(1);
-    }
+	if (argc != 2) {
+		printf("error: usage: %s <machine-code file>\n", argv[0]);
+		exit(1);
+	}
 
-    readMachineCode(&state, argv[1]);
+	readMachineCode(&state, argv[1]);
 
-    int xx = 0;
+	int xx = 0;
 
-    printf("SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY\n");
-    printState(&state);
+	printf("SYSTEM STARTING STATE --- LOAD INSTRUCTIONS INTO MEMORY\n");
+	printState(&state);
 
-    while (opcode(state.MEMWB.instr) != HALT) {
-        newState = state;
-        newState.cycles++;
+	while (opcode(state.MEMWB.instr) != HALT) {
+		newState = state;
+		newState.cycles++;
 
-        *//* ---------------------- IF stage --------------------- *//*
-        if_stage(&state, &newState);
+		/* ---------------------- IF stage --------------------- */
+		if_stage(&state, &newState);
 
-        *//* ---------------------- ID stage --------------------- *//*
-        id_stage(&state, &newState);
+		/* ---------------------- ID stage --------------------- */
+		id_stage(&state, &newState);
 
-        *//* ---------------------- EX stage --------------------- *//*
-        ex_stage(&state, &newState);
+		/* ---------------------- EX stage --------------------- */
+		ex_stage(&state, &newState);
 
-        *//* --------------------- MEM stage --------------------- *//*
-        mem_stage(&state, &newState);
+		/* --------------------- MEM stage --------------------- */
+		mem_stage(&state, &newState);
 
-        *//* ---------------------- WB stage --------------------- *//*
-        wb_stage(&state, &newState);
+		/* ---------------------- WB stage --------------------- */
+		wb_stage(&state, &newState);
 
-        *//* ------------------------ END ------------------------ *//*
-        state = newState; *//* this is the last statement before end of the loop. It marks the end
-        of the cycle and updates the current state with the values calculated in this cycle *//*
-        printState(&state);
+		/* ------------------------ END ------------------------ */
+		state = newState; /* this is the last statement before end of the loop. It marks the end
+        of the cycle and updates the current state with the values calculated in this cycle */
+		printState(&state);
 
-    }
-    printf("machine halted\n");
-    printf("total of %d cycles executed\n", state.cycles);
-    printf("final state of machine:\n");
-    printState(&state);
-}*/
+	}
+	printf("machine halted\n");
+	printf("total of %d cycles executed\n", state.cycles);
+	printf("final state of machine:\n");
+	printState(&state);
+}
 
 
 ///////////////////////////////////////////////////////////////
