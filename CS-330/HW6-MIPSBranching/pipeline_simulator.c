@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 // Machine Definitions
 #define NUMMEMORY 65536 // maximum number of data words in memory
@@ -169,31 +170,99 @@ void printInstruction(int);
 
 void readMachineCode(stateType *, char *);
 
+int sign_extend(int immediate) { return (int) (short) immediate; }
+
+int get_offset(int instr) { return instr & 0xFFFF; }
 
 ///////////////////////////////////////////////////////////////
 // STUDENT CODE: students will write these funtions
 ///////////////////////////////////////////////////////////////
 
-void if_stage(stateType *statePtr, stateType *newStatePtr) {
-}
 
+void if_stage(stateType *statePtr, stateType *newStatePtr) {
+	newStatePtr->IFID.instr = statePtr->instrMem[statePtr->pc];
+	newStatePtr->IFID.pcPlus1 = statePtr->pc + 1;
+	newStatePtr->pc = statePtr->EXMEM.takeBranch ? statePtr->EXMEM.branchTarget : (statePtr->pc + 1);
+}
 
 void id_stage(stateType *statePtr, stateType *newStatePtr) {
+	int instr = statePtr->IFID.instr;
+	int opcode_val = opcode(instr);
 
+	newStatePtr->IDEX.instr = instr;
+	newStatePtr->IDEX.readRegA = statePtr->reg[field0(instr)];
+	newStatePtr->IDEX.readRegB = statePtr->reg[field1(instr)];
+	newStatePtr->IDEX.offset = instant(instr);
+
+	if(opcode_val == BEQ) {
+		newStatePtr->IDEX.offset = (int16_t)newStatePtr->IDEX.offset;
+	}
 }
-
 
 void ex_stage(stateType *statePtr, stateType *newStatePtr) {
-}
+	int instr = statePtr->IDEX.instr;
+	int opcode_val = opcode(instr);
+	newStatePtr->EXMEM.instr = instr;
+	newStatePtr->EXMEM.takeBranch = 0;
 
+	if (opcode_val == ALU) {
+		switch (funct(instr)) {
+			case ADD:
+				newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.readRegB;
+				break;
+			case SUB:
+				newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA - statePtr->IDEX.readRegB;
+				break;
+			case AND:
+				newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.readRegB;
+				break;
+			case OR:
+				newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA | statePtr->IDEX.readRegB;
+				break;
+			case XOR:
+				newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA ^ statePtr->IDEX.readRegB;
+				break;
+			default:
+				// if needed for error, left blank
+				break;
+		}
+	} else if (opcode_val == ADDI) {
+		newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA + statePtr->IDEX.offset;
+	} else if (opcode_val == ANDI) {
+		newStatePtr->EXMEM.aluResult = statePtr->IDEX.readRegA & statePtr->IDEX.offset;
+	} else if (opcode_val == BEQ) {
+		newStatePtr->EXMEM.takeBranch = (statePtr->IDEX.readRegA == statePtr->IDEX.readRegB);
+		newStatePtr->EXMEM.branchTarget = statePtr->IFID.pcPlus1 + (int16_t)statePtr->IDEX.offset;
+	} else if (opcode_val == JUMP) {
+		newStatePtr->EXMEM.takeBranch = 1;
+		newStatePtr->EXMEM.branchTarget = statePtr->IFID.pcPlus1 + (int16_t)statePtr->IDEX.offset;
+	} else {
+		newStatePtr->EXMEM.aluResult = 0;
+	}
+}
 
 void mem_stage(stateType *statePtr, stateType *newStatePtr) {
-}
+	int instr = statePtr->EXMEM.instr;
 
+	newStatePtr->MEMWB.instr = instr;
+	newStatePtr->MEMWB.writeData = statePtr->EXMEM.aluResult;
+}
 
 void wb_stage(stateType *statePtr, stateType *newStatePtr) {
-}
+	int instr = statePtr->MEMWB.instr;
+	int opcode_val = opcode(instr);
 
+	newStatePtr->WBEND.instr = instr;
+	newStatePtr->WBEND.writeData = statePtr->MEMWB.writeData;
+
+	if (opcode_val != BEQ && opcode_val != JUMP && opcode_val != NOOP) {
+		int writeReg = field1(instr);
+		if (opcode_val == ALU) {
+			writeReg = field2(instr);
+		}
+		newStatePtr->reg[writeReg] = statePtr->MEMWB.writeData;
+	}
+}
 
 ///////////////////////////////////////////////////////////////
 // Main Function
