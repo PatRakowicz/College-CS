@@ -170,10 +170,6 @@ void printInstruction(int);
 
 void readMachineCode(stateType *, char *);
 
-int sign_extend(int immediate) { return (int) (short) immediate; }
-
-int get_offset(int instr) { return instr & 0xFFFF; }
-
 ///////////////////////////////////////////////////////////////
 // STUDENT CODE: students will write these funtions
 ///////////////////////////////////////////////////////////////
