@@ -22,17 +22,15 @@ int num_ways = 0; //ACTUAL number of ways in our cache
 
 
 // Initialize the cache
-void initCache(void)
-{
-  //STUDENT CODE HERE
+void initCache(void) {
+    //STUDENT CODE HERE
 }
 
 
 //Access cache based on random address
 //Return true for cache hit, false for cache miss
-bool accessCache (int addr)
-{
-  //STUDENT CODE HERE
+bool accessCache(int addr) {
+    //STUDENT CODE HERE
 }
 
 
@@ -42,8 +40,7 @@ bool accessCache (int addr)
 
 
 // Load our memory access into an array
-int loadMemoryTrace(int *mem, char* filename) 
-{
+int loadMemoryTrace(int *mem, char *filename) {
     char line[MAXLINELENGTH];
     int mem_access;
     int mem_count = 0;
@@ -54,10 +51,10 @@ int loadMemoryTrace(int *mem, char* filename)
         exit(1);
     }
 
-    while(fgets(line, MAXLINELENGTH, filePtr)) {
+    while (fgets(line, MAXLINELENGTH, filePtr)) {
         printf("%s", line);
-        char* token = strtok(line, "#");
-        mem_access = (int)strtol(token, NULL, 16);
+        char *token = strtok(line, "#");
+        mem_access = (int) strtol(token, NULL, 16);
         mem[mem_count] = mem_access;
         mem_count++;
     }
@@ -67,24 +64,22 @@ int loadMemoryTrace(int *mem, char* filename)
 
 
 // Print cache contents
-void printCache(void)
-{
-  int i,j;
-  printf("********** CACHE TAG CONTENTS **********\n");
+void printCache(void) {
+    int i, j;
+    printf("********** CACHE TAG CONTENTS **********\n");
 
-  for(j=0;j<blocks_per_way;j++){ 
-    for(i=0;i<num_ways;i++){
-      printf("%08x     ",tags[i][j]);
+    for (j = 0; j < blocks_per_way; j++) {
+        for (i = 0; i < num_ways; i++) {
+            printf("%08x     ", tags[i][j]);
+        }
+        printf("\n");
     }
-    printf("\n");
-  }
-  printf("****************************************\n");
+    printf("****************************************\n");
 }
 
 
 // Main
-int main(int argc, char** argv) 
-{
+int main(int argc, char **argv) {
     int memory_access_trace[TRACELEN];
     int mem_trace_size = 0;
     int addr = 0;
@@ -95,46 +90,43 @@ int main(int argc, char** argv)
     float accuracy = 0.0;
     int total_latency = 0;
 
-    if(argc != 4){
-      printf("Usage: ./a.out [tracename] [index_bit_size (0 -10)] [num_ways] \n"); 
-      exit(0);
+    if (argc != 4) {
+        printf("Usage: ./a.out [tracename] [index_bit_size (0 -10)] [num_ways] \n");
+        exit(0);
     }
 
     mem_trace_size = loadMemoryTrace(memory_access_trace, argv[1]);
- 
+
     index_bits = atoi(argv[2]);
-    blocks_per_way = pow(2,index_bits);
+    blocks_per_way = pow(2, index_bits);
     num_ways = atoi(argv[3]);
 
-    printf("**** Index Bits: %d **** \n",index_bits);
-    printf("**** Blocks Per Way: %d **** \n",blocks_per_way);
-    printf("**** Memory Trace Size: %d **** \n",mem_trace_size);
+    printf("**** Index Bits: %d **** \n", index_bits);
+    printf("**** Blocks Per Way: %d **** \n", blocks_per_way);
+    printf("**** Memory Trace Size: %d **** \n", mem_trace_size);
 
     initCache();
 
-    for(i=0;i<mem_trace_size;i++)
-    {
-      addr = memory_access_trace[i];
-      hit = accessCache(addr);
+    for (i = 0; i < mem_trace_size; i++) {
+        addr = memory_access_trace[i];
+        hit = accessCache(addr);
 
-      if(hit){
-        hit_count++;
-        printf("**** Addr: %08x hit in cache ****\n", addr);
-      }
-      else{
-        printf("**** Addr: %08x missed in cache ****\n",addr);      
-      }
+        if (hit) {
+            hit_count++;
+            printf("**** Addr: %08x hit in cache ****\n", addr);
+        } else {
+            printf("**** Addr: %08x missed in cache ****\n", addr);
+        }
 
-      access_count++;
-      printCache();
+        access_count++;
+        printCache();
     }
-    accuracy = (float)hit_count*100.0/(float)access_count;
-    total_latency = hit_count*LATENCY_PER_HIT + (access_count - hit_count)*LATENCY_PER_MISS;
+    accuracy = (float) hit_count * 100.0 / (float) access_count;
+    total_latency = hit_count * LATENCY_PER_HIT + (access_count - hit_count) * LATENCY_PER_MISS;
 
     printf("**** Cache Accuracy Stats ****\n");
-    printf("**** Accuracy:%.2f, Hits:%d, Accesses:%d ****\n",accuracy, hit_count, access_count);
-    printf("**** Memory Cycle Latency: %d\n",total_latency);
-    
+    printf("**** Accuracy:%.2f, Hits:%d, Accesses:%d ****\n", accuracy, hit_count, access_count);
+    printf("**** Memory Cycle Latency: %d\n", total_latency);
+
     return 0;
 }
-
