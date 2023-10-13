@@ -23,14 +23,41 @@ int num_ways = 0; //ACTUAL number of ways in our cache
 
 // Initialize the cache
 void initCache(void) {
-    //STUDENT CODE HERE
+    for (int i = 0; i < num_ways; i++) {
+        for (int j = 0; j < blocks_per_way; j++) {
+            valid[i][j] = false;
+            tags[i][j] = -1;
+            lru[i][j] = 0;
+        }
+    }
 }
 
 
 //Access cache based on random address
 //Return true for cache hit, false for cache miss
 bool accessCache(int addr) {
-    //STUDENT CODE HERE
+    int index = addr & ((1 << index_bits) -1);
+    int tag = addr >> index_bits;
+    int leastRecentlyUsedWay = 0;
+    int minLRU = lru[0][index];
+
+    for (int i = 0; i < num_ways; i++) {
+        if (valid[i][index] && tags[i][index] == tag) {
+            // Update the LRU value for this way.
+            lru[i][index] = ++minLRU;
+            return true;
+        }
+        if (lru[i][index] < minLRU) {
+            leastRecentlyUsedWay = i;
+            minLRU = lru[i][index];
+        }
+    }
+
+    // We had a miss. Let's replace the least recently used block.
+    valid[leastRecentlyUsedWay][index] = true;
+    tags[leastRecentlyUsedWay][index] = tag;
+    lru[leastRecentlyUsedWay][index] = ++minLRU;
+    return false;
 }
 
 
