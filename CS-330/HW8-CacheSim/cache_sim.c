@@ -26,7 +26,7 @@ void initCache(void) {
     for (int i = 0; i < num_ways; i++) {
         for (int j = 0; j < blocks_per_way; j++) {
             valid[i][j] = false;
-            tags[i][j] = -1;
+            tags[i][j] = 0;
             lru[i][j] = 0;
         }
     }
