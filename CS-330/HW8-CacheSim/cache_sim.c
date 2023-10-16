@@ -26,7 +26,7 @@ void initCache(void) {
     for (int i = 0; i < num_ways; i++) {
         for (int j = 0; j < blocks_per_way; j++) {
             valid[i][j] = false;
-            tags[i][j] = -1;
+            tags[i][j] = 0;
             lru[i][j] = 0;
         }
     }
@@ -43,7 +43,6 @@ bool accessCache(int addr) {
 
     for (int i = 0; i < num_ways; i++) {
         if (valid[i][index] && tags[i][index] == tag) {
-            // Update the LRU value for this way.
             lru[i][index] = ++minLRU;
             return true;
         }
@@ -53,7 +52,6 @@ bool accessCache(int addr) {
         }
     }
 
-    // We had a miss. Let's replace the least recently used block.
     valid[leastRecentlyUsedWay][index] = true;
     tags[leastRecentlyUsedWay][index] = tag;
     lru[leastRecentlyUsedWay][index] = ++minLRU;
