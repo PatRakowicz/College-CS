@@ -1,5 +1,5 @@
-hello_world: hello_world.o
-	ld -m elf_i386 -o hello_world hello_world.o 
+HW10: HW10.o
+	ld -m elf_i386 -o HW10 HW10.o 
 
-hello_world.o: hello_world.asm
-	nasm -f elf -g -F stabs hello_world.asm
+HW10.o: HW10.asm
+	nasm -f elf -g -F stabs HW10.asm
