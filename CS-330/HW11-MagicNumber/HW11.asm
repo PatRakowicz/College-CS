@@ -1,22 +1,25 @@
 section .bss
-input resb 2          ; Reserve two bytes for the input (one for the character, one for the newline)
+	input resb 2          
+	; Reserve two bytes for the input (one for the character, one for the newline)
 
 section .data
-prompt db "ENTER A NUMBER: ", 0
-too_low db "TOO LOW!", 0xA 	; 0xA is newline
-too_high db "TOO HIGH!", 0xA
-correct db "GOT IT!", 0xA
-game_over db "GAME OVER!", 0xA
-magic_number db 7    ; The magic number is 7
-max_tries db 3       ; Limit of attempts
+	prompt db "ENTER A NUMBER: ", 0
+	too_low db "TOO LOW!", 0xA 	; 0xA is newline
+	too_high db "TOO HIGH!", 0xA
+	correct db "GOT IT!", 0xA
+	game_over db "GAME OVER!", 0xA
+	magic_number db 7    ; The magic number is 7
+	max_tries db 3       ; Limit of attempts
 
 section .text
 global _start
 
 _start:
-    mov ecx, max_tries  ; Set the number of tries
+    mov ecx, [max_tries]  ; Load the number of tries from memory
 
 get_input:
+    push ecx              ; Save the current value of ecx
+
     ; Print the prompt
     mov eax, 4          ; sys_write
     mov ebx, 1          ; file descriptor (stdout)
@@ -35,20 +38,13 @@ get_input:
     sub byte [input], '0'
 
     ; Compare input with the magic number
-    mov al, [input]         ; Move the input into al
-    movzx ebx, byte [magic_number] ; Move magic_number into ebx with zero-extension
-    cmp al, bl              ; Compare the two values
+    mov al, [input]         		; Move the input into al
+    movzx ebx, byte [magic_number] 	; Move magic_number into ebx with zero-extension
+    cmp al, bl              		; Compare the two values
     je correct_guess
     jl lower_guess
     ; If not lower, it's higher
-higher_guess:
-    ; Print "TOO HIGH!"
-    mov eax, 4
-    mov ebx, 1
-    mov ecx, too_high
-    mov edx, 9
-    int 0x80
-    jmp decrement_tries
+    jmp higher_guess        ; Explicitly jump to higher_guess
 
 lower_guess:
     ; Print "TOO LOW!"
@@ -57,23 +53,21 @@ lower_guess:
     mov ecx, too_low
     mov edx, 9
     int 0x80
+    jmp decrement_tries
 
-decrement_tries:
-    dec ecx                ; Decrement the counter
-    jz game_over_label     ; If zero, jump to game over
-
-    ; Otherwise, prompt for input again
-    jmp get_input          ; Jump back to get input
-
-game_over_label:
-    ; Print "GAME OVER!" and exit
+higher_guess:
+    ; Print "TOO HIGH!"
     mov eax, 4
     mov ebx, 1
-    mov ecx, game_over
-    mov edx, 10           ; length of "GAME OVER!" + newline
+    mov ecx, too_high
+    mov edx, 9
     int 0x80
 
-    jmp exit
+decrement_tries:
+    pop ecx                 ; Restore the value of ecx
+    dec ecx                 ; Decrement the counter
+    jz game_over_label      ; If zero, jump to game over
+    jmp get_input           ; Otherwise, prompt for input again
 
 correct_guess:
     ; Print "GOT IT!"
@@ -82,6 +76,16 @@ correct_guess:
     mov ecx, correct
     mov edx, 7
     int 0x80
+    jmp exit
+
+game_over_label:
+    ; Print "GAME OVER!" and exit
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, game_over
+    mov edx, 10           ; length of "GAME OVER!" + newline
+    int 0x80
+    jmp exit
 
 exit:
     ; Exit the program
