@@ -3,7 +3,7 @@ section .bss
     stack resb 81          ; Stack for keeping track of brackets
 
 section .data
-    errorMsg db 'ERROR: Unbalanced brackets', 0xA  ; Error message
+    errorMsg db 'ERROR: Unbalanced brackets', 0xA   ; Error message
     errorMsgLen equ $ - errorMsg                    ; Error message length
 
 section .text
