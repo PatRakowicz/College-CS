@@ -41,7 +41,7 @@ void RR_Scheduler::run() {
 			int runTime = min(timeSlice, currentProcess->cycles);
 			currentProcess->cycles -= runTime;
 			timeSlice -= runTime;
-			t += runTime;  // Move this line here to correctly update the time
+			t += runTime;
 
 			// Completion
 			if (currentProcess->cycles == 0) {
@@ -56,7 +56,10 @@ void RR_Scheduler::run() {
 				currentProcess = nullptr;
 			}
 		} else {
-			t++;  // Increment time if no process is ready
+			t++;
 		}
+		// Average wait time seems to not be working, not sure why
 	}
 }
+
+
