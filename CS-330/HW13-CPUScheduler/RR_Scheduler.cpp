@@ -5,7 +5,7 @@ RR_Scheduler::RR_Scheduler(int sim_time, int quantum) : Scheduler(sim_time) {
 }
 
 void RR_Scheduler::run() {
-	list < Process * > readyQueue;
+	list<Process *> readyQueue;
 	Process *currentProcess = nullptr;
 	int timeSlice = 0;
 
@@ -41,15 +41,20 @@ void RR_Scheduler::run() {
 		// Execution
 		if (currentProcess != nullptr) {
 			int runTime = min(timeSlice, currentProcess->cycles);
-			t += runTime;
 			currentProcess->cycles -= runTime;
 			timeSlice -= runTime;
+			t += runTime;  // Move this line here to correctly update the time
 
 			// Completion
 			if (currentProcess->cycles == 0) {
 				currentProcess->status = TERMINATED;
 				done.push_back(currentProcess);
-				cout << "Time " << t << ": Process " << currentProcess->pid << " terminates" << endl;
+				cout << t << ": PID " << currentProcess->pid << " terminated" << endl;
+				currentProcess = nullptr;
+			} else if (timeSlice == 0) {
+				// Process is suspended
+				cout << t << ": suspending PID " << currentProcess->pid << ", CPU = " << currentProcess->cycles << endl;
+				readyQueue.push_back(currentProcess);
 				currentProcess = nullptr;
 			}
 		} else {
