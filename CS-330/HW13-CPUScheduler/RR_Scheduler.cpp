@@ -17,8 +17,7 @@ void RR_Scheduler::run() {
 				proc->status = READY;
 				proc->wait_t = t - proc->arrival_t;
 				readyQueue.push_back(proc);
-				cout << "Time " << t << ": Process " << proc->pid << " is ready (CPU cycles left: " << proc->cycles
-					 << ")" << endl;
+//				cout << "Time " << t << ": Process " << proc->pid << " is ready (CPU cycles left: " << proc->cycles << ")" << endl;
 			}
 		}
 
@@ -34,8 +33,7 @@ void RR_Scheduler::run() {
 			readyQueue.pop_front();
 			timeSlice = quantum;
 			currentProcess->status = RUNNING;
-			cout << "Time " << t << ": Process " << currentProcess->pid << " starts running (CPU cycles left: "
-				 << currentProcess->cycles << ")" << endl;
+			cout << t << ": scheduling PID " << currentProcess->pid << ", CPU = " << currentProcess->cycles << endl;
 		}
 
 		// Execution
