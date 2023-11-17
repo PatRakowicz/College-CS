@@ -1,21 +1,22 @@
 #include "hw13.h"
 
-SJF_Scheduler::SJF_Scheduler(int sim_time) : Scheduler(sim_time){}
+SJF_Scheduler::SJF_Scheduler(int sim_time) : Scheduler(sim_time) {}
 
-void SJF_Scheduler::run(){
-	list<Process *> ready;
+void SJF_Scheduler::run() {
+	list < Process * > ready;
 	Process *currentProcess = nullptr;
 	int minCycles;
 
-	while(t < sim_time){
+	while (t < sim_time) {
 		// Check for arriving processes
-		for(auto &proc_pair : processes){
+		for (auto &proc_pair: processes) {
 			Process *proc = proc_pair.second;
-			if(proc->arrival_t <= t && proc->status == INACTIVE){
+			if (proc->arrival_t <= t && proc->status == INACTIVE) {
 				proc->status = READY;
 				proc->wait_t = t - proc->arrival_t;
 				ready.push_back(proc);
-				cout << "Time " << t << ": Process " << proc->pid << " is ready" << endl;
+				cout << "Time " << t << ": Process " << proc->pid << " is ready (CPU cycles left: " << proc->cycles
+					 << ")" << endl;
 			}
 		}
 
@@ -34,7 +35,8 @@ void SJF_Scheduler::run(){
 
 			// Execute the shortest job
 			currentProcess->status = RUNNING;
-			cout << "Time " << t << ": Process " << currentProcess->pid << " starts running" << endl;
+			cout << "Time " << t << ": Process " << currentProcess->pid << " starts running (CPU cycles left: "
+				 << currentProcess->cycles << ")" << endl;
 			t += currentProcess->cycles; // Simulate process running to completion
 			currentProcess->cycles = 0;
 			currentProcess->status = TERMINATED;
@@ -42,8 +44,8 @@ void SJF_Scheduler::run(){
 			cout << "Time " << t << ": Process " << currentProcess->pid << " terminates" << endl;
 
 			// Update wait times for other processes
-			for (auto &proc : ready) {
-				proc->wait_t += currentProcess->cycles;
+			for (auto &proc: ready) {
+				proc->wait_t += minCycles;
 			}
 		} else {
 			t++;  // Increment time if no process is ready
