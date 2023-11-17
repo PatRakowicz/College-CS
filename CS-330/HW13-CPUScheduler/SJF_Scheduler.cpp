@@ -37,10 +37,10 @@ void SJF_Scheduler::run() {
 			currentProcess->status = RUNNING;
 			cout << "Time " << t << ": Process " << currentProcess->pid << " starts running (CPU cycles left: "
 				 << currentProcess->cycles << ")" << endl;
-			t += currentProcess->cycles; // Simulate process running to completion
+			t += currentProcess->cycles;
 			currentProcess->cycles = 0;
 			currentProcess->status = TERMINATED;
-			done.push_back(currentProcess); // Add to done list
+			done.push_back(currentProcess);
 			cout << "Time " << t << ": Process " << currentProcess->pid << " terminates" << endl;
 
 			// Update wait times for other processes
