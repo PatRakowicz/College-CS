@@ -3,6 +3,7 @@
 VirtualMemory vm;
 
 int main(){
+/*
 
   // example #1
     vm[0] = 0xAA;
@@ -13,6 +14,7 @@ int main(){
     vm[65535] = 0xFF;
     cout << vm.getFaultRate() << "%" << endl;
     printf("vm[0] = 0x%x\n", vm[0]);
+*/
 
 
   char *msg = strdup("Hello from Virtual Memory!!!");
