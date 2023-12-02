@@ -1,12 +1,13 @@
 #include "hw14.h"
 
 byte& VirtualMemory::operator[](const int addr) {
+    cerr << "requesting virtual address: " << addr << endl;
     // Track memory references
     refs++;
 
     // Check for valid 16-bit address
     if (addr < 0 || addr >= 65536) {
-        cerr << "Invalid virtual address requested: " << addr << std::endl;
+        cerr << "Invalid virtual address requested: " << addr << endl;
         return main_memory[0]; // Returning a default reference to handle invalid address
     }
 
@@ -15,14 +16,19 @@ byte& VirtualMemory::operator[](const int addr) {
     int pageOffset = addr % 32;
 
     // Logging the virtual address, page number, and page offset
-    cerr << "Virtual address requested: " << addr << ", Page number: " << pageNumber << ", Page offset: " << pageOffset << std::endl;
+    cerr << "Virtual address requested: " << addr << endl;
+    cerr << "Page number: " << pageNumber << ", Page offset: " << pageOffset << endl;
 
     // Check if page is in main memory
     int frameNumber = -1;
     for (int i = 0; i < TABLE_SIZE; i++) {
         if (page_table[i] == pageNumber) {
             frameNumber = i;
-            cerr << "Page found in page table at index: " << i << ", Physical address: " << (frameNumber * 32 + pageOffset) << std::endl;
+
+            cerr << "PAGE FOUND!" << endl;
+            cerr << "page table entry: " << i << endl;
+            cerr << "physical address: " << (frameNumber * 32 + pageOffset) << endl;
+//            cerr << "PAGE FOUND: " << i << ", Physical address: " << (frameNumber * 32 + pageOffset) << endl;
             break;
         }
     }
@@ -31,11 +37,14 @@ byte& VirtualMemory::operator[](const int addr) {
         // Track page faults
         faults++;
 
-        cerr << "Page fault occurred for page number: " << pageNumber << std::endl;
+        cerr << "PAGE FAULT!" << endl;
 
         // Find the next frame to replace (FCFS)
         int replaceFrame = next;
         next = (next + 1) % TABLE_SIZE;
+
+        cerr << "empty slot in page table: " << replaceFrame << endl;
+
 
         // If the frame to be replaced contains a page, write it back to disk
         if (page_table[replaceFrame] != -1) {
@@ -46,10 +55,14 @@ byte& VirtualMemory::operator[](const int addr) {
         disk.read_page(pageNumber, &main_memory[replaceFrame * 32]);
         page_table[replaceFrame] = pageNumber;
         frameNumber = replaceFrame;
+
+        cerr << "reading disk memory page: " << pageNumber << endl;
     }
 
     // Calculate the physical address and return the reference to the byte
     int physicalAddr = frameNumber * 32 + pageOffset;
+    cerr << "physical address: " << physicalAddr << endl;
+    cerr << "============================" << endl;
     return main_memory[physicalAddr];
 }
 
