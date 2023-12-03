@@ -1,7 +1,6 @@
 #include "hw14.h"
 
 byte& VirtualMemory::operator[](const int addr) {
-    cerr << "requesting virtual address: " << addr << endl;
     // Track memory references
     refs++;
 
