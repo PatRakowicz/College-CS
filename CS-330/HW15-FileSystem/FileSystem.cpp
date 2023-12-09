@@ -2,9 +2,7 @@
 
 //returns true on successful write, false otherwise
 bool FileSystem::fs_write(FCB *fcb, uint8_t *buffer, unsigned int len) {
-    if (fcb->size + len > 512) {
-        return false;
-    }
+    if (fcb->size + len > 512) { return false; }
 
     unsigned int current_blocks_used = (fcb->size + BLOCK_SIZE - 1) / BLOCK_SIZE;
     unsigned int additional_blocks_needed = ((fcb->size + len) + BLOCK_SIZE - 1) / BLOCK_SIZE - current_blocks_used;
@@ -21,9 +19,7 @@ bool FileSystem::fs_write(FCB *fcb, uint8_t *buffer, unsigned int len) {
     }
 
     if (allocated_blocks < additional_blocks_needed) {
-        for (int i = 0; i < allocated_blocks; ++i) {
-            deallocate(block_indices[i]);
-        }
+        for (int i = 0; i < allocated_blocks; ++i) { deallocate(block_indices[i]); }
         return false;
     }
 
@@ -33,17 +29,22 @@ bool FileSystem::fs_write(FCB *fcb, uint8_t *buffer, unsigned int len) {
 
     unsigned int total_written = 0;
     unsigned int offset = fcb->size;
-    for (int i = current_blocks_used; i < current_blocks_used + allocated_blocks; ++i) {
+    for (int i = 0; i < current_blocks_used + allocated_blocks; ++i) {
+        unsigned int block_to_write = (i < current_blocks_used) ? fcb->ptrs[i] : block_indices[i - current_blocks_used];
         unsigned int remaining_in_block = BLOCK_SIZE - (offset % BLOCK_SIZE);
-        unsigned int write_size = (len < remaining_in_block) ? len : remaining_in_block;
+        unsigned int write_size = len;
+
+        if (write_size > remaining_in_block) { write_size = remaining_in_block; }
+
         uint8_t temp_buffer[BLOCK_SIZE];
-        if (write_size < BLOCK_SIZE) {
-            disk.read_block(fcb->ptrs[i], temp_buffer);
-            memcpy(temp_buffer + (offset % BLOCK_SIZE), buffer + total_written, write_size);
-        } else {
-            memcpy(temp_buffer, buffer + total_written, write_size);
+
+        if (offset % BLOCK_SIZE != 0 || write_size < BLOCK_SIZE) {
+            disk.read_block(block_to_write, temp_buffer);
         }
-        disk.write_block(fcb->ptrs[i], temp_buffer);
+
+        memcpy(temp_buffer + (offset % BLOCK_SIZE), buffer + total_written, write_size);
+        disk.write_block(block_to_write, temp_buffer);
+
         total_written += write_size;
         len -= write_size;
         offset += write_size;
