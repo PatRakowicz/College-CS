@@ -36,20 +36,24 @@ bool FileSystem::fs_write(FCB *fcb, uint8_t *buffer, unsigned int len) {
         fcb->ptrs[i] = block_indices[i];
     }
 
-    // Write data to the allocated blocks
+    // Write data to the allocated blocks and update the file size
+    unsigned int total_written = 0; // Variable to keep track of the total bytes written
     for (int i = 0; i < allocated_blocks; ++i) {
-        // If it's the last block and the remaining data is less than BLOCK_SIZE,
-        // we need to handle this case separately
-        if (i == allocated_blocks - 1 && len < BLOCK_SIZE) {
+        unsigned int write_size = (i == allocated_blocks - 1 && len < BLOCK_SIZE) ? len : BLOCK_SIZE;
+        if (write_size < BLOCK_SIZE) {
             uint8_t temp_buffer[BLOCK_SIZE];
-            memcpy(temp_buffer, buffer + (i * BLOCK_SIZE), len);
-            memset(temp_buffer + len, 0, BLOCK_SIZE - len); // Zero out the rest of the block
+            memcpy(temp_buffer, buffer + (i * BLOCK_SIZE), write_size);
+            memset(temp_buffer + write_size, 0, BLOCK_SIZE - write_size); // Zero out the rest of the block
             disk.write_block(fcb->ptrs[i], temp_buffer);
         } else {
             disk.write_block(fcb->ptrs[i], buffer + (i * BLOCK_SIZE));
         }
-        len -= (len > BLOCK_SIZE) ? BLOCK_SIZE : len;
+        total_written += write_size;
+        len -= write_size;
     }
+
+    // Update the file size in the FCB
+    fcb->size = total_written;
 
     return true;
 }
