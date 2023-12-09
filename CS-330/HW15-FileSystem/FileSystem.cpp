@@ -2,19 +2,17 @@
 
 //returns true on successful write, false otherwise
 bool FileSystem::fs_write(FCB *fcb, uint8_t *buffer, unsigned int len) {
-    // Ensure that the file size does not exceed 512 bytes
-    if (len > 512) {
+    if (fcb->size + len > 512) {
         return false;
     }
 
-    // Calculate the number of blocks needed
-    unsigned int blocks_needed = (len + BLOCK_SIZE - 1) / BLOCK_SIZE;
+    unsigned int current_blocks_used = (fcb->size + BLOCK_SIZE - 1) / BLOCK_SIZE;
+    unsigned int additional_blocks_needed = ((fcb->size + len) + BLOCK_SIZE - 1) / BLOCK_SIZE - current_blocks_used;
 
-    // Find and allocate free blocks
-    int block_indices[NUM_BLOCKS] = {-1}; // Array to store indices of allocated blocks
-    int allocated_blocks = 0; // Number of blocks successfully allocated
+    int block_indices[NUM_BLOCKS] = {-1};
+    int allocated_blocks = 0;
 
-    for (unsigned int i = 0; i < NUM_BLOCKS && allocated_blocks < blocks_needed; ++i) {
+    for (unsigned int i = 0; i < NUM_BLOCKS && allocated_blocks < additional_blocks_needed; ++i) {
         unsigned int block_index = find_empty_block();
         if (block_index != -1) {
             block_indices[allocated_blocks++] = block_index;
@@ -22,38 +20,36 @@ bool FileSystem::fs_write(FCB *fcb, uint8_t *buffer, unsigned int len) {
         }
     }
 
-    // Check if enough blocks were allocated
-    if (allocated_blocks < blocks_needed) {
-        // Deallocate any allocated blocks
+    if (allocated_blocks < additional_blocks_needed) {
         for (int i = 0; i < allocated_blocks; ++i) {
             deallocate(block_indices[i]);
         }
         return false;
     }
 
-    // Update the FCB with the allocated block indices
-    for (int i = 0; i < allocated_blocks; ++i) {
-        fcb->ptrs[i] = block_indices[i];
+    for (int i = current_blocks_used; i < current_blocks_used + allocated_blocks; ++i) {
+        fcb->ptrs[i] = block_indices[i - current_blocks_used];
     }
 
-    // Write data to the allocated blocks and update the file size
-    unsigned int total_written = 0; // Variable to keep track of the total bytes written
-    for (int i = 0; i < allocated_blocks; ++i) {
-        unsigned int write_size = (i == allocated_blocks - 1 && len < BLOCK_SIZE) ? len : BLOCK_SIZE;
+    unsigned int total_written = 0;
+    unsigned int offset = fcb->size;
+    for (int i = current_blocks_used; i < current_blocks_used + allocated_blocks; ++i) {
+        unsigned int remaining_in_block = BLOCK_SIZE - (offset % BLOCK_SIZE);
+        unsigned int write_size = (len < remaining_in_block) ? len : remaining_in_block;
+        uint8_t temp_buffer[BLOCK_SIZE];
         if (write_size < BLOCK_SIZE) {
-            uint8_t temp_buffer[BLOCK_SIZE];
-            memcpy(temp_buffer, buffer + (i * BLOCK_SIZE), write_size);
-            memset(temp_buffer + write_size, 0, BLOCK_SIZE - write_size); // Zero out the rest of the block
-            disk.write_block(fcb->ptrs[i], temp_buffer);
+            disk.read_block(fcb->ptrs[i], temp_buffer);
+            memcpy(temp_buffer + (offset % BLOCK_SIZE), buffer + total_written, write_size);
         } else {
-            disk.write_block(fcb->ptrs[i], buffer + (i * BLOCK_SIZE));
+            memcpy(temp_buffer, buffer + total_written, write_size);
         }
+        disk.write_block(fcb->ptrs[i], temp_buffer);
         total_written += write_size;
         len -= write_size;
+        offset += write_size;
     }
 
-    // Update the file size in the FCB
-    fcb->size = total_written;
+    fcb->size += total_written;
 
     return true;
 }
