@@ -1,0 +1,26 @@
+Make new Dicrectory
+mkdir hw1
+
+Move code.cpp
+mv ~/Downloads/code.cpp ~/College/CS-370/HW1/
+
+Rename code.cpp
+mv code.cpp example.cpp
+
+Create MakeFile
+touch makefile
+
+edit makefile
+vim makefile
+
+Run the executable redirect output to file
+./example > out.txt
+
+Using pipe to get the 247th line
+tail -n +247 out.txt | head -n 1
+
+Find the PD of the example
+pgrep example
+
+Kill it
+kill example
