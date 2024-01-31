@@ -1,9 +1,10 @@
 public abstract class Shape {
-    private String type;
-    private int size;
+    String type;
+    int size;
 
     public Shape(String type, int size) {
-
+        this.type = type;
+        this.size = size;
     }
 
     public abstract String toString();
