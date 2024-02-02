@@ -1,6 +1,6 @@
 public abstract class Shape {
-    String type;
-    int size;
+    protected String type;
+    protected int size;
 
     public Shape(String type, int size) {
         this.type = type;
