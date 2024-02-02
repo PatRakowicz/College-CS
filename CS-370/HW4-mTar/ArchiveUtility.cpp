@@ -37,7 +37,7 @@ void ArchiveUtility::archiveFiles(const vector <string> &filenames, const string
 		}
 
 		FileMetadata metadata;
-		strncpy(metadata.filename, filename.c_str(), sizeof(metadata.filename) - 1);
+		strncpy_s(metadata.filename, filename.c_str(), sizeof(metadata.filename) - 1);
 		metadata.filename[sizeof(metadata.filename) - 1] = '\0';
 		metadata.filesize = filesize;
 		metadata.permissions = fileStat.st_mode;
