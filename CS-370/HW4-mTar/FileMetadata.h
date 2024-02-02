@@ -10,14 +10,14 @@
 #include <unistd.h>
 
 struct FileMetadata {
-	char filename[100];    // Filename: Assumed max length is 100 characters
-	unsigned int filesize; // Size of the file
-	mode_t permissions;    // File permissions
-	time_t last_modified;  // Last modified timestamp
+	char filename[100];
+	unsigned int filesize;
+	mode_t permissions;
+	time_t last_modified;
 
 	// Default constructor
 	FileMetadata() : filesize(0), permissions(0), last_modified(0) {
-		filename[0] = '\0'; // Ensure filename is initially empty
+		filename[0] = '\0';
 	}
 };
 
