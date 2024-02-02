@@ -8,6 +8,7 @@
 #include <cstring>
 #include <utime.h>
 #include <sys/stat.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -37,7 +38,7 @@ void ArchiveUtility::archiveFiles(const vector <string> &filenames, const string
 		}
 
 		FileMetadata metadata;
-		strncpy_s(metadata.filename, filename.c_str(), sizeof(metadata.filename) - 1);
+		strncpy(metadata.filename, filename.c_str(), sizeof(metadata.filename) - 1);
 		metadata.filename[sizeof(metadata.filename) - 1] = '\0';
 		metadata.filesize = filesize;
 		metadata.permissions = fileStat.st_mode;
@@ -50,6 +51,7 @@ void ArchiveUtility::archiveFiles(const vector <string> &filenames, const string
 			inputFile.read(buffer, sizeof(buffer));
 			archiveFile.write(buffer, inputFile.gcount());
 		}
+		cout << "Archiving " << filename << " (size " << metadata.filesize << " bytes)" << endl;
 
 		inputFile.close();
 	}
@@ -81,13 +83,15 @@ void ArchiveUtility::extractFiles(const string &archiveName) {
 		char buffer[1024];
 		unsigned int remaining = metadata.filesize;
 		while (remaining > 0) {
-			unsigned int toRead = min(sizeof(buffer), remaining);
+			unsigned int toRead = std::min(static_cast<size_t>(remaining), sizeof(buffer));
 			archiveFile.read(buffer, toRead);
 			outputFile.write(buffer, toRead);
 			remaining -= toRead;
 		}
 
 		outputFile.close();
+
+		cout << "Extracting " << metadata.filename << " (size " << metadata.filesize << " bytes)" << endl;
 
 		struct utimbuf new_times;
 		new_times.actime = metadata.last_modified;
