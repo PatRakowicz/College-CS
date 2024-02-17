@@ -32,7 +32,6 @@ public class BracketChecker {
             e.printStackTrace();
             balanced = false;
         }
-
         return balanced;
     }
 
