@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 class View {
-    private final JFrame frame;
     private final DefaultListModel<String> listModel;
     private final JList<String> list;
     private final JTextField input;
@@ -11,7 +10,7 @@ class View {
     private final JButton deleteButton;
 
     public View() {
-        frame = new JFrame("MVC Example");
+        JFrame frame = new JFrame("MVC Example");
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
         input = new JTextField(20);

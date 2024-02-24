@@ -7,15 +7,11 @@ class Model {
         data = new ArrayList<>();
     }
 
-    public void addData(String item) {
-        data.add(item);
-    }
+    public void addData(String item) { data.add(item); }
 
     public void removeData(String item) {
         data.remove(item);
     }
 
-    public ArrayList<String> getData() {
-        return data;
-    }
+    public ArrayList<String> getData() { return data; }
 }
