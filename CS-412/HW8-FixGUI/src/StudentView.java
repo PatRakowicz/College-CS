@@ -41,7 +41,7 @@ public class StudentView {
         JList<String> jList = new JList<>(listModel);
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        jPanel.add(jList);
+        jPanel.add(new JScrollPane(jList));
 
         JPanel inner = new JPanel();
         inner.setLayout(new GridLayout(2, 2));
@@ -57,39 +57,39 @@ public class StudentView {
         JButton jButton = new JButton("UPDATE");
         jButton.setEnabled(false);
 
+        jList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && jList.getSelectedIndex() != -1) {
+                String selectedValue = jList.getSelectedValue();
+                String[] parts = selectedValue.trim().split("\\s+", 4);
+                if (parts.length >= 3) {
+                    textFieldName.setText(parts[1]);
+                    textFieldAge.setText(parts[2]);
+                    jButton.setEnabled(true);
+                }
+            }
+        });
+
+        // Action listener for the update button
         jButton.addActionListener(e -> {
             String selectedValue = jList.getSelectedValue();
             if (selectedValue != null && !selectedValue.isEmpty()) {
-                String[] parts = selectedValue.split("\\s+");
+                String[] parts = selectedValue.trim().split("\\s+", 4);
                 try {
                     int id = Integer.parseInt(parts[0]);
                     String name = textFieldName.getText();
                     int age = Integer.parseInt(textFieldAge.getText());
                     controller.updateStudent(id, name, age);
+                    controller.updateStudentList();
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(jPanel, "Invalid input. Please enter a valid age.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-        });
-
-        jButton.addActionListener(e -> {
-            int id = jList.getSelectedIndex();
-            if (id != -1) {
-                String name = textFieldName.getText();
-                int age;
-                try {
-                    age = Integer.parseInt(textFieldAge.getText());
-                } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
-                    return; // Exit if the age is not a number
-                }
-                controller.updateStudent(id, name, age);
             }
         });
 
         jPanel.add(jButton);
         return jPanel;
     }
+
 
     public JPanel makeReadTab() {
         JPanel jPanel = new JPanel();
@@ -102,16 +102,15 @@ public class StudentView {
         JPanel jPanel = new JPanel();
         JList<String> jList = new JList<>(listModel);
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        jPanel.add(new JScrollPane(jList)); // Wrap the JList in a JScrollPane for better usability
+        jPanel.add(new JScrollPane(jList));
 
         JButton jButton = new JButton("DELETE");
         jButton.addActionListener(e -> {
             int i = jList.getSelectedIndex();
-            if (i != -1) { // Make sure an item is selected
+            if (i != -1) {
                 String s = jList.getSelectedValue();
-                String[] words = s.trim().split("\\s+"); // Adjusted regex to split on one or more whitespace
+                String[] words = s.trim().split("\\s+");
                 int id = Integer.parseInt(words[0]);
-                // Call controller to handle the deletion
                 controller.deleteStudent(id);
             }
         });
@@ -134,9 +133,9 @@ public class StudentView {
             String name = textFieldName.getText();
             try {
                 int age = Integer.parseInt(textFieldAge.getText());
-                controller.createStudent(name, age); // Use the controller to create a new student
+                controller.createStudent(name, age);
             } catch (NumberFormatException ex) {
-                ex.printStackTrace(); // Handle invalid age input
+                ex.printStackTrace();
             }
         });
         jPanel.add(createButton);
