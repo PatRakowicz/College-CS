@@ -69,7 +69,6 @@ public class StudentView {
             }
         });
 
-        // Action listener for the update button
         jButton.addActionListener(e -> {
             String selectedValue = jList.getSelectedValue();
             if (selectedValue != null && !selectedValue.isEmpty()) {
