@@ -8,7 +8,7 @@
 
 [CS 195](https://github.com/PatRakowicz/College-CS/tree/main/CS-195) ~ Database Management | MySQL
 
-[CS 235](https://github.com/PatRakowicz/College-CS/tree/main/CS-235) ~ 
+[CS 235](https://github.com/PatRakowicz/College-CS/tree/main/CS-235) ~ Networking
     
 [CS 250](https://github.com/PatRakowicz/College-CS/tree/main/CS-250) ~ Python WebDev I
     
@@ -16,7 +16,7 @@
     
 [CS 303](https://github.com/PatRakowicz/College-CS/tree/main/CS-303) ~ Machine Learning w/ Python
 
-[CS 320](https://github.com/PatRakowicz/College-CS/tree/main/CS-320) ~ 
+[CS 320](https://github.com/PatRakowicz/College-CS/tree/main/CS-320) ~ Programming Languages
 
 [CS 330](https://github.com/PatRakowicz/College-CS/tree/main/CS-330) ~ Computer Architecture
     
