@@ -5,7 +5,7 @@
 all: hw09
 
 hw09: main.cpp IOHandler.cpp
-    g++ main.cpp IOHandler.cpp -o hw09
+	g++ -std=c++11 main.cpp IOHandler.cpp -o hw09
 
 clean:
-    rm -f hw09
+	rm -f hw09
