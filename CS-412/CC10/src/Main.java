@@ -2,14 +2,9 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Thread> t =new ArrayList<>();
+        ArrayList<Thread> t = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("Howdy");
-                }
-            });
+            Thread thread = new Thread(new ThreadArg("Howdy"));
             t.add(thread);
             thread.start();
         }
