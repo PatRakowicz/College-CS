@@ -1,3 +1,5 @@
+// Created by Pat Rako
+
 import java.util.Scanner;
 
 public class Main {

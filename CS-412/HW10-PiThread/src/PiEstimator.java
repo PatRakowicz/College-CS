@@ -1,3 +1,5 @@
+// Created by Pat Rako
+
 import java.util.concurrent.CountDownLatch;
 
 public class PiEstimator {
