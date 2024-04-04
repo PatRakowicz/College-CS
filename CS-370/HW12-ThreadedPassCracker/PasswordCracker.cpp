@@ -11,7 +11,6 @@ PasswordCracker::PasswordCracker(const std::vector<std::string>& words, const st
         : words(words), targetPassword(password), numThreads(N) {}
 
 void PasswordCracker::worker(int id, const std::vector<std::string>& words, const std::string& password, std::atomic<bool>& foundFlag, int numThreads) {
-    // Calculate workload for each thread
     long long totalCombinations = static_cast<long long>(words.size()) * (words.size() - 1);
     long long perThread = totalCombinations / numThreads;
     long long startIdx = perThread * id;
@@ -20,14 +19,13 @@ void PasswordCracker::worker(int id, const std::vector<std::string>& words, cons
     for (long long i = startIdx; i < endIdx && !foundFlag.load(); ++i) {
         long long firstIdx = i / (words.size() - 1);
         long long secondIdx = i % (words.size() - 1);
-        // Adjust for unique pairs
         if (secondIdx >= firstIdx) ++secondIdx;
 
         std::string attempt = words[firstIdx] + words[secondIdx];
         if (attempt == password) {
             std::cout << id << ": found password " << attempt << std::endl;
             foundFlag.store(true);
-            break;  // Exit if password is found
+            break;
         }
     }
 }
@@ -35,12 +33,10 @@ void PasswordCracker::worker(int id, const std::vector<std::string>& words, cons
 void PasswordCracker::crackPassword() {
     std::vector<std::thread> threads;
 
-    // Create threads
     for (int i = 0; i < numThreads; ++i) {
         threads.emplace_back(std::thread(&PasswordCracker::worker, i, std::cref(words), std::cref(targetPassword), std::ref(found), numThreads));
     }
 
-    // Join threads
     for (auto& thread : threads) {
         if (thread.joinable()) {
             thread.join();

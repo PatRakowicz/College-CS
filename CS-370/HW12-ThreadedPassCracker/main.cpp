@@ -1,7 +1,10 @@
+//
+// Created by Rako on 4/4/24.
+//
 #include "PasswordGenerator.h"
 #include "PasswordCracker.h"
 #include <iostream>
-#include <cstdlib> // for std::stoi
+#include <cstdlib>
 
 int main(int argc, char** argv) {
     if (argc != 4) {
