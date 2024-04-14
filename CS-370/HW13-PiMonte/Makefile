@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++11
 LDFLAGS = -pthread
 TARGET = MonteCarloPi
-SOURCE = MonteCarloPi.cpp
+SOURCE = main.cpp
 
 all: $(TARGET)
 
