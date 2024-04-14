@@ -34,15 +34,16 @@ void monteCarlo(int iterations) {
 }
 
 void displayResults(int delay, int N, int iterations) {
-    unique_lock <mutex> lock(mtx);
+    unique_lock<mutex> lock(mtx);
     auto next_time = chrono::steady_clock::now() + chrono::milliseconds(delay);
 
     while (!all_threads_completed || total_attempts < N * iterations) {
-        cv.wait_until(lock, next_time, [&]() { return total_attempts == N * iterations; });
-
-        double pi_estimate = 4.0 * total_hits / total_attempts;
-        cout << fixed << setprecision(10) << pi_estimate << endl;
-
+        if (cv.wait_until(lock, next_time, [&]() { return total_attempts == N * iterations; })) {
+            if (total_attempts > 0) {
+                double pi_estimate = 4.0 * total_hits / total_attempts;
+                cout << fixed << setprecision(10) << pi_estimate << endl;
+            }
+        }
         if (total_attempts == N * iterations) { break; }
         next_time += chrono::milliseconds(delay);
     }
