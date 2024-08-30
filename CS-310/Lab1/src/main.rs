@@ -12,9 +12,9 @@ fn main() {
 
         let guess = guess.trim().parse().expect("Err not number");
 
-        if number < guess {
+        if number > guess {
             println!("Too High");
-        } else if number > guess {
+        } else if number < guess {
             println!("Too Low");
         } else {
             println!("Correct");
