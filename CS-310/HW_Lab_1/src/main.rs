@@ -11,8 +11,7 @@ use std::cmp::Ordering;
 fn main() {
     println!("Guess the Number");
 
-    // Generate a random floating-point number between 1.0 and 9.9, rounded to one decimal place
-    let num2 = rand::thread_rng().gen_range(1.0..=9.9);
+    let num2: f64 = rand::thread_rng().gen_range(1.0..10.0);
     let y: f64 = (num2 * 10.0).round() / 10.0;
 
     loop {
