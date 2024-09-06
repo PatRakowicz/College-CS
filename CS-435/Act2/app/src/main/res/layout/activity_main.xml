@@ -24,28 +24,28 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/buttonRed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Red" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/buttonBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Blue" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/buttonGreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Green" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/buttonYellow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:onClick="buttonClick"
         android:text="Button" />
 
     <TextView
