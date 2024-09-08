@@ -61,7 +61,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonCalculate">
 
-        <!-- Operation Buttons -->
         <Button android:id="@+id/buttonPlus" android:text="@string/button_plus" />
         <Button android:id="@+id/buttonMinus" android:text="@string/button_minus" />
         <Button android:id="@+id/buttonMultiply" android:text="@string/button_multiply" />

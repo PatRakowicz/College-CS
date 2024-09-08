@@ -11,6 +11,26 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var display: TextView
+    private lateinit var button0: Button
+    private lateinit var button1: Button
+    private lateinit var button2: Button
+    private lateinit var button3: Button
+    private lateinit var button4: Button
+    private lateinit var button5: Button
+    private lateinit var button6: Button
+    private lateinit var button7: Button
+    private lateinit var button8: Button
+    private lateinit var button9: Button
+    private lateinit var buttonPlus: Button
+    private lateinit var buttonMinus: Button
+    private lateinit var buttonMultiply: Button
+    private lateinit var buttonDivide: Button
+    private lateinit var buttonModulus: Button
+    private lateinit var buttonExponent: Button
+    private lateinit var buttonClear: Button
+    private lateinit var buttonSign: Button
+    private lateinit var buttonCalculate: Button
+
     private var currentNumber = ""
     private var operation = ""
     private var firstNumber: Double = 0.0
@@ -19,36 +39,54 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        display = findViewById(R.id.display)
-
-        val buttons = listOf(
-            findViewById<Button>(R.id.button0),
-            findViewById<Button>(R.id.button1),
-            findViewById<Button>(R.id.button2),
-            findViewById<Button>(R.id.button3),
-            findViewById<Button>(R.id.button4),
-            findViewById<Button>(R.id.button5),
-            findViewById<Button>(R.id.button6),
-            findViewById<Button>(R.id.button7),
-            findViewById<Button>(R.id.button8),
-            findViewById<Button>(R.id.button9)
-        )
-
-        buttons.forEach { button ->
-            button.setOnClickListener { onNumberClick(button.text.toString()) }
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
 
-        findViewById<Button>(R.id.buttonPlus).setOnClickListener { onOperationClick("+") }
-        findViewById<Button>(R.id.buttonMinus).setOnClickListener { onOperationClick("-") }
-        findViewById<Button>(R.id.buttonMultiply).setOnClickListener { onOperationClick("*") }
-        findViewById<Button>(R.id.buttonDivide).setOnClickListener { onOperationClick("/") }
-        findViewById<Button>(R.id.buttonExponent).setOnClickListener { onOperationClick("^") }
-        findViewById<Button>(R.id.buttonModulus).setOnClickListener { onOperationClick("%") }
+        display = findViewById(R.id.display)
+        button0 = findViewById(R.id.button0)
+        button1 = findViewById(R.id.button1)
+        button2 = findViewById(R.id.button2)
+        button3 = findViewById(R.id.button3)
+        button4 = findViewById(R.id.button4)
+        button5 = findViewById(R.id.button5)
+        button6 = findViewById(R.id.button6)
+        button7 = findViewById(R.id.button7)
+        button8 = findViewById(R.id.button8)
+        button9 = findViewById(R.id.button9)
+        buttonPlus = findViewById(R.id.buttonPlus)
+        buttonMinus = findViewById(R.id.buttonMinus)
+        buttonMultiply = findViewById(R.id.buttonMultiply)
+        buttonDivide = findViewById(R.id.buttonDivide)
+        buttonModulus = findViewById(R.id.buttonModulus)
+        buttonExponent = findViewById(R.id.buttonExponent)
+        buttonClear = findViewById(R.id.buttonClear)
+        buttonSign = findViewById(R.id.buttonSign)
+        buttonCalculate = findViewById(R.id.buttonCalculate)
 
-        findViewById<Button>(R.id.buttonCalculate).setOnClickListener { onEqualsClick() }
-        findViewById<Button>(R.id.buttonClear).setOnClickListener { onClearClick() }
+        button0.setOnClickListener { onNumberClick("0") }
+        button1.setOnClickListener { onNumberClick("1") }
+        button2.setOnClickListener { onNumberClick("2") }
+        button3.setOnClickListener { onNumberClick("3") }
+        button4.setOnClickListener { onNumberClick("4") }
+        button5.setOnClickListener { onNumberClick("5") }
+        button6.setOnClickListener { onNumberClick("6") }
+        button7.setOnClickListener { onNumberClick("7") }
+        button8.setOnClickListener { onNumberClick("8") }
+        button9.setOnClickListener { onNumberClick("9") }
 
-        findViewById<Button>(R.id.buttonSign).setOnClickListener { onSignToggleClick() }
+        buttonPlus.setOnClickListener { onOperationClick("+") }
+        buttonMinus.setOnClickListener { onOperationClick("-") }
+        buttonMultiply.setOnClickListener { onOperationClick("*") }
+        buttonDivide.setOnClickListener { onOperationClick("/") }
+        buttonModulus.setOnClickListener { onOperationClick("%") }
+        buttonExponent.setOnClickListener { onOperationClick("^") }
+
+        buttonClear.setOnClickListener { onClearClick() }
+        buttonSign.setOnClickListener { onSignToggleClick() }
+        buttonCalculate.setOnClickListener { onEqualsClick() }
     }
 
     private fun onNumberClick(number: String) {
