@@ -8,12 +8,74 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/display"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="right"
+        android:textSize="32sp"
+        android:padding="16dp"
+        android:background="#E0E0E0"
+        android:text="@string/initial_display_value"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <GridLayout
+        android:id="@+id/numberGrid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:rowCount="4"
+        android:columnCount="3"
+        app:layout_constraintTop_toBottomOf="@+id/display"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/functionGrid"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalculate"
+        android:layout_marginEnd="8dp">
+
+        <Button android:id="@+id/button1" android:text="@string/button_1" />
+        <Button android:id="@+id/button2" android:text="@string/button_2" />
+        <Button android:id="@+id/button3" android:text="@string/button_3" />
+
+        <Button android:id="@+id/button4" android:text="@string/button_4" />
+        <Button android:id="@+id/button5" android:text="@string/button_5" />
+        <Button android:id="@+id/button6" android:text="@string/button_6" />
+
+        <Button android:id="@+id/button7" android:text="@string/button_7" />
+        <Button android:id="@+id/button8" android:text="@string/button_8" />
+        <Button android:id="@+id/button9" android:text="@string/button_9" />
+
+        <Button android:id="@+id/buttonClear" android:text="@string/button_clear" />
+        <Button android:id="@+id/button0" android:text="@string/button_0" />
+        <Button android:id="@+id/buttonExponent" android:text="@string/button_exponent" />
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/functionGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:rowCount="5"
+        android:columnCount="1"
+        app:layout_constraintTop_toBottomOf="@+id/display"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalculate">
+
+        <!-- Operation Buttons -->
+        <Button android:id="@+id/buttonPlus" android:text="@string/button_plus" />
+        <Button android:id="@+id/buttonMinus" android:text="@string/button_minus" />
+        <Button android:id="@+id/buttonMultiply" android:text="@string/button_multiply" />
+        <Button android:id="@+id/buttonDivide" android:text="@string/button_divide" />
+        <Button android:id="@+id/buttonModulus" android:text="@string/button_modulus" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/buttonCalculate"
+        android:text="@string/button_calculate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="24sp"
+        android:layout_marginTop="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
