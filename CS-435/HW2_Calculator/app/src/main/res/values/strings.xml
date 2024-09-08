@@ -24,4 +24,6 @@
     <string name="initial_display_value">0</string>
 
     <string name="error_divide_by_zero">Error</string>
+
+    <string name="button_sign">±</string>
 </resources>

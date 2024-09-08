@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.buttonCalculate).setOnClickListener { onEqualsClick() }
         findViewById<Button>(R.id.buttonClear).setOnClickListener { onClearClick() }
+
+        findViewById<Button>(R.id.buttonSign).setOnClickListener { onSignToggleClick() }
     }
 
     private fun onNumberClick(number: String) {
@@ -84,5 +86,16 @@ class MainActivity : AppCompatActivity() {
         firstNumber = 0.0
         operation = ""
         display.text = getString(R.string.initial_display_value)
+    }
+
+    private fun onSignToggleClick() {
+        if (currentNumber.isNotEmpty()) {
+            currentNumber = if (currentNumber.startsWith("-")) {
+                currentNumber.removePrefix("-")
+            } else {
+                "-$currentNumber"
+            }
+            display.text = currentNumber
+        }
     }
 }

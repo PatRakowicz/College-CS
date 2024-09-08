@@ -46,14 +46,16 @@
 
         <Button android:id="@+id/buttonClear" android:text="@string/button_clear" />
         <Button android:id="@+id/button0" android:text="@string/button_0" />
-        <Button android:id="@+id/buttonExponent" android:text="@string/button_exponent" />
+        <Button android:id="@+id/buttonSign" android:text="@string/button_sign" />
+
+
     </GridLayout>
 
     <GridLayout
         android:id="@+id/functionGrid"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:rowCount="5"
+        android:rowCount="6"
         android:columnCount="1"
         app:layout_constraintTop_toBottomOf="@+id/display"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +67,7 @@
         <Button android:id="@+id/buttonMultiply" android:text="@string/button_multiply" />
         <Button android:id="@+id/buttonDivide" android:text="@string/button_divide" />
         <Button android:id="@+id/buttonModulus" android:text="@string/button_modulus" />
+        <Button android:id="@+id/buttonExponent" android:text="@string/button_exponent" />
     </GridLayout>
 
     <Button
