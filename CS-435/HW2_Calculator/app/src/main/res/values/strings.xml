@@ -19,7 +19,7 @@
     <string name="button_exponent">^</string>
     <string name="button_modulus">%</string>
     <string name="button_clear">C</string>
-    <string name="button_calculate">Calculate</string>
+    <string name="button_calculate">=</string>
 
     <string name="initial_display_value">0</string>
 

@@ -47,8 +47,6 @@
         <Button android:id="@+id/buttonClear" android:text="@string/button_clear" />
         <Button android:id="@+id/button0" android:text="@string/button_0" />
         <Button android:id="@+id/buttonSign" android:text="@string/button_sign" />
-
-
     </GridLayout>
 
     <GridLayout
