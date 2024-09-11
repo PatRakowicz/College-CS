@@ -32,11 +32,12 @@ class MainActivity : AppCompatActivity() {
     fun buttonGoClick(view : View) {
 
         val textmessage = textMsg.text.toString()
-        val intent = Intent(this, SecondActivity::class.java)
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.setType("text/plain")
+        intent.putExtra(Intent.EXTRA_TEXT, textmessage)
 
-        intent.putExtra("MSG", textmessage)
-
-
+//        val intent = Intent(this, SecondActivity::class.java)
+//        intent.putExtra("MSG", textmessage)
         startActivity(intent)
     }
 }
