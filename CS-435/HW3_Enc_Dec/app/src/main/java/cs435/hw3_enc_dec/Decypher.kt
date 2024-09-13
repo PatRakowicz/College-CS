@@ -42,7 +42,7 @@ class Decypher : AppCompatActivity() {
         shiftSeekBar.progress = shift
 
         decryptButton.setOnClickListener {
-            val decryptedMessage = decryptMessage(encryptedMessage!!, shift)
+            val decryptedMessage = decryptMessage(encryptedMessage ?: "", shift)
             outputText.setText(decryptedMessage)
             shiftSeekBar.progress = 0
         }
