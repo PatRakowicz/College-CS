@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var inputText: EditText
-    private lateinit var shiftSeekBar: SeekBar
+    private lateinit var shiftBar: SeekBar
     private lateinit var encryptButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,13 +26,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+//        Init user text input/button
         inputText = findViewById(R.id.inputText)
-        shiftSeekBar = findViewById(R.id.shiftSeekBar)
+        shiftBar = findViewById(R.id.shiftSeekBar)
         encryptButton = findViewById(R.id.encryptButton)
+
+//        check if there is decrypted message being sent back
+        val decryptedText = intent.getStringExtra("decryptedText")
+        if (!decryptedText.isNullOrEmpty()) { inputText.setText(decryptedText) }
 
         encryptButton.setOnClickListener {
             val message = inputText.text.toString()
-            val shift = shiftSeekBar.progress
+            val shift = shiftBar.progress
 
             if (message.isNotEmpty()) {
                 val encryptedMessage = encryptMessage(message, shift)
@@ -46,19 +51,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun encryptMessage(message: String, shift: Int): String {
-//        https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-char-array.html
-        /*
-        * This is used because it allows the edit of characters inside the given array to be
-        * manipulated. Thus allowing for characters to be edited in a loop then pushed back
-        * into an array.
-        * */
-        val charArray = message.toCharArray()
-        for (i in charArray.indices) {
-            if (charArray[i].isLetter()) {
-                val base = if (charArray[i].isUpperCase()) 'A' else 'a'
-                charArray[i] = ((charArray[i] - base + shift) % 26 + base.code).toChar()
+        val inputArray = message.toCharArray()
+        for (i in inputArray.indices) {
+            if (inputArray[i].isLetter()) {
+                val baseValues = if (inputArray[i].isUpperCase()) 'A' else 'a'
+                inputArray[i] = ((inputArray[i] - baseValues + shift) % 26 + baseValues.code).toChar()
             }
         }
-        return String(charArray)
+        return String(inputArray)
     }
 }

@@ -13,9 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 class Decypher : AppCompatActivity() {
 
     private lateinit var outputText: EditText
-    private lateinit var shiftSeekBar: SeekBar
+    private lateinit var shiftBar: SeekBar
     private lateinit var decryptButton: Button
-    private lateinit var backButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,40 +27,39 @@ class Decypher : AppCompatActivity() {
         }
 
         outputText = findViewById(R.id.outputText)
-        shiftSeekBar = findViewById(R.id.shiftSeekBar)
+        shiftBar = findViewById(R.id.shiftSeekBar)
         decryptButton = findViewById(R.id.decryptButton)
-        backButton = findViewById(R.id.backButton)
 
         outputText.isEnabled = false
-        shiftSeekBar.isEnabled = false
+        shiftBar.isEnabled = false
 
         val encryptedMessage = intent.getStringExtra("encryptedMessage")
         val shift = intent.getIntExtra("shift", 0)
 
         outputText.setText(encryptedMessage)
-        shiftSeekBar.progress = shift
+        shiftBar.progress = shift
 
         decryptButton.setOnClickListener {
 //            !! -> ? : "" | Better Null check
             val decryptedMessage = decryptMessage(encryptedMessage ?: "", shift)
             outputText.setText(decryptedMessage)
-            shiftSeekBar.progress = 0
-        }
+            shiftBar.progress = 0
 
-        backButton.setOnClickListener {
+//            Grab decrypted message | Send back to main
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("decryptedText", decryptedMessage)
             startActivity(intent)
         }
     }
 
     private fun decryptMessage(message: String, shift: Int): String {
-        val charArray = message.toCharArray()
-        for (i in charArray.indices) {
-            if (charArray[i].isLetter()) {
-                val base = if (charArray[i].isUpperCase()) 'A' else 'a'
-                charArray[i] = ((charArray[i] - base - shift + 26) % 26 + base.code).toChar()
+        val inputArray = message.toCharArray()
+        for (i in inputArray.indices) {
+            if (inputArray[i].isLetter()) {
+                val baseVales = if (inputArray[i].isUpperCase()) 'A' else 'a'
+                inputArray[i] = ((inputArray[i] - baseVales - shift + 26) % 26 + baseVales.code).toChar()
             }
         }
-        return String(charArray)
+        return String(inputArray)
     }
 }
