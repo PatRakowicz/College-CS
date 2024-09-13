@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HW3_Enc_Dec</string>
+    <string name="enter_message_to_encrypt">Enter message to encrypt</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="encrypted_message">Encrypted message</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="go_back">Go Back</string>
 </resources>
