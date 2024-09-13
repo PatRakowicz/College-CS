@@ -46,6 +46,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun encryptMessage(message: String, shift: Int): String {
+//        https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-char-array.html
+        /*
+        * This is used because it allows the edit of characters inside the given array to be
+        * manipulated. Thus allowing for characters to be edited in a loop then pushed back
+        * into an array.
+        * */
         val charArray = message.toCharArray()
         for (i in charArray.indices) {
             if (charArray[i].isLetter()) {
