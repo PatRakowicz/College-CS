@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         val encryptBut = findViewById<Button>(R.id.encryptButton)
 
 //        Check if there is a decrypted message being sent back
-        val decryptedText = intent.getStringExtra("decryptedText")
-        if (!decryptedText.isNullOrEmpty()) { input.setText(decryptedText) }
+        val decryptedTxt = intent.getStringExtra("decryptedText")
+        if (!decryptedTxt.isNullOrEmpty()) { input.setText(decryptedTxt) }
 
         encryptBut.setOnClickListener {
             if (input.text.toString().isNotEmpty()) {

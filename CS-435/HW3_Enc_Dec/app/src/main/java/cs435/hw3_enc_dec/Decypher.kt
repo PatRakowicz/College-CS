@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class Decypher : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,14 +28,14 @@ class Decypher : AppCompatActivity() {
         output.isEnabled = false
         shiftBar.isEnabled = false
 
-        val encryptedMessage = intent.getStringExtra("encryptedMessage")
+        val encryptedMsg = intent.getStringExtra("encryptedMessage")
         val shift = intent.getIntExtra("shift", 0)
 
-        output.setText(encryptedMessage)
+        output.setText(encryptedMsg)
         shiftBar.progress = shift
 
         decryptButton.setOnClickListener {
-            val decryptedMessage = decryptMsg(encryptedMessage!!, shift)
+            val decryptedMessage = decryptMsg(encryptedMsg!!, shift)
             output.setText(decryptedMessage)
             shiftBar.progress = 0
 
