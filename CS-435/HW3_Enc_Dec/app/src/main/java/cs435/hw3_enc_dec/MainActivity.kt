@@ -11,11 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var inputText: EditText
-    private lateinit var shiftBar: SeekBar
-    private lateinit var encryptButton: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,30 +22,27 @@ class MainActivity : AppCompatActivity() {
         }
 
 //        Init user text input/button
-        inputText = findViewById(R.id.inputText)
-        shiftBar = findViewById(R.id.shiftSeekBar)
-        encryptButton = findViewById(R.id.encryptButton)
+        val input = findViewById<EditText>(R.id.inputText)
+        val shift = findViewById<SeekBar>(R.id.shiftSeekBar)
+        val encryptBut = findViewById<Button>(R.id.encryptButton)
 
-//        check if there is decrypted message being sent back
+//        Check if there is a decrypted message being sent back
         val decryptedText = intent.getStringExtra("decryptedText")
-        if (!decryptedText.isNullOrEmpty()) { inputText.setText(decryptedText) }
+        if (!decryptedText.isNullOrEmpty()) { input.setText(decryptedText) }
 
-        encryptButton.setOnClickListener {
-            val message = inputText.text.toString()
-            val shift = shiftBar.progress
-
-            if (message.isNotEmpty()) {
-                val encryptedMessage = encryptMessage(message, shift)
+        encryptBut.setOnClickListener {
+            if (input.text.toString().isNotEmpty()) {
+                val encryptedMessage = encryptMsg(input.text.toString(), shift.progress)
 
                 val intent = Intent(this, Decypher::class.java)
                 intent.putExtra("encryptedMessage", encryptedMessage)
-                intent.putExtra("shift", shift)
+                intent.putExtra("shift", shift.progress)
                 startActivity(intent)
             }
         }
     }
 
-    private fun encryptMessage(message: String, shift: Int): String {
+    private fun encryptMsg(message: String, shift: Int): String {
         val inputArray = message.toCharArray()
         for (i in inputArray.indices) {
             if (inputArray[i].isLetter()) {
