@@ -7,12 +7,12 @@ fn main() {
     // "name" now has ownership of this data, which will be passed to the next function.
 
     let (length_of_word, second_word) = get_second_word_and_length(name);
-    // ownership of "name" is transferred to the function 'get_second_word_and_length', which returns a tuple
-    // After this call, "name" is no longer valid. 'get_second_word_and_length' returns a tuple,
+    // ownership of "name" is transferred to the function "get_second_word_and_length", which returns a tuple
+    // After this call, "name" is no longer valid. "get_second_word_and_length" returns a tuple,
     // giving ownership of "second_word" and its length to the variables in "main".
 
     println!("The second word '{}' is {} characters long.", second_word, length_of_word);
-    // ownership of "second_word" is passed to 'println!', which consumes it.
+    // ownership of "second_word" is passed to "println!", which consumes it.
 }
 
 // Function to get the users name (or sentence in this case)
