@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private var running = false
     private var seconds = 0
     private lateinit var textTime: TextView
+    private var wasRunning = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             running = savedInstanceState.getBoolean("running")
-            seconds = savedInstanceState.getInt("seconds"   )
+            seconds = savedInstanceState.getInt("seconds")
+            wasRunning = savedInstanceState.getBoolean("wasRunning")
         }
 
         textTime = findViewById(R.id.textViewTimer)
@@ -69,5 +71,17 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.putBoolean("running", running)
         outState.putInt("seconds", seconds)
+        outState.putBoolean("wasRunning", wasRunning)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        wasRunning = running
+        running = false
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (wasRunning) { running = true }
     }
 }
