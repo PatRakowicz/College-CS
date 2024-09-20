@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Lab4</string>
+    <string name="activity_lifecycle_events">Activity Lifecycle Events</string>
+</resources>
