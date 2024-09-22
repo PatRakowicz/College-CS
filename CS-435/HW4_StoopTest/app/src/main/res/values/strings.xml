@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HW4_StoopTest</string>
+    <string name="red">RED</string>
+    <string name="correct">Correct</string>
+    <string name="wrong">Wrong</string>
+    <string name="correct_0_wrong_0">Correct: 0 | Wrong: 0</string>
 </resources>
