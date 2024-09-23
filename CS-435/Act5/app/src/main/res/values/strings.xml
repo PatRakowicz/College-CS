@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lecture05</string>
+    <string name="specs_logo">specs logo</string>
+    <string-array name="topLevelOptions">
+        <item>Beer</item>
+        <item>Wine</item>
+        <item>Spirits</item>
+    </string-array>
+</resources>
