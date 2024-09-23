@@ -1,6 +1,5 @@
 use std::f64::consts::PI;
 
-// Enum for Color (already given in lab)
 enum Color {
     Red,
     Blue,
@@ -19,7 +18,6 @@ impl Color {
     }
 }
 
-// Rectangle struct (already defined)
 struct Rectangle {
     height: f64,
     width: f64,
@@ -62,7 +60,6 @@ impl Rectangle {
     }
 }
 
-// Oval struct
 struct Oval {
     short_axis: f64,
     long_axis: f64,
@@ -105,7 +102,6 @@ impl Oval {
     }
 }
 
-// Triangle struct
 struct Triangle {
     height: f64,
     base: f64,
@@ -148,7 +144,6 @@ impl Triangle {
     }
 }
 
-// Enum Shape
 enum Shape {
     Rectangle { height: f64, width: f64 },
     Oval { short_axis: f64, long_axis: f64 },
@@ -166,26 +161,23 @@ impl Shape {
 }
 
 fn main() {
-    // Structs
     let oval = Oval::new(1.2, 2.5, Color::Red);
     let triangle = Triangle::new(5.0, 9.3, Color::Blue);
     let circle = Oval::new_circle(3.0, Color::Green);
     let equilateral_triangle = Triangle::new_equilateral(3.0, Color::RGB(255, 255, 0));
+    let shape_rectangle = Shape::Rectangle { height: 3.5, width: 2.3 };
+    let shape_oval = Shape::Oval { short_axis: 1.2, long_axis: 4.0 };
+    let shape_triangle = Shape::Triangle { height: 5.3, base: 8.7 };
+    let _secret_word = "apple";
 
     oval.print_info();
     triangle.print_info();
     circle.print_info();
     equilateral_triangle.print_info();
 
-    // Enum shapes
-    let shape_rectangle = Shape::Rectangle { height: 3.5, width: 2.3 };
-    let shape_oval = Shape::Oval { short_axis: 1.2, long_axis: 4.0 };
-    let shape_triangle = Shape::Triangle { height: 5.3, base: 8.7 };
+    println!("\n ~~~~~~~~~~~~~~~~~~~~~~ \n");
 
     println!("Shape Rectangle Area: {}", shape_rectangle.area());
     println!("Shape Oval Area: {}", shape_oval.area());
     println!("Shape Triangle Area: {}", shape_triangle.area());
-
-    // "apple" hidden somewhere in the code ;)
-    let _secret_word = "apple";
 }
