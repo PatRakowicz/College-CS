@@ -1,5 +1,6 @@
 package cs435.act5
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var listView : ListView
+    private lateinit var listView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +30,12 @@ class MainActivity : AppCompatActivity() {
 
         //Lambda Route
         listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-          if (i == 0) Toast.makeText(applicationContext, "Beer", Toast.LENGTH_LONG).show()
+
+            if (i == 0) {
+                Toast.makeText(applicationContext, "BEER", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, BeerCategoryActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         /*listView.setOnItemClickListener(object : AdapterView.OnItemClickListener {
