@@ -11,10 +11,9 @@ pub fn add_patron(name: &str) {
 }
 
 pub fn list_patrons() {
-    unsafe {
-        let mut s = String::new();
-        for p in &PATRONS {
-            s.push_str("Patrons: {} ")
-        }
+    let mut s = String::new();
+    for p in unsafe {&PATRONS} {
+        s.push_str(&p.name);
+        s.push_str("\n");
     }
 }
