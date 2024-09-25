@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         //Lambda Route
         listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-
             if (i == 0) {
                 Toast.makeText(applicationContext, "BEER", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, BeerCategoryActivity::class.java)
