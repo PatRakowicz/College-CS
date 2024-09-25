@@ -16,4 +16,4 @@ impl Book {
     pub fn display(&self) -> String {
         format!("{} by {}", self.title, self.author)
     }
-}       
+}
