@@ -23,8 +23,8 @@ impl UserPermission {
     pub fn display(&self) {
         println!("~~~User Permissions for {}:", self.profile.name);
         let permission_names = ["Read", "Write", "Execute"];
-        for (i, &perm) in self.permissions.iter().enumerate() {
-            println!("{}: {}", permission_names[i], if perm { "True" } else { "False" });
+        for (i, perm) in self.permissions.iter().enumerate() {
+            println!("{}: {}", permission_names[i], if *perm { "True" } else { "False" });
         }
     }
 
