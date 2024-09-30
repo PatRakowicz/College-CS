@@ -3,5 +3,17 @@ pub struct Profile {
     pub email: String,
 }
 
-// Add a comment placeholder
-// This struct represents a user profile with basic information
+impl Profile {
+    pub fn new(name: &str, email: &str) -> Self {
+        Self {
+            email: email.to_string(),
+            name: name.to_string(),
+        }
+    }
+
+    pub fn display(&self) {
+        println!("~~~Profle Information: ");
+        println!("Name: {}", self.name);
+        println!("Email: {}", self.email);
+    }
+}
