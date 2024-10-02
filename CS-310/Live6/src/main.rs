@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn main() {
     let mut v: Vec<i32> = Vec::new();
 
@@ -34,7 +36,7 @@ fn main() {
     }
 
     let mut v5 = vec![1, 2, 3, 4];
-    v5.retain(|value|*value < 100);
+    v5.retain(|value| *value < 100);
 
     for i in &v5 {
         println!("{i}");
@@ -55,12 +57,57 @@ fn main() {
 
     // println!("{s3}");
 
-    let s4 =  format!("{s1}{s2}");
+    let s4 = format!("{s1}{s2}");
     println!("{s4}");
 
-    let s4 ="^&h";
+    let s4 = "^&h";
     println!("{}", &s4[0..2]);
     for c in s4.chars() {
         print!("{c}");
+    }
+
+
+    let mut scores = HashMap::new();
+    scores.insert("democrats", 0.48);
+    scores.insert("republican", 0.49);
+
+    for (key, val) in &scores {
+        println!("{key}");
+    }
+
+    let poll_score = scores.get("democrats").unwrap();
+    println!("{poll_score}");
+
+    let thrid = "third Party";
+    let third_poll = 0.02;
+    scores.insert(thrid, third_poll);
+
+    let res = largest(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    println!("{res}");
+
+    let p = Point { x: 0, y: 0 };
+    let p2 = Point { x: 40, y: 30 };
+    let p3 = p.crossover(p2);
+    println!({ p3: ? })
+}
+
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+#[derive(Debug)]
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+impl<T, U> Point<T, U> {
+    fn crossover<T2, U2>(self, p2: Point<T2, U2>) -> Point<T2, U2> {
+        Point { x: self.x, y: p2.y }
     }
 }
