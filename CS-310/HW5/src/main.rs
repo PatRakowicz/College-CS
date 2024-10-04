@@ -10,7 +10,7 @@ fn main() {
     profile.display();
     println!(" ");
 
-    let user_role = UserRole::new(profile, "Admin");
+    let user_role = UserRole::new(profile);
     user_role.display();
 
     let mut user_permissions = UserPermission::new(user_role.profile);
@@ -18,7 +18,7 @@ fn main() {
     println!(" ");
 
     println!("~~~Modifying permissions~~~");
-    user_permissions.add_permissions(0);
+    user_permissions.add_permissions();
     user_permissions.add_permissions(1);
     user_permissions.display();
     println!(" ");

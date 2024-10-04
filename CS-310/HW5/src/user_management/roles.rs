@@ -7,22 +7,26 @@ pub enum Role {
     Viewer,
 }
 
-pub struct UserRole {
-    pub profile: Profile,
-    pub role : String,
+pub struct UserRole<T> {
+    pub profile: Profile<T>,
+    pub role : Vec<Role>,
 }
 
-impl UserRole {
-    pub fn new(profile: Profile, role: &str) -> Self{
+impl<T> UserRole<T> {
+    pub fn new(profile: Profile<T>) -> Self{
         Self {
             profile,
-            role: role.to_string()
+            role: vec![Role::Viewer]
         }
     }
 
     pub fn display(&self) {
         println!("~~~User Role Information: ");
         println!("Profile Name: {}", self.profile.name);
-        println!("Assigned Role: {}", self.role);
+        println!("Assigned Role: {:?}", self.role);
+    }
+
+    pub fn change_role(&mut self, new_role : Role) {
+        self.role.push(new_role);
     }
 }
