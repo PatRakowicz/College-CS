@@ -31,10 +31,10 @@ impl<T> UserPermission<T> {
         }
     }
 
-    pub fn add_permissions(&mut self, permission: &String) {
+    pub fn add_permissions(&mut self, permission: &str) {
         if let Some(p) = self.permissions.get_mut(permission) { *p = true; }
     }
-    pub fn remove_permissions(&mut self, permission: &String) {
+    pub fn remove_permissions(&mut self, permission: &str) {
         if let Some(p) = self.permissions.get_mut(permission) { *p = false; }
     }
 }
