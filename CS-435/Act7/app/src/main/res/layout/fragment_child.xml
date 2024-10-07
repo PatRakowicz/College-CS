@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChildFragment" >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Child Fragment"
+        android:layout_weight="1"
+        android:textSize="36sp"
+        android:gravity="center"/>
+    <EditText
+        android:id="@+id/editTextWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="24sp"
+        android:inputType="text"
+        android:hint="enter something..."
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/buttonClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Click"
+        android:textSize="24sp"
+        app:cornerRadius="0dp" />
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_weight="1"/>
+        <!--android:onClick="click"/>-->
+</LinearLayout>
+

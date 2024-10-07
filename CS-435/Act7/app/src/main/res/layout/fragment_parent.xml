@@ -4,20 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".WorkoutDetailFragment"
-    android:layout_margin="25dp">
-
+    tools:context=".ParentFragment">
 
     <TextView
-        android:id="@+id/textViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:text="Parent Fragment"
+        android:gravity="center_horizontal"
+        android:textSize="36sp"/>
 
-    <TextView
-        android:id="@+id/textViewDesc"
+    <FrameLayout
+        android:id="@+id/frameLayoutForChild"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="desc\ndesc\ndesc\n" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
 </LinearLayout>
+
+
