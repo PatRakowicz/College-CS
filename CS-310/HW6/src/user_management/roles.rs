@@ -27,13 +27,9 @@ impl UserRole {
         self.roles.push(new_role);
     }
 
-    /// Removes a specific role from the user's roles using `swap_remove`
+    /// Removes a specific role from the user's roles using `retain`.
+    /// This function keeps only the roles that do **not** match the specified role.
     pub fn remove_role(&mut self, role: Role) {
-        for i in 0..self.roles.len() {
-            if self.roles[i] == role {
-                self.roles.swap_remove(i);  // Remove the role and maintain order
-                break;
-            }
-        }
+        self.roles.retain(|r| *r != role);  // Remove roles that match the input
     }
 }
