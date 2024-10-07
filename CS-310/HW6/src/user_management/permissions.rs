@@ -1,40 +1,39 @@
 use std::collections::HashMap;
-use crate::user_management::profiles::Profile;
 
-/*#[derive(Debug, Clone)]
-pub enum Permission {
-    Read(bool),
-    Write(bool),
-    Execute(bool),
-}*/
+/// Struct representing user permissions
+pub struct UserPermission { pub permissions: HashMap<String, bool> }  // Maps permission names to their boolean states
 
-pub struct UserPermission<T> {
-    pub profile: Profile<T>,
-    pub permissions: HashMap<String, bool>
-}
 
-impl<T> UserPermission<T> {
-    pub fn new(profile: Profile<T>) -> Self {
-        let mut permissions = HashMap::new();
-
-        permissions.insert("read".to_string(), false);
-        permissions.insert("write".to_string(), false);
-        permissions.insert("execute".to_string(), false);
-
-        Self { profile, permissions }
+impl UserPermission {
+    /// Creates a new `UserPermission` instance with no initial permissions
+    pub fn new() -> Self {
+        let permissions = HashMap::new();
+        Self { permissions }
     }
 
+    /// Displays the current permissions for a user
     pub fn display(&self) {
-        println!("~~~User Permissions for {}:", self.profile.name);
-        for (permission, is_granted) in &self.permissions {
-            println!("{}: {}", permission, if *is_granted { "True" } else { "False" });
+        println!("Permissions:");
+        for (perm, allowed) in &self.permissions {
+            println!("{}: {}", perm, allowed);
         }
     }
 
-    pub fn add_permissions(&mut self, permission: &str) {
-        if let Some(p) = self.permissions.get_mut(permission) { *p = true; }
+    /// Adds a permission and sets its state to true
+    pub fn add_permission(&mut self, permission: &str) {
+        self.permissions.insert(permission.to_string(), true);
     }
-    pub fn remove_permissions(&mut self, permission: &str) {
-        if let Some(p) = self.permissions.get_mut(permission) { *p = false; }
+
+    /// Removes a permission by setting its state to false
+    pub fn remove_permission(&mut self, permission: &str) {
+        self.permissions.insert(permission.to_string(), false);
+    }
+
+    /// Checks if a permission exists. If not adds it with a default value of false
+    pub fn check_permission(&mut self, permission: &str) -> bool {
+        self.permissions.get(permission).cloned().unwrap_or_else(|| {
+            self.permissions.insert(permission.to_string(), false);
+            false
+        })
     }
 }
