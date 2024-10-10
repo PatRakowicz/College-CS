@@ -19,7 +19,7 @@ class ChildFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_child, container, false)
-        editText = view.findViewById(R.id.textView)
+        editText = view.findViewById(R.id.editTextWord)
         textView = view.findViewById(R.id.textViewResult)
         button = view.findViewById(R.id.buttonClick)
         button.setOnClickListener(this)
@@ -28,9 +28,7 @@ class ChildFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        fun click(view: View) {
-            val input = editText.text.toString()
-            textView.text = input
-        }
+        val input = editText.text.toString()
+        textView.text = input
     }
 }
