@@ -1,11 +1,14 @@
 use std::collections::HashMap;
 use crate::user_management::profiles::Profile;
+use std::fmt::Debug;
+use std::cmp::PartialOrd;
+use std::cmp::Ord;
 
 /// Struct representing a company with depart and profiles
-pub struct Company<T> { depart: HashMap<String, Vec<Profile<T>>> }  // Maps department names to a list of profiles
+pub struct Company<T: Debug + PartialOrd + Ord> { depart: HashMap<String, Vec<Profile<T>>> }  // Maps department names to a list of profiles
 
 // Getting error if i dont use ': std::fmt::Debug' given from build
-impl<T: std::fmt::Debug> Company<T> {
+impl<T: Debug + PartialOrd + Ord> Company<T> {
     /// Creates a new `Company` with an initial department and profile
     pub fn new(initial_department: &str, initial_profile: Profile<T>) -> Self {
         let mut depart = HashMap::new();
