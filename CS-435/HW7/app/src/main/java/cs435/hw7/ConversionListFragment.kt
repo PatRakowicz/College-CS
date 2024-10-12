@@ -35,15 +35,12 @@ class ConversionListFragment : Fragment() {
         )
         conversionList.adapter = adapter
 
-        // Handle list item click
         conversionList.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, _ ->
             val fragmentTransaction = fragmentManager?.beginTransaction()
 
             if (isTablet) {
-                // Tablet: Update right-side container with DetailAndHistoryFragment
                 fragmentTransaction?.replace(R.id.fragment_detail_and_history_container, DetailAndHistoryFragment())
             } else {
-                // Phone: Replace entire screen with DetailAndHistoryFragment
                 fragmentTransaction?.replace(R.id.fragment_container, DetailAndHistoryFragment())
                     ?.addToBackStack(null)
             }
