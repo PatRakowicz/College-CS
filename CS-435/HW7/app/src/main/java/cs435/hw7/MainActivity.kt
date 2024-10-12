@@ -1,12 +1,15 @@
 package cs435.hw7
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+    private var isTablet: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -15,6 +18,20 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        isTablet = findViewById<TextView>(R.id.is_tablet) != null
+
+        if (savedInstanceState == null) {
+            if (isTablet) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_list_container, ConversionListFragment())
+                    .commit()
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, ConversionListFragment())
+                    .commit()
+            }
         }
     }
 }

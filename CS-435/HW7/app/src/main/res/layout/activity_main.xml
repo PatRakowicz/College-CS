@@ -12,4 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_container"/>
+
+    <TextView
+        android:id="@+id/is_phone"
+        android:visibility="gone"
+        android:text="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
