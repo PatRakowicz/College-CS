@@ -23,7 +23,6 @@ class DetailAndHistoryFragment : Fragment() {
 
         bundle.putString("conversion_name", selectedConversionName)
         conversionDetailFragment.arguments = bundle
-//        Log.d("detailandhistory", selectedConversionName.toString())
 
         conversionHistoryFragment = ConversionHistoryFragment()
 

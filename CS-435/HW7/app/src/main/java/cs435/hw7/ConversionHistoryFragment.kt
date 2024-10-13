@@ -32,7 +32,6 @@ class ConversionHistoryFragment : Fragment() {
 
     fun updateHistory() {
         val historyItems = Conversion.getHistory()
-//        Log.d("history", historyItems.toString())
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, historyItems)
         historyList.adapter = adapter
     }

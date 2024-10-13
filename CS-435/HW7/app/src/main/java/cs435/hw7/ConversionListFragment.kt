@@ -40,8 +40,6 @@ class ConversionListFragment : Fragment() {
             val bundle = Bundle()
 
             bundle.putString("conversion_name", selectedConversionName)
-//            Log.d("conversionList | bundle", bundle.getString("conversion_name").toString())
-//            Log.d("conversionList | selectedConversionName", selectedConversionName.toString())
             DHfragment.arguments = bundle
 
             val fragmentTransaction = fragmentManager?.beginTransaction()

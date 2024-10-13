@@ -21,7 +21,6 @@ class Conversion(
             val formattedResult = String.format("%.2f", result)
             val historyEntry = "$formattedInput $conversionName = $formattedResult"
             conversionHistory.add(historyEntry)
-//            Log.d("saveHistory", conversionHistory.toString())
         }
 
         fun getHistory(): List<String> {

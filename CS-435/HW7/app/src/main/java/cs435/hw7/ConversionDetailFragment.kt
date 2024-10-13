@@ -34,15 +34,10 @@ class ConversionDetailFragment : Fragment() {
         if (bundle != null) {
             selectedConversionName = bundle.getString("conversion_name")
             selectedConversion = Conversion.conversions.firstOrNull { it.name == selectedConversionName }
-
-//            Log.d("ConversionDetail", "Selected Conversion Name: $selectedConversionName")
-//            Log.d("ConversionDetail", "Selected Conversion: $selectedConversion")
         }
 
         convertButton.setOnClickListener {
             val inputValue = detailEditText.text.toString().toDoubleOrNull()
-//            Log.d("inputValue", inputValue.toString())
-//            Log.d("selectedConversion", selectedConversion.toString())
 
             if (inputValue != null && selectedConversion != null) {
                 try {
