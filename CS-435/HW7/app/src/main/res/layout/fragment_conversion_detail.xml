@@ -17,13 +17,14 @@
         android:id="@+id/convert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/convert" />
 
     <TextView
         android:id="@+id/result_value"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/print_result"
-        android:paddingTop="16dp"/>
+        android:paddingTop="16dp"
+        android:textSize="18sp"/>
 
 </LinearLayout>
