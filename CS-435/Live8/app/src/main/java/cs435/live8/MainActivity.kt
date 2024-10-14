@@ -1,15 +1,14 @@
-package cs435.hw7
+package cs435.live8
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-    private var isTablet: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,18 +19,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        isTablet = findViewById<TextView>(R.id.is_tablet) != null
-
-        if (savedInstanceState == null) {
-            if (isTablet) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_list_container, ConversionListFragment())
-                    .commit()
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, ConversionListFragment())
-                    .commit()
-            }
-        }
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val itemAdapter = ItemAdapter()
+        recyclerView.adapter = itemAdapter
+        recyclerView.layoutManager = LinearLayoutManager(applicationContext)
     }
 }

@@ -1,21 +1,35 @@
 package cs435.hw7
 
+import android.util.Log
+
 class Conversion(
     var name: String? = null,
-    var description: String? = null,
-    var factor: Double? = null
+    private val logic: (Double) -> Double
 ) {
     companion object {
+        private val conversionHistory = mutableListOf<String>()
+
         val conversions = arrayOf(
-            Conversion("Fahrenheit to Celsius", "Converts Fahrenheit to Celsius", 0.5556),
-            Conversion("Miles to Kilometers", "Converts miles to kilometers", 1.60934),
-            Conversion("Yards to Meters", "Converts yards to meters", 0.9144),
-            Conversion("Gallons to Liters", "Converts gallons to liters", 3.78541)
+            Conversion("Fahrenheit to Celsius") { value -> (value - 32) * 5/9 },
+            Conversion("Miles to Kilometers") { value -> value * 1.609 },
+            Conversion("Yards to Meters") { value -> value / 1.094  },
+            Conversion("Gallons to Liters") { value -> value * 3.785 }
         )
+
+        fun saveToHistory(inputValue: Double, conversionName: String, result: Double) {
+            val formattedInput = String.format("%.2f", inputValue)
+            val formattedResult = String.format("%.2f", result)
+            val historyEntry = "$formattedInput $conversionName = $formattedResult"
+            conversionHistory.add(historyEntry)
+        }
+
+        fun getHistory(): List<String> {
+            return conversionHistory
+        }
     }
 
     fun convert(value: Double): Double {
-        return value * (factor ?: 1.0)
+        return logic(value)
     }
 
     override fun toString(): String {

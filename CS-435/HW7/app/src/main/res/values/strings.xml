@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">HW7</string>
-    <string name="hello_blank_fragment">Conversion History</string>
+    <string name="print_result">Result</string>
     <string name="enter_value_to_convert">Result will be displayed here</string>
+    <string name="history">History</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="convert">Convert</string>
 </resources>
