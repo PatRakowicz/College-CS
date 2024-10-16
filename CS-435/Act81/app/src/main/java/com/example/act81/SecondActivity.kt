@@ -1,6 +1,9 @@
 package com.example.act81
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +19,13 @@ class SecondActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+    fun submit (view: View) {
+        val editText:EditText = findViewById(R.id.editTextSecond)
+        val msg = editText.text.toString()
+        val resultIntent = Intent()
+        resultIntent.putExtra(MainActivity.KEY, msg)
+        setResult(MainActivity.RESULT_CODE, resultIntent)
+        finish()
     }
 }
