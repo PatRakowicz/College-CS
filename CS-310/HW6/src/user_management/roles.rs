@@ -30,6 +30,10 @@ impl UserRole {
     /// Removes a specific role from the user's roles using `retain`.
     /// This function keeps only the roles that do **not** match the specified role.
     pub fn remove_role(&mut self, role: Role) {
-        self.roles.retain(|r| *r != role);  // Remove roles that match the input
+        let mut i = 0;
+        while i < self.roles.len() {
+            if self.roles[i] == role { self.roles.remove(i); }
+            else { i += 1; }
+        }
     }
 }
