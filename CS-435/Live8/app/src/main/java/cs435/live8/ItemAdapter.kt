@@ -7,8 +7,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ItemAdapter(private val itemAdapterListener: ItemAdapterListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+
+    interface ItemAdapterListener {
+        fun click(position: Int)
+    }
+    
+    class ViewHolder(itemView: View, private val itemAdapterListener: ItemAdapterListener) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                itemAdapterListener.click(position)
+            }
+        }
+
         private val textViewRed: TextView = itemView.findViewById(R.id.textViewRed)
         private val textViewGreen: TextView = itemView.findViewById(R.id.textViewGreen)
         private val textViewBlue: TextView = itemView.findViewById(R.id.textViewBlue)
@@ -26,7 +39,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, itemAdapterListener)
     }
 
     override fun onBindViewHolder(holder: ItemAdapter.ViewHolder, position: Int) {
