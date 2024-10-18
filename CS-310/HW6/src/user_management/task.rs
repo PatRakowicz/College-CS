@@ -3,14 +3,14 @@ use crate::user_management::profiles::Profile;
 
 
 // Resource | https://www.youtube.com/watch?v=gRAVZv7V91Q&ab_channel=leddoo
-pub struct Task<'lt, T: Debug> {
+pub struct Task<'lt, T: Debug + PartialOrd + Ord> {
     pub id: i32,
     pub description: String,
     pub employees: Vec<&'lt Profile<'lt, T>>
 }
 
-impl<'lt, T: Debug> Task<'lt, T> {
-    pub fn new (id: i32, description: String, employees: Vec<&'lt Profile<T>>) -> Self {
+impl<'lt, T: Debug + PartialOrd + Ord> Task<'lt, T> {
+    pub fn new (id: i32, description: String, employees: Vec<&'lt Profile<'lt, T>>) -> Self {
         Self {
             id,
             description,
