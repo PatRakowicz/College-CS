@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,10 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var addTaskButton: Button
 
-    companion object {
-        const val ADD_TASK_REQUEST = 1
-        const val VIEW_TASK_REQUEST = 2
-    }
+    private lateinit var addTaskLauncher: ActivityResultLauncher<Intent>
+    private lateinit var viewTaskLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,22 +38,25 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = taskAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
+        // https://stackoverflow.com/questions/61455381/how-to-replace-startactivityforresult-with-activity-result-apis
+        addTaskLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) { taskAdapter.updateTasks(Task.getTaskList()) }
+        }
+
+        viewTaskLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) { taskAdapter.updateTasks(Task.getTaskList()) }
+        }
+
         addTaskButton.setOnClickListener {
             val intent = Intent(this, AddTaskActivity::class.java)
-            startActivityForResult(intent, ADD_TASK_REQUEST)
+            addTaskLauncher.launch(intent)
         }
     }
 
     private fun onTaskSelected(task: Task) {
         val intent = Intent(this, ViewTaskActivity::class.java)
         intent.putExtra("TASK_ID", task.id)
-        startActivityForResult(intent, VIEW_TASK_REQUEST)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            taskAdapter.updateTasks(Task.getTaskList())
-        }
+        viewTaskLauncher.launch(intent)
     }
 }
