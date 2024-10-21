@@ -50,6 +50,7 @@ class TaskAdapter(
 
     override fun getItemCount() = tasks.size
 
+    //https://developer.android.com/reference/androidx/recyclerview/widget/RecyclerView.Adapter#notifyDataSetChanged()
     // Updates list and refreshes the recyclerView
     fun updateTasks(newTasks: List<Task>) {
         tasks = newTasks
