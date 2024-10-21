@@ -26,6 +26,7 @@ class Task(
             taskList.add(task)
         }
 
+        // https://kotlinlang.org/docs/scope-functions.html#let
         fun deleteTask(taskId: Int) {
             val task = taskList.find { it.id == taskId }
             task?.let { taskList.remove(it) }
