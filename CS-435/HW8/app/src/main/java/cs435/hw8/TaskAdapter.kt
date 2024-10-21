@@ -34,6 +34,7 @@ class TaskAdapter(
         }
     }
 
+// Responsible for creating new views and binding the task object to each element created
     // Called when recyclerView needs a new viewHolder to display an item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -45,6 +46,7 @@ class TaskAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(tasks[position])
     }
+// ++++++++
 
     override fun getItemCount() = tasks.size
 
