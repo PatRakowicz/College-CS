@@ -44,4 +44,15 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Task Description</string>
+    <string name="add">ADD</string>
+    <string name="add_task">Add Task</string>
+    <string name="task_name_view">Task Name</string>
+    <string name="task_description_view">Task Description</string>
+    <string name="edit_priority">Edit Priority</string>
+    <string name="delete">Delete</string>
+    <string name="item_description_layout">Item Description</string>
+    <string name="priority_text">Priority: 1</string>
+    <string name="item_name_layout">Item Name</string>
 </resources>

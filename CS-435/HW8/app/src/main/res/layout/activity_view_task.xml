@@ -12,7 +12,7 @@
         android:id="@+id/taskName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Task Name"
+        android:text="@string/task_name_view"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -20,14 +20,14 @@
         android:id="@+id/taskDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Task Description"
+        android:text="@string/task_description_view"
         android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/priorityEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Edit Priority"
+        android:hint="@string/edit_priority"
         android:inputType="number"
         android:layout_marginTop="16dp" />
 
@@ -35,7 +35,7 @@
         android:id="@+id/deleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="@string/delete"
         android:layout_marginTop="8dp" />
 
 </LinearLayout>
