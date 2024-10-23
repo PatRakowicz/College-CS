@@ -1,6 +1,6 @@
 use core::ops::Drop;
 use std::rc::Rc;
-use crate::List::{Cons, Nil, Theend};
+use crate::List::{Cons, Theend};
 
 fn main() {
     // Drop example
@@ -35,7 +35,7 @@ enum List {
     Theend
 }
 
-pub trait Messenger { fn send(&mut self, msg: &str); }
+pub trait Messenger { fn send(&self, msg: &str); }
 pub struct LimitTracker<'a, T: Messenger> {
     messanger: &'a T,
     value: usize,
@@ -43,7 +43,7 @@ pub struct LimitTracker<'a, T: Messenger> {
 }
 
 impl <'a, T> LimitTracker<'a,T> where T:Messenger {
-    pub fn new(messager: &'a T, max:usize,) -> LimitTracker<'a, T> {
+    pub fn new(messanger: &'a T, max:usize,) -> LimitTracker<'a, T> {
         LimitTracker {
             messanger,
             value: 0,
@@ -63,12 +63,13 @@ impl <'a, T> LimitTracker<'a,T> where T:Messenger {
 
 #[cfg(test)]
 mod tests {
+    use std::cell::RefCell;
     use super::*;
-    struct MockMsg { sent_messages : Vec<String> }
-    impl MockMsg { fn new() -> Self { MockMsg { sent_messages: Vec::new() } } }
+    struct MockMsg { sent_messages : RefCell<Vec<String>> }
+    impl MockMsg { fn new() -> Self { MockMsg { sent_messages: RefCell::new(Vec::new()) } } }
     impl Messenger for MockMsg {
-        fn send(&mut self, msg: &str) {
-            self.sent_messages.push(String::from(msg))
+        fn send(&self, msg: &str) {
+            self.sent_messages.borrow_mut().push(String::from(msg))
         }
     }
 
@@ -77,7 +78,7 @@ mod tests {
         let mock = MockMsg::new();
         let mut limit = LimitTracker::new(&mock, 100);
         limit.update_value(85);
-        assert_eq!(mock.sent_messages.len(), 1)
+        assert_eq!(mock.sent_messages.borrow().len(), 1)
     }
 }
 
