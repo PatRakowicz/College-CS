@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,12 +58,9 @@ class MainActivity : AppCompatActivity() {
         builder.setNegativeButton("Sad") { dialog, which ->
             Toast.makeText(this, "sad", Toast.LENGTH_SHORT).show()
         }
-
-
         builder.show()
     }
-    // Lab9 Time picker
-    // Create time picker fragment
+
     fun onClickDatePicker(view: View) {
         val dateFragment = DateFragment()
         dateFragment.show(supportFragmentManager, null)

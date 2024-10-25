@@ -20,13 +20,13 @@
         android:id="@+id/buttonShow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Show Alert"
         android:onClick="showAlertDialog"/>
 
     <Button
         android:id="@+id/buttonPick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Date Picker"
         android:onClick="onClickDatePicker"/>
 </LinearLayout>
