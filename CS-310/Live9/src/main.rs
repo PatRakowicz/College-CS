@@ -1,4 +1,5 @@
 use core::ops::Drop;
+use std::cell::RefCell;
 use std::rc::Rc;
 use crate::List::{Cons, Theend};
 
@@ -22,16 +23,22 @@ fn main() {
 
     // recursive type
     // let ls = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+    let value = Rc::new(RefCell::new(1));
+    let r = Rc::new(Cons(Rc::clone(&value), Rc::new(Theend)));
+    // get count of references using strong_count
+    println!("strong count - {}", Rc::strong_count(&r));
 
-    let r = Rc::new(Cons(1, Rc::new(Theend)));
-    let s = Cons(2, Rc::clone(&r));
-    let t = Cons(3, Rc::clone(&r));
+    let s = Cons(Rc::new(RefCell::new(2)), Rc::clone(&r));
+    println!("strong count - {}", Rc::strong_count(&r));
+
+    let t = Cons(Rc::new(RefCell::new(3)), Rc::clone(&r));
+    println!("strong count - {}", Rc::strong_count(&r));
 
 }
 
 //recursive struct
 enum List {
-    Cons(i32, Rc<List>),
+    Cons(Rc<RefCell<i32>>, Rc<List>),
     Theend
 }
 
