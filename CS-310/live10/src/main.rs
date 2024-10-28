@@ -50,7 +50,7 @@ fn main() {
             thread::sleep(Duration::from_secs(2));
         }
     });
-    
+
     // rcev() and try_rcev() -> will check for messages constantly
     for rcv in rx {
         println!("arived {rcv}");
