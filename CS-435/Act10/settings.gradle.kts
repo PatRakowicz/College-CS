@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Act10"
+rootProject.name = "Act5"
 include(":app")

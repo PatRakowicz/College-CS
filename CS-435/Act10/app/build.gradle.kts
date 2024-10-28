@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "cs435.act10"
+    namespace = "cs435.act5"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "cs435.act10"
+        applicationId = "cs435.act5"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
