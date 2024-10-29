@@ -63,6 +63,8 @@ class CartActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_delete -> {
+                // https://developer.android.com/reference/android/app/AlertDialog.Builder | Dev notes
+                // https://commonsware.com/Jetpack/pages/chap-dialog-002.html | Example
                 AlertDialog.Builder(this)
                     .setTitle("Confirm Deletion")
                     .setMessage("Are you sure you want to delete all items in the cart?")
