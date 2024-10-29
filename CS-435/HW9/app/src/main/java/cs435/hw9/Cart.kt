@@ -3,20 +3,10 @@ package cs435.hw9
 class Cart {
     companion object {
         private val cartItems = mutableListOf<Books>()
-        var deliveryDate: String? = null
-        var deliveryTime: String? = null
+        private var deliveryDate: String? = null
+        private var deliveryTime: String? = null
 
-        fun addToCart(book: Books) {
-            cartItems.add(book)
-        }
-
-        fun removeFromCart(bookId: Int) {
-            cartItems.removeAll { it.id == bookId }
-        }
-
-        fun getCartItems(): List<Books> {
-            return cartItems
-        }
+        fun getCartItems(): List<Books> { return cartItems }
 
         fun clearCart() {
             cartItems.clear()
@@ -28,5 +18,10 @@ class Cart {
             val book = Books.books.find { it.id == bookId }
             if (book != null) { cartItems.add(book) }
         }
+
+        fun updateDeliveryDate(date: String) { deliveryDate = date }
+        fun updateDeliveryTime(time: String) { deliveryTime = time }
+        fun retrieveDeliveryDate(): String? = deliveryDate
+        fun retrieveDeliveryTime(): String? = deliveryTime
     }
 }

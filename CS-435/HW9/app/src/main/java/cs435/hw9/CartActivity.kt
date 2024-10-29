@@ -1,6 +1,7 @@
 package cs435.hw9
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -37,19 +38,20 @@ class CartActivity : AppCompatActivity() {
 
         loadCartItems()
 
-        // Set up button actions (placeholders for now)
         setDeliveryDateButton.setOnClickListener {
-            Cart.deliveryDate = null // Placeholder action
+            DatePickerFragment().show(supportFragmentManager, "datePicker")
         }
 
         setDeliveryTimeButton.setOnClickListener {
-            Cart.deliveryTime = null // Placeholder action
+            TimePickerFragment().show(supportFragmentManager, "timePicker")
         }
 
         submitOrderButton.setOnClickListener {
-            Cart.clearCart()
-            loadCartItems()
-            finish() // Close the activity
+            if (Cart.retrieveDeliveryDate() != null && Cart.retrieveDeliveryTime() != null) {
+                startActivity(Intent(this, OrderConfirmActivity::class.java))
+            } else {
+                Toast.makeText(this, "Please set Delivery date and time", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
