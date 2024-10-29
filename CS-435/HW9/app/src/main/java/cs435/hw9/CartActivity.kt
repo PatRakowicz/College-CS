@@ -68,7 +68,7 @@ class CartActivity : AppCompatActivity() {
                 AlertDialog.Builder(this)
                     .setTitle("Confirm Deletion")
                     .setMessage("Are you sure you want to delete all items in the cart?")
-                    .setPositiveButton("Yes") { dialogInterface, which ->
+                    .setPositiveButton("Yes") { _, _ ->
                         Cart.clearCart()
                         loadCartItems()
                         Toast.makeText(this, "Cart cleared", Toast.LENGTH_SHORT).show()
