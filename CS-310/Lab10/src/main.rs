@@ -10,10 +10,10 @@ use rand::Rng; // Add `rand` crate to cargo.toml: rand = "0.8.4"
 // Create struct LogReceiver
 // TODO: add variable receiver of type mpsc::Receiver<> which will receive String messages
 struct LogReceiver {
-
+    receiver: mpsc::Receiver<String>,
 }
 
-//implented constructor and function "logging"
+//implemented constructor and function "logging"
 impl LogReceiver {
     fn new(rx: Receiver<String>) -> Self {
         Self { receiver: rx}
@@ -33,11 +33,11 @@ fn main() {
     let (log_tx, log_rx) = mpsc::channel();
 
     // TODO: Initialize a LogReceiver using the just initialized receiver object
-
+    let mut logRecever = LogReceiver { receiver };
 
     // TODO: Spawn a SINGLE thread to handle logging, 
     // inside the thread call the logging method we defined for our LogReceiver struct 
-
+    thread::spawn(move || { logRecever.logging() });
 
     // TODO: Use a for loop to spawn multiple threads to handle "requests" (minimum of 5 threads)
     {
