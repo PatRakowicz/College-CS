@@ -9,7 +9,7 @@ class BeerDatabaseHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, n
 
     companion object {
         private const val DB_NAME = "beer.sqlite"
-        private const val DB_VERSION = 1
+        private const val DB_VERSION = 3
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -46,6 +46,11 @@ class BeerDatabaseHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, n
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-
+        if (oldVersion == 2) {
+            val query = "alter table beer add column favorite numeric"
+            db?.execSQL(query)
+        }
     }
+
+
 }
