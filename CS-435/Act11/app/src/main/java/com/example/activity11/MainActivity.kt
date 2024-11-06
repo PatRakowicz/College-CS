@@ -1,6 +1,8 @@
 package com.example.activity11
 
+import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -9,6 +11,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,10 +29,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         val beerDatabaseHelper = BeerDatabaseHelper(applicationContext)
         val sqLiteDatabase = beerDatabaseHelper.readableDatabase
 
-
+        CoroutineScope(Dispatchers.IO).launch {
+            insertBeerInDatabase(sqLiteDatabase)
+        }
 
         listView = findViewById(R.id.ListViewDrinks)
 
@@ -39,5 +48,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private suspend fun insertBeerInDatabase(sqLiteDatabase: SQLiteDatabase) {
+        withContext(Dispatchers.IO) {
+            for (i in 1..10000) {
+                val beerValue = ContentValues().apply {
+                    put("name", "Beer $i")
+                    put("description", "Description of $i")
+                    put("image_resource_id", R.drawable.crux)
+                }
+                sqLiteDatabase.insert("beer", null, beerValue)
+            }
+        }
     }
 }

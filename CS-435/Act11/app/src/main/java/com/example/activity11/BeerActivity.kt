@@ -28,10 +28,32 @@ class BeerActivity : AppCompatActivity() {
         textViewDesc = findViewById(R.id.textViewDesc)
 
         val index = intent.getIntExtra("INDEX", 0)
-        val beer = Beer.beers[index]
+        val beerDatabaseHelper = BeerDatabaseHelper(applicationContext)
+        val sqLiteDatabase = beerDatabaseHelper.readableDatabase
+        val cursor = sqLiteDatabase.query(
+            "beer",
+            arrayOf("_id", "name", "description", "image_resource_id"),
+            "_id = ?",
+            arrayOf(index.toString()),
+            null, null, null, null
+        )
 
+        if (cursor.moveToFirst()) {
+            var column = cursor.getColumnIndexOrThrow("name")
+            textViewName.text = cursor.getString(column)
+
+            column = cursor.getColumnIndexOrThrow("description")
+            textViewDesc.text = cursor.getString(column)
+
+            column = cursor.getColumnIndexOrThrow("image_resource_id")
+            imageView.setImageResource(cursor.getInt(column))
+        }
+        cursor.close()
+        sqLiteDatabase.close()
+
+        /*val beer = Beer.beers[index]
         beer.imageResourceID?.let { imageView.setImageResource(it) }
         textViewName.text = beer.name
-        textViewDesc.text = beer.description
+        textViewDesc.text = beer.description*/
     }
 }
