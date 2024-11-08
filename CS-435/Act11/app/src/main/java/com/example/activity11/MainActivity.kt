@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun insertBeerInDatabase(sqLiteDatabase: SQLiteDatabase) {
         withContext(Dispatchers.IO) {
-            for (i in 1..10000) {
+            for (i in 1..10) {
                 val beerValue = ContentValues().apply {
                     put("name", "Beer $i")
                     put("description", "Description of $i")
