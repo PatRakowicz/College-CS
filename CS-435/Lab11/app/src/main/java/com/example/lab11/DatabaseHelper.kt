@@ -1,5 +1,6 @@
 package com.example.lab11
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -29,14 +30,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun insertItem(name: String, age: Int) {
         val db = this.readableDatabase
-
-        //finish
-
+        var values = ContentValues().apply {
+            put("age", age)
+            put("name", name)
+        }
+        db?.insert("item", null, values)
     }
 
     fun getAllItems(): Cursor {
         val db = this.readableDatabase
-
-        //finish
+        val cursor = db.query(
+            "item",
+            arrayOf("_id", "name", "age"),
+            null, null, null, null, null
+        )
+        return cursor
     }
 }

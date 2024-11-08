@@ -1,23 +1,27 @@
 package com.example.lab11
 
+import android.database.Cursor
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter: RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(val cursor: Cursor): RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         private val textViewAge: TextView = itemView.findViewById(R.id.textViewAge)
 
+        fun update(cursor: Cursor) {
+            if(cursor.moveToFirst()){
+                val name = cursor.getColumnIndexOrThrow("name")
+                val age = cursor.getColumnIndexOrThrow("age")
 
-        fun update(item: Item) {
-            textViewName.text = item.name
-            textViewAge.text = item.age.toString()
-
+                textViewName.text = cursor.getString(name)
+                textViewAge.text = cursor.getInt(age).toString()
+            }
         }
     }
 
@@ -28,11 +32,11 @@ class ItemAdapter: RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = Model.items[position]
-        holder.update(item)
+        cursor.moveToPosition(position)
+        holder.update(cursor)
     }
 
     override fun getItemCount(): Int {
-        return Model.items.size
+        return cursor.count
     }
 }
