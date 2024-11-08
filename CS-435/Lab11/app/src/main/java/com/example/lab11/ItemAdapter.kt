@@ -15,13 +15,11 @@ class ItemAdapter(val cursor: Cursor): RecyclerView.Adapter<ItemAdapter.ViewHold
         private val textViewAge: TextView = itemView.findViewById(R.id.textViewAge)
 
         fun update(cursor: Cursor) {
-            if(cursor.moveToFirst()){
                 val name = cursor.getColumnIndexOrThrow("name")
                 val age = cursor.getColumnIndexOrThrow("age")
 
                 textViewName.text = cursor.getString(name)
                 textViewAge.text = cursor.getInt(age).toString()
-            }
         }
     }
 

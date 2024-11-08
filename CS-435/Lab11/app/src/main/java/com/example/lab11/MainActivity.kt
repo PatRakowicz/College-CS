@@ -1,5 +1,6 @@
 package com.example.lab11
 
+import android.database.Cursor
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textAge : EditText
 
     private lateinit var dbHelper: DatabaseHelper
+    private lateinit var cursur: Cursor
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,10 @@ class MainActivity : AppCompatActivity() {
         textAge = findViewById(R.id.editTextAge)
 
         recyclerView = findViewById(R.id.recyclerView)
-        adapter = ItemAdapter(dbHelper.getAllItems())
+
+        cursur = dbHelper.getAllItems()
+        adapter = ItemAdapter(cursur)
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -45,7 +51,11 @@ class MainActivity : AppCompatActivity() {
     fun addItems(view: View) {
         var name = textName.text.toString()
         var age = textAge.text.toString().toInt()
+        cursur.close()
         dbHelper.insertItem(name, age)
+        cursur = dbHelper.getAllItems()
+        adapter = ItemAdapter(cursur)
+        recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
     }
 
