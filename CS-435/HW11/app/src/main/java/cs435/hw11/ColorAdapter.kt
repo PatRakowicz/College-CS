@@ -1,0 +1,46 @@
+package cs435.hw11
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+
+class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
+    // Sample data (replace with your actual data source)
+    private val colorList = listOf(
+        Triple(255, 0, 0), // Red
+        Triple(0, 255, 0), // Green
+        Triple(0, 0, 255), // Blue
+        Triple(255, 255, 0), // Yellow
+        Triple(255, 165, 0) // Orange
+    )
+
+    class ColorViewHolder(itemView: View) : ViewHolder(itemView) {
+        val colorBox: View = itemView.findViewById(R.id.colorBox)
+        val rgbText: TextView = itemView.findViewById(R.id.rgbText)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ColorAdapter.ColorViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_color, parent, false)
+        return ColorViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ColorAdapter.ColorViewHolder, position: Int) {
+        val (r, g, b) = colorList[position]
+        holder.colorBox.setBackgroundColor(android.graphics.Color.rgb(r, g, b))
+        holder.rgbText.text = "R: $r, G: $g, B: $b"
+        holder.checkBox.isChecked = false
+    }
+
+    override fun getItemCount(): Int {
+        return colorList.size
+    }
+
+}
