@@ -51,11 +51,15 @@ class MainActivity : AppCompatActivity() {
     fun addItems(view: View) {
         var name = textName.text.toString()
         var age = textAge.text.toString().toInt()
+
         cursur.close()
+
         dbHelper.insertItem(name, age)
+
         cursur = dbHelper.getAllItems()
         adapter = ItemAdapter(cursur)
         recyclerView.adapter = adapter
+
         adapter.notifyDataSetChanged()
     }
 
