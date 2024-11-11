@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "cs435.act12"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "cs435.act12"
