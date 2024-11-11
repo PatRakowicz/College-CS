@@ -15,6 +15,7 @@ fn main() {
 
 fn handle_connection(mut stream: TcpStream) {
     let br = BufReader::new(&mut stream);
+
     let http_req: Vec<_> = br
         .lines()
         .map(|res| res.unwrap())
