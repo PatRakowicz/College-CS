@@ -8,16 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
-    // Sample data (replace with your actual data source)
-    private val colorList = listOf(
-        Triple(255, 0, 0), // Red
-        Triple(0, 255, 0), // Green
-        Triple(0, 0, 255), // Blue
-        Triple(255, 255, 0), // Yellow
-        Triple(255, 165, 0) // Orange
-    )
-
+class ColorAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
     class ColorViewHolder(itemView: View) : ViewHolder(itemView) {
         val colorBox: View = itemView.findViewById(R.id.colorBox)
         val rgbText: TextView = itemView.findViewById(R.id.rgbText)
@@ -43,4 +34,8 @@ class ColorAdapter : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
         return colorList.size
     }
 
+    fun updateColors(newColorList: List<List<Int>>) {
+        colorList = newColorList
+        notifyDataSetChanged()
+    }
 }
