@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class RecyclerAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapter<RecyclerAdapter.ColorViewHolder>() {
-    class ColorViewHolder(itemView: View) : ViewHolder(itemView) {
+class RecyclerAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
+    class RecyclerViewHolder(itemView: View) : ViewHolder(itemView) {
         val colorBox: View = itemView.findViewById(R.id.colorBox)
         val rgbText: TextView = itemView.findViewById(R.id.rgbText)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
@@ -18,12 +18,12 @@ class RecyclerAdapter(private var colorList: List<List<Int>>) : RecyclerView.Ada
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerAdapter.ColorViewHolder {
+    ): RecyclerAdapter.RecyclerViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_color, parent, false)
-        return ColorViewHolder(view)
+        return RecyclerViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.ColorViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerAdapter.RecyclerViewHolder, position: Int) {
         val (r, g, b) = colorList[position]
         holder.colorBox.setBackgroundColor(android.graphics.Color.rgb(r, g, b))
         holder.rgbText.text = "R: $r, G: $g, B: $b"

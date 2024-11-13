@@ -30,16 +30,6 @@ class ColorDBHelper(context: Context) :
         TODO("Not yet implemented")
     }
 
-    fun insertColor(red: Int, green: Int, blue: Int) {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put("red", red)
-            put("green", green)
-            put("blue", blue)
-        }
-        db.insert("colors", null, values)
-    }
-
     fun insertRandomColors(numberOfColors: Int) {
         val db = this.writableDatabase
         for (i in 1..numberOfColors) {
@@ -63,5 +53,26 @@ class ColorDBHelper(context: Context) :
             arrayOf("_id", "red", "green", "blue"),
             null, null, null, null, null
         )
+    }
+
+    fun getSortedColors(sortBy: String): Cursor {
+        val db = readableDatabase
+        val orderBy = when (sortBy) {
+            "red" -> "red DESC"
+            "green" -> "green DESC"
+            "blue" -> "blue DESC"
+            else -> null
+        }
+        return db.query(
+            "colors",
+            arrayOf("_id", "red", "green", "blue"),
+            null, null, null, null, orderBy
+        )
+    }
+
+    fun clearDatabase() {
+        val db = writableDatabase
+        db.execSQL("delete from colors")
+        db.close()
     }
 }
