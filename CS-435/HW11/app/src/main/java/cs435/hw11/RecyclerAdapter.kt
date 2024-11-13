@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class ColorAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
+class RecyclerAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapter<RecyclerAdapter.ColorViewHolder>() {
     class ColorViewHolder(itemView: View) : ViewHolder(itemView) {
         val colorBox: View = itemView.findViewById(R.id.colorBox)
         val rgbText: TextView = itemView.findViewById(R.id.rgbText)
@@ -18,12 +18,12 @@ class ColorAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapte
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ColorAdapter.ColorViewHolder {
+    ): RecyclerAdapter.ColorViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_color, parent, false)
         return ColorViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ColorAdapter.ColorViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerAdapter.ColorViewHolder, position: Int) {
         val (r, g, b) = colorList[position]
         holder.colorBox.setBackgroundColor(android.graphics.Color.rgb(r, g, b))
         holder.rgbText.text = "R: $r, G: $g, B: $b"

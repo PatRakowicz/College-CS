@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var databaseHelper : ColorDBHelper
-    private lateinit var colorAdapter: ColorAdapter
+    private lateinit var recyclerAdapter: RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         // https://stackoverflow.com/questions/48741473/what-is-the-function-of-emptylist-in-kotlin
-        colorAdapter = ColorAdapter(emptyList())
-        recyclerView.adapter = colorAdapter
+        recyclerAdapter = RecyclerAdapter(emptyList())
+        recyclerView.adapter = recyclerAdapter
 
 
         loadColorsFromDB()
@@ -90,6 +90,6 @@ class MainActivity : AppCompatActivity() {
             } while (cursor.moveToNext())
         }
         cursor.close()
-        colorAdapter.updateColors(colors)
+        recyclerAdapter.updateColors(colors)
     }
 }
