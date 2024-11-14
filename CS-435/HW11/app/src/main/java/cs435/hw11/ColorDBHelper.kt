@@ -58,7 +58,7 @@ class ColorDBHelper(context: Context) :
     }
 
     fun getSortedColors(sortBy: String): Cursor {
-        val db = readableDatabase
+        val db = this.readableDatabase
         val orderBy = when (sortBy) {
             "red" -> "red DESC"
             "green" -> "green DESC"
@@ -74,7 +74,7 @@ class ColorDBHelper(context: Context) :
 
     // Broken somewhere | Not sure will add items when i do not select the item...
     fun updateFavoriteStatus(id: Int, isFav: Boolean) {
-        val db = writableDatabase
+        val db = this.writableDatabase
         val values = ContentValues().apply {
             put("favorite", if (isFav) 1 else 0)
         }
@@ -82,7 +82,7 @@ class ColorDBHelper(context: Context) :
     }
 
     fun getFavoriteColors(): Cursor {
-        val db = readableDatabase
+        val db = this.readableDatabase
         return db.query(
             "colors",
             arrayOf("_id", "red", "green", "blue", "favorite"),
@@ -91,7 +91,7 @@ class ColorDBHelper(context: Context) :
     }
 
     fun clearDatabase() {
-        val db = writableDatabase
+        val db = this.writableDatabase
         db.execSQL("delete from colors")
         db.close()
     }
