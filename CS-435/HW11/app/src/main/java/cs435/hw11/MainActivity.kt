@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val initCursor : Cursor = databaseHelper.getAllColors()
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerAdapter = RecyclerAdapter(initCursor)
+        recyclerAdapter = RecyclerAdapter(initCursor, databaseHelper)
         recyclerView.adapter = recyclerAdapter
 
 
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                             0 -> loadSortedColors("red")
                             1 -> loadSortedColors("green")
                             2 -> loadSortedColors("blue")
-                            3 -> null //sortByFavorites() // Placeholder does not work currently
+                            3 -> loadFavColors()
                             4 -> loadColorsFromDB()
                         }
                     }
@@ -105,13 +105,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadColorsFromDB() {
+        val cursor : Cursor = databaseHelper.getAllColors()
+        recyclerAdapter.updateColors(cursor)
+    }
+
     private fun loadSortedColors(sortBy: String) {
         val cursor : Cursor = databaseHelper.getSortedColors(sortBy)
         recyclerAdapter.updateColors(cursor)
     }
 
-    private fun loadColorsFromDB() {
-        val cursor : Cursor = databaseHelper.getAllColors()
+    // Broken somewhere | Not sure will add items when i do not select the item...
+    private fun loadFavColors() {
+        val cursor: Cursor = databaseHelper.getFavoriteColors()
         recyclerAdapter.updateColors(cursor)
     }
 

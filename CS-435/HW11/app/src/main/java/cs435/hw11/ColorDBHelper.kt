@@ -20,7 +20,8 @@ class ColorDBHelper(context: Context) :
                 _id integer primary key autoincrement,
                 red integer,
                 green integer,
-                blue integer
+                blue integer,
+                favorite integer default 0
             );
         """.trimIndent()
         db?.execSQL(createTable)
@@ -41,6 +42,7 @@ class ColorDBHelper(context: Context) :
                 put("red", red)
                 put("green", green)
                 put("blue", blue)
+                put("favorite", 0)
             }
             db.insert("colors", null, values)
         }
@@ -50,7 +52,7 @@ class ColorDBHelper(context: Context) :
         val db = this.readableDatabase
         return db.query(
             "colors",
-            arrayOf("_id", "red", "green", "blue"),
+            arrayOf("_id", "red", "green", "blue", "favorite"),
             null, null, null, null, null
         )
     }
@@ -65,8 +67,26 @@ class ColorDBHelper(context: Context) :
         }
         return db.query(
             "colors",
-            arrayOf("_id", "red", "green", "blue"),
+            arrayOf("_id", "red", "green", "blue", "favorite"),
             null, null, null, null, orderBy
+        )
+    }
+
+    // Broken somewhere | Not sure will add items when i do not select the item...
+    fun updateFavoriteStatus(id: Int, isFav: Boolean) {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put("favorite", if (isFav) 1 else 0)
+        }
+        db.update("colors", values, "_id = ?", arrayOf(id.toString()))
+    }
+
+    fun getFavoriteColors(): Cursor {
+        val db = readableDatabase
+        return db.query(
+            "colors",
+            arrayOf("_id", "red", "green", "blue", "favorite"),
+            "favorite = 1", null, null, null, null
         )
     }
 
