@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            // https://www.digitalocean.com/community/tutorials/android-alert-dialog-using-kotlin | Dialog Example
             R.id.action_add -> {
                 val editText = EditText(this)
                 editText.hint = "Enter number of colors"
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                     .setTitle("Add Random Colors")
                     .setMessage("How many random colors do you want")
                     .setView(editText)
-                    .setPositiveButton("Add") {_, _ ->
+                    .setPositiveButton("Add") { dialog, which ->
                         val numberOfNewColors = editText.text.toString().toIntOrNull() ?: 0
                         if (numberOfNewColors > 0) {
                             progressBar.visibility = android.view.View.VISIBLE
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                 val options = arrayOf("Sort by Red", "Sort by Green", "Sort by Blue", "Sort by Favorites", "Original Order")
                 AlertDialog.Builder(this)
                     .setTitle("Sort Colors")
-                    .setItems(options) {_ , which ->
+                    .setItems(options) { dialog , which ->
                         when (which) {
                             0 -> loadSortedColors("red")
                             1 -> loadSortedColors("green")
