@@ -41,9 +41,10 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val initCursor : Cursor = databaseHelper.getAllColors()
+
         recyclerView.layoutManager = LinearLayoutManager(this)
-        // https://stackoverflow.com/questions/48741473/what-is-the-function-of-emptylist-in-kotlin
-        recyclerAdapter = RecyclerAdapter(emptyList())
+        recyclerAdapter = RecyclerAdapter(initCursor)
         recyclerView.adapter = recyclerAdapter
 
 
@@ -105,34 +106,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadSortedColors(sortBy: String) {
         val cursor : Cursor = databaseHelper.getSortedColors(sortBy)
-        val colors = mutableListOf<List<Int>>()
-
-        if (cursor.moveToFirst()) {
-            do {
-                val red = cursor.getInt(cursor.getColumnIndexOrThrow("red"))
-                val green = cursor.getInt(cursor.getColumnIndexOrThrow("green"))
-                val blue = cursor.getInt(cursor.getColumnIndexOrThrow("blue"))
-                colors.add(listOf(red, green, blue))
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        recyclerAdapter.updateColors(colors)
+        recyclerAdapter.updateColors(cursor)
     }
 
     private fun loadColorsFromDB() {
         val cursor : Cursor = databaseHelper.getAllColors()
-        val colors = mutableListOf<List<Int>>()
-
-        if (cursor.moveToFirst()) {
-            do {
-                val red = cursor.getInt(cursor.getColumnIndexOrThrow("red"))
-                val green = cursor.getInt(cursor.getColumnIndexOrThrow("green"))
-                val blue = cursor.getInt(cursor.getColumnIndexOrThrow("blue"))
-                colors.add(listOf(red, green, blue))
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        recyclerAdapter.updateColors(colors)
+        recyclerAdapter.updateColors(cursor)
     }
 
     override fun onStop() {

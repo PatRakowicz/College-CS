@@ -1,5 +1,7 @@
 package cs435.hw11
 
+import android.database.Cursor
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class RecyclerAdapter(private var colorList: List<List<Int>>) : RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
+class RecyclerAdapter(private var cursor: Cursor) : RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
     class RecyclerViewHolder(itemView: View) : ViewHolder(itemView) {
         val colorBox: View = itemView.findViewById(R.id.colorBox)
         val rgbText: TextView = itemView.findViewById(R.id.rgbText)
@@ -24,18 +26,24 @@ class RecyclerAdapter(private var colorList: List<List<Int>>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: RecyclerAdapter.RecyclerViewHolder, position: Int) {
-        val (r, g, b) = colorList[position]
-        holder.colorBox.setBackgroundColor(android.graphics.Color.rgb(r, g, b))
-        holder.rgbText.text = "R: $r, G: $g, B: $b"
+        cursor.moveToPosition(position)
+
+        val red = cursor.getInt(cursor.getColumnIndexOrThrow("red"))
+        val green = cursor.getInt(cursor.getColumnIndexOrThrow("green"))
+        val blue = cursor.getInt(cursor.getColumnIndexOrThrow("blue"))
+
+        holder.colorBox.setBackgroundColor(Color.rgb(red, green, blue))
+        holder.rgbText.text = "R: $red, G: $green, B: $blue"
         holder.checkBox.isChecked = false
     }
 
     override fun getItemCount(): Int {
-        return colorList.size
+        return cursor.count
     }
 
-    fun updateColors(newColorList: List<List<Int>>) {
-        colorList = newColorList
+    fun updateColors(newCursor: Cursor) {
+        cursor.close()
+        cursor = newCursor
         notifyDataSetChanged()
     }
 }
