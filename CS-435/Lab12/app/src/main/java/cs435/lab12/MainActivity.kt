@@ -22,6 +22,8 @@ import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView : ListView
+    private lateinit var factsList : mutableListOf<String>()
+    private lateinit var adapter : ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         listView = findViewById(R.id.listView)
+
+        adapter = ArrayAdapter(
+            this@MainActivity,
+            andriod.R.layout.simple_item_list_1,
+            factsList
+        )
+        listView.adapter = adapter
+        
         fetchCatFacts()
     }
 
@@ -79,12 +89,7 @@ class MainActivity : AppCompatActivity() {
                         factsList.add(jsonArray.getJSONObject(i).getString("fact"))
                     }
 
-                    val adapter = ArrayAdapter(
-                        this@MainActivity,
-                        android.R.layout.simple_list_item_1,
-                        factsList
-                    )
-                    listView.adapter = adapter
+                    adapter.notifyDataSetChanged();
                 } catch (e: Exception) {
                     Log.d("result ERROR ", e.toString())
                 }
