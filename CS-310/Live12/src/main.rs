@@ -16,12 +16,12 @@ fn main() {
 
 fn handle_connection(mut stream: TcpStream) {
     let br = BufReader::new(&mut stream);
-
-    let http_req: Vec<_> = br
-        .lines()
-        .map(|res| res.unwrap())
-        .take_while(|l| !l.is_empty())
-        .collect();
+    let http_req = br.lines().next().unwrap().unwrap();
+    // let http_req: Vec<_> = br
+    //     .lines()
+    //     .map(|res| res.unwrap())
+    //     .take_while(|l| !l.is_empty())
+    //     .collect();
 
     println!("{http_req:#?}");
 
