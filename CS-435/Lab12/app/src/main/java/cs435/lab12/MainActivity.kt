@@ -2,6 +2,7 @@ package cs435.lab12
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -41,17 +42,17 @@ class MainActivity : AppCompatActivity() {
             var result = ""
             var httpURLConnection: HttpURLConnection? = null
             try {
-                val limit = 100
+                val limit = 1000
                 val charLimit = 140
                 var url = URL("https://catfact.ninja/facts?limit=$limit&max_length=$charLimit")
 
                 httpURLConnection = url.openConnection() as HttpURLConnection
                 httpURLConnection.requestMethod = "GET"
-                Log.d("Log HTTP", httpURLConnection.toString())
+//                Log.d("Log HTTP", httpURLConnection.toString())
 
-                Log.d("Log HTTP resonse code", httpURLConnection.responseCode.toString())
+//                Log.d("Log HTTP resonse code", httpURLConnection.responseCode.toString())
                 if (httpURLConnection.responseCode != HttpURLConnection.HTTP_OK) {
-                    Log.d("response code", httpURLConnection.responseCode.toString())
+//                    Log.d("response code", httpURLConnection.responseCode.toString())
                     result = "BAD CONNECTION"
                 } else {
                     val bufferReader =
@@ -68,16 +69,22 @@ class MainActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 try {
-//                    val jsonObject = JSONObject(result)
-                    /*val jokeID = jsonObject.getInt("id")
-                    val jokeSetup = jsonObject.getString("setup")
-                    val jokeResult = jsonObject.getString("punchline")
+//                   Log response
+                    val factsList = mutableListOf<String>()
+                    val jsonObject = JSONObject(result)
+                    val jsonArray = jsonObject.getJSONArray("data")
+//                    Log.d("JsonObject", jsonArray.getJSONObject(1).toString())
+//                    Log.d("JsonObject", jsonArray.toString())
+                    for (i in 0 until jsonArray.length()) {
+                        factsList.add(jsonArray.getJSONObject(i).getString("fact"))
+                    }
 
-                    id.text = jokeID.toString()
-                    joke.text = jokeSetup.toString()
-                    textResult.text = jokeResult.toString()*/
-
-                    Log.d("API response", result)
+                    val adapter = ArrayAdapter(
+                        this@MainActivity,
+                        android.R.layout.simple_list_item_1,
+                        factsList
+                    )
+                    listView.adapter = adapter
                 } catch (e: Exception) {
                     Log.d("result ERROR ", e.toString())
                 }

@@ -58,9 +58,7 @@ class MainActivity : AppCompatActivity() {
                 if (httpURLConnection.responseCode != HttpURLConnection.HTTP_OK) {
                     result = "BAD CONNECTION"
                 } else {
-                    val bufferReader =
-                        BufferedReader(InputStreamReader(httpURLConnection.inputStream))
-
+                    val bufferReader = BufferedReader(InputStreamReader(httpURLConnection.inputStream))
                     result = bufferReader.readText()
                     bufferReader.close()
                 }
