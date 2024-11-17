@@ -22,7 +22,7 @@ import kotlin.math.max
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView : ListView
-    private lateinit var factsList : mutableListOf<String>()
+    private var factsList : MutableList<String> = mutableListOf()
     private lateinit var adapter : ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ArrayAdapter(
             this@MainActivity,
-            andriod.R.layout.simple_item_list_1,
+            android.R.layout.simple_list_item_1,
             factsList
         )
         listView.adapter = adapter
