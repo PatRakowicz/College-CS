@@ -58,11 +58,8 @@ class MainActivity : AppCompatActivity() {
 
                 httpURLConnection = url.openConnection() as HttpURLConnection
                 httpURLConnection.requestMethod = "GET"
-//                Log.d("Log HTTP", httpURLConnection.toString())
 
-//                Log.d("Log HTTP resonse code", httpURLConnection.responseCode.toString())
                 if (httpURLConnection.responseCode != HttpURLConnection.HTTP_OK) {
-//                    Log.d("response code", httpURLConnection.responseCode.toString())
                     result = "BAD CONNECTION"
                 } else {
                     val bufferReader =
@@ -79,12 +76,9 @@ class MainActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 try {
-//                   Log response
                     val factsList = mutableListOf<String>()
                     val jsonObject = JSONObject(result)
                     val jsonArray = jsonObject.getJSONArray("data")
-//                    Log.d("JsonObject", jsonArray.getJSONObject(1).toString())
-//                    Log.d("JsonObject", jsonArray.toString())
                     for (i in 0 until jsonArray.length()) {
                         factsList.add(jsonArray.getJSONObject(i).getString("fact"))
                     }

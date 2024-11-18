@@ -5,30 +5,27 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!-- WebView for the comic image -->
     <WebView
         android:id="@+id/comic_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3" />
 
-    <!-- LinearLayout for the ID and Title -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingStart="8dp"
-        android:paddingLeft="8dp">
+        android:paddingStart="6dp"
+        android:paddingLeft="6dp">
 
-        <!-- TextView for the comic ID -->
         <TextView
             android:id="@+id/comic_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <!-- TextView for the comic title -->
         <TextView
             android:id="@+id/comic_title"
             android:layout_width="wrap_content"

@@ -8,8 +8,12 @@ import android.webkit.WebView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private val cursor: Cursor) :
+class RecyclerAdapter(private val cursor: Cursor, private val listener: OnClickListener) :
     RecyclerView.Adapter<RecyclerAdapter.ComicViewHolder>() {
+
+    interface OnClickListener {
+        fun onComicClick(comicId: Int)
+    }
 
     class ComicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val comicId: TextView = itemView.findViewById(R.id.comic_id)
@@ -31,8 +35,11 @@ class RecyclerAdapter(private val cursor: Cursor) :
             holder.comicId.text = "ID: $num"
             holder.comicTitle.text = title
 
-            // Use WebView to load the image URL
+            // https://developer.android.com/reference/android/webkit/WebView | Dev Notes
+            // https://www.digitalocean.com/community/tutorials/android-webview-example-tutorial | Example
             holder.comicImage.loadUrl(imgUrl)
+
+            holder.itemView.setOnClickListener { listener.onComicClick(num) }
         }
     }
 
