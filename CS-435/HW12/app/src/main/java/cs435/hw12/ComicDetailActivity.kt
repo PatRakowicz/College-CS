@@ -38,8 +38,8 @@ class ComicDetailActivity : AppCompatActivity() {
             val comicImg : WebView = findViewById(R.id.comic_image)
 
             comicId.text = "ID: $num"
-            comicTitle.text = title.toString()
-            comicImg.loadUrl(imgUrl.toString())
+            comicTitle.text = title
+            comicImg.loadUrl(imgUrl)
         }
         cursor.close()
     }
