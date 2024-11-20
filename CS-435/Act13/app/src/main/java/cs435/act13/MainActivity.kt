@@ -33,14 +33,15 @@ class MainActivity : AppCompatActivity() {
 
         textResult = findViewById(R.id.textView)
         button = findViewById(R.id.button)
+        button.setOnClickListener { callAPI() }
     }
 
-    fun callAPI(view: View) {
+    fun callAPI() {
         // Old method, needs to be closed after use
         /*CoroutineScope(Dispatchers.IO).launch {
             Log.d("Thread", Thread.currentThread().name)
         }*/
-        button.isEnabled = false
+        button.isEnabled = true
         lifecycleScope.launch(Dispatchers.IO) {
             fakeAPIRequest()
         }
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
             var result2 = getResult2FromAPI(result1)
             setNewText(result2)
-            withContext(Dispatchers.Main) { button.isEnabled = true }
+            withContext(Dispatchers.Main) { button.isEnabled = false }
         } catch (e: Exception) {
             val newText = textResult.text.toString() + "\n ERROR $e"
             textResult.text = newText
