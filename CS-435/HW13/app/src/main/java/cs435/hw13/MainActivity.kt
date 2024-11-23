@@ -1,5 +1,6 @@
 package cs435.hw13
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.favList_action -> {
-                // return favorite list activity
+                startActivity(Intent(this, FavListActivity::class.java))
                 return true
             }
 
