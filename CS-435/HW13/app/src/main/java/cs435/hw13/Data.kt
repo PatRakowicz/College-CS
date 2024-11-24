@@ -17,7 +17,7 @@ class CountryCapital {
 }
 
 class Model {
-    suspend fun fetchCountryCapital(apiUrl: String): CountryCapital? {
+    suspend fun fetchCountryCapital(apiUrl: String): CountryCapital {
         var result = ""
         val countryCapitalList = mutableListOf<CountryCapital>()
 
