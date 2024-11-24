@@ -27,8 +27,9 @@ class Favorites {
     var country: String = ""
     var capital: String = ""
 
+    // Allowed for ease of read for Log.d
     override fun toString(): String {
-        return "Favorites(country='$country', capital='$capital')"
+        return "country: $country | capital: $capital"
     }
 }
 

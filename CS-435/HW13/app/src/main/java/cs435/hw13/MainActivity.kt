@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.find_action -> {
                 // API requests
-                lifecycleScope.launch {
+                lifecycleScope.launch { // Launch default on main thread
                     val countryCapital =
                         model.fetchCountryCapital("https://restcountries.com/v3.1/all")
                     if (countryCapital != null) {
