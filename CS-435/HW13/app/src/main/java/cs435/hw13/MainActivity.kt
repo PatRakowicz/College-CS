@@ -42,8 +42,12 @@ class MainActivity : AppCompatActivity() {
                 // API requests
                 lifecycleScope.launch {
                     val countryCapital = model.fetchCountryCapital("https://restcountries.com/v3.1/all")
-                    Log.d("SELECTED_COUNTRY | UI push: ", "Country: ${countryCapital?.country}, Capital: ${countryCapital?.capital}")
-                    // call fetchWeatherData(url | APIkey | country)
+                    Log.d("SELECTED_COUNTRY | UI push: ", "Country: ${countryCapital.country}, Capital: ${countryCapital.capital}")
+
+                    val weatherData = model.fetchWeatherData("https://api.weatherstack.com/current",
+                        "b9473e8d62a2561e9838aab87bda53a9",
+                        countryCapital.country)
+                    Log.d("WeatherData fetch", "${countryCapital.country} | WeatherIcon: ${weatherData?.weatherIcon}, Temp: ${weatherData?.temp}, Description: ${weatherData?.weatherDesc}")
                 }
                 return true
             }

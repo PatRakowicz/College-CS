@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONException
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -16,10 +17,18 @@ class CountryCapital {
     var capital: String = ""
 }
 
+class Weather {
+    var weatherIcon: String = ""
+    var temp: Double = 0.0
+    var weatherDesc: String = ""
+}
+
 class Model {
     suspend fun fetchCountryCapital(apiUrl: String): CountryCapital {
         var result = ""
         val countryCapitalList = mutableListOf<CountryCapital>()
+
+        countryCapitalList.clear()
 
         withContext(Dispatchers.IO) {
             var connection: HttpURLConnection? = null
@@ -51,16 +60,21 @@ class Model {
 
                     for (i in 0 until jsonArray.length()) {
                         val json = jsonArray.getJSONObject(i)
-                        val nameObject = json.optJSONObject("name")
 
-                        val countryName = nameObject?.optString("common") ?: "NA"
+                        val nameObject = json.getJSONObject("name")
+                        val countryName = nameObject.getString("common")
 
-                        val capitalArray = json.optJSONArray("capital")
-                        val capitalName = capitalArray?.optString(0) ?: "NA"
+                        // States it cant find capital, but does... Not sure
+                        // Could use optJSONArray() but is less strict for the case of nothing is in capital
+                        // https://developer.android.com/reference/org/json/JSONArray#optJSONArray(int) | Dev notes
+                        val capitalName = json.getJSONArray("capital").getString(0)
+
+//                        Log.d("capital Array: ", capitalArray.toString())
+//                        Log.d("capital Name: ", capitalName.toString())
 
                         val countryCapital = CountryCapital().apply {
-                            country = countryName
-                            capital = capitalName
+                            this.country = countryName
+                            this.capital = capitalName
                         }
                         countryCapitalList.add(countryCapital)
                     }
@@ -76,27 +90,57 @@ class Model {
         return countryCapitalList.random()
     }
 
-    fun fetchWeatherData(apiUrl: String, accessKey: String, capital: String) {
+    suspend fun fetchWeatherData(apiUrl: String, accessKey: String, capital: String): Weather? {
         var result = ""
-        var httpURLConnection: HttpURLConnection? = null
+        var weather: Weather? = null
 
-        try {
-            val url = URL("$apiUrl?access_key=$accessKey&query=$capital")
-            httpURLConnection = url.openConnection() as HttpURLConnection
-            httpURLConnection.requestMethod = "GET"
+        withContext(Dispatchers.IO) {
+            var connection: HttpURLConnection? = null
 
-            if (httpURLConnection.responseCode == HttpURLConnection.HTTP_OK) {
-                val bufferedReader =
-                    BufferedReader(InputStreamReader(httpURLConnection.inputStream))
-                result = bufferedReader.readText()
-                bufferedReader.close()
+            try {
+                val url = URL("$apiUrl?access_key=$accessKey&query=$capital")
+                connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+
+                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                    val bufferedReader = BufferedReader(InputStreamReader(connection.inputStream))
+                    result = bufferedReader.readText()
+                    bufferedReader.close()
+                } else {
+                    Log.d("HTTP_ERROR", "Response Code: ${connection.responseCode}")
+                }
+            } catch (e: IOException) {
+                Log.d("HTTP_ERROR", "IOException: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                connection?.disconnect()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            httpURLConnection?.disconnect()
+
+            if (result.isNotEmpty()) {
+                try {
+                    val jsonObject = JSONObject(result)
+                    val current = jsonObject.getJSONObject("current")
+
+                    val weatherIcon = current.getJSONArray("weather_icons").getString(0)
+                    val temp = current.getDouble("temperature")
+                    val weatherDesc = current.getJSONArray("weather_descriptions").getString(0)
+
+                    weather = Weather().apply {
+                        this.weatherIcon = weatherIcon
+                        this.temp = temp
+                        this.weatherDesc = weatherDesc
+                    }
+
+//                    Log.d("WEATHER_DATA", "Icon: $weatherIcon, Temp: $temp, Description: $weatherDesc")
+                } catch (e: JSONException) {
+                    Log.d("JSON_ERROR", "Failed to parse JSON: ${e.message}")
+                    e.printStackTrace()
+                }
+            } else {
+                Log.d("WEATHER_DATA", "No valid weather data received.")
+            }
         }
 
-        Log.d("weatherData: ", result)
+        return weather
     }
 }
