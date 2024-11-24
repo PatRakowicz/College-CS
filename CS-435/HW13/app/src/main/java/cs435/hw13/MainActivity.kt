@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 actionButton.isEnabled = false
 
                 // API requests
-                lifecycleScope.launch { // Launch default on main thread
+                lifecycleScope.launch { // Launch by default on main thread
                     try {
                         val countryCapital =
                             model.fetchCountryCapital("https://restcountries.com/v3.1/all")
@@ -141,10 +141,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.favorite_action -> {
                 if (currentCC != null) {
-                    Log.d(
-                        "CURRENT_CC",
-                        "Country: ${currentCC?.country}, Capital: ${currentCC?.capital}"
-                    )
+//                    Log.d("CURRENT_CC", "Country: ${currentCC?.country}, Capital: ${currentCC?.capital}")
                     Model.addToFav(currentCC!!.country, currentCC!!.capital)
                     Toast.makeText(
                         this@MainActivity,
@@ -153,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                     ).show()
 
                     val updatedList = Model.getFavList()
-                    Log.d("PRINT_FAV", updatedList.toString())
+//                    Log.d("PRINT_FAV", updatedList.toString())
                 } else {
                     Toast.makeText(this, "No country selected to save.", Toast.LENGTH_SHORT).show()
                 }

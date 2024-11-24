@@ -30,9 +30,7 @@ class RecyclerAdapter(
         holder.countryName.text = item.country
         holder.capitalName.text = item.capital
 
-        holder.itemView.setOnClickListener {
-            listener.onFavClick(item)
-        }
+        holder.itemView.setOnClickListener { listener.onFavClick(item) }
     }
 
     override fun getItemCount(): Int {
