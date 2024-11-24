@@ -19,11 +19,33 @@ class CountryCapital {
 
 class Weather {
     var weatherIcon: String = ""
-    var temp: Double = 0.0
+    var temp: Int = 0
     var weatherDesc: String = ""
 }
 
 class Model {
+    private val favList = mutableListOf<CountryCapital>()
+
+    fun addToFav(countryCapital: CountryCapital) {
+        var isAlreadyFav = false
+
+        for (favorite in favList) {
+            if (favorite.country == countryCapital.country && favorite.capital == countryCapital.capital) {
+                isAlreadyFav = true
+                break
+            }
+        }
+
+        if (!isAlreadyFav) {
+            favList.add(countryCapital)
+            Log.d("FAVORITES", "Added to favorites: ${countryCapital.country}, ${countryCapital.capital}")
+        } else {
+            Log.d("FAVORITES", "Already in favorites: ${countryCapital.country}, ${countryCapital.capital}")
+        }
+    }
+
+    fun getFavList() : List<CountryCapital> { return favList }
+
     suspend fun fetchCountryCapital(apiUrl: String): CountryCapital {
         var result = ""
         val countryCapitalList = mutableListOf<CountryCapital>()
@@ -122,7 +144,7 @@ class Model {
                     val current = jsonObject.getJSONObject("current")
 
                     val weatherIcon = current.getJSONArray("weather_icons").getString(0)
-                    val temp = current.getDouble("temperature")
+                    val temp = current.getInt("temperature")
                     val weatherDesc = current.getJSONArray("weather_descriptions").getString(0)
 
                     weather = Weather().apply {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,6 +16,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val model: Model = Model()
+    private var currentCC: CountryCapital? = null
+    private var currentW: Weather? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +44,19 @@ class MainActivity : AppCompatActivity() {
             R.id.find_action -> {
                 // API requests
                 lifecycleScope.launch {
-                    val countryCapital = model.fetchCountryCapital("https://restcountries.com/v3.1/all")
-                    Log.d("SELECTED_COUNTRY | UI push: ", "Country: ${countryCapital.country}, Capital: ${countryCapital.capital}")
+                    val countryCapital =
+                        model.fetchCountryCapital("https://restcountries.com/v3.1/all")
+                    currentCC = countryCapital
+//                    Log.d("SELECTED_COUNTRY | UI push: ", "Country: ${countryCapital.country}, Capital: ${countryCapital.capital}")
 
-                    val weatherData = model.fetchWeatherData("https://api.weatherstack.com/current",
+
+                    val weatherData = model.fetchWeatherData(
+                        "https://api.weatherstack.com/current",
                         "b9473e8d62a2561e9838aab87bda53a9",
-                        countryCapital.country)
-                    Log.d("WeatherData fetch", "${countryCapital.country} | WeatherIcon: ${weatherData?.weatherIcon}, Temp: ${weatherData?.temp}, Description: ${weatherData?.weatherDesc}")
+                        countryCapital.country
+                    )
+                    currentW = weatherData
+//                    Log.d("WeatherData fetch", "${countryCapital.country} | WeatherIcon: ${weatherData?.weatherIcon}, Temp: ${weatherData?.temp}, Description: ${weatherData?.weatherDesc}")
                 }
                 return true
             }
@@ -59,8 +68,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.favorite_action -> {
-                // add to favorite data model
-                return true
+                if (currentCC != null) {
+                    model.addToFav(currentCC!!)
+                    Toast.makeText(this,"Saved to favorites: ${currentCC!!.country}, ${currentCC!!.capital}", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "No country selected to save.", Toast.LENGTH_SHORT).show()
+                }
+
+                Log.d("PRINT FAV", model.getFavList().toString())
+                    return true
             }
 
             else -> return super.onOptionsItemSelected(item)
