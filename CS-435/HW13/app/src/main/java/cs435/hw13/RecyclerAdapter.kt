@@ -7,8 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(
-    private val countries: List<String>,
-    private val capitals: List<String>
+    private var countryCapital: List<CountryCapital>
 ) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val countryName: TextView = itemView.findViewById(R.id.country_name)
@@ -22,11 +21,12 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.countryName.text = countries[position]
-        holder.capitalName.text = capitals[position]
+        val item = countryCapital[position]
+        holder.countryName.text = item.country
+        holder.capitalName.text = item.capital
     }
 
     override fun getItemCount(): Int {
-        return countries.size
+        return countryCapital.size
     }
 }

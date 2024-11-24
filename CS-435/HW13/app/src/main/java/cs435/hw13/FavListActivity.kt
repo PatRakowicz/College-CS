@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class FavListActivity : AppCompatActivity() {
+    private val model = Model()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,13 +24,13 @@ class FavListActivity : AppCompatActivity() {
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val initAdapter = RecyclerAdapter(model.getFavList())
 
         // Placeholder data
-        val countries = listOf("United States", "France", "Japan", "Germany", "India")
-        val capitals = listOf("Washington, D.C.", "Paris", "Tokyo", "Berlin", "New Delhi")
-
+//        val countries = listOf("United States", "France", "Japan", "Germany", "India")
+//        val capitals = listOf("Washington, D.C.", "Paris", "Tokyo", "Berlin", "New Delhi")
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = RecyclerAdapter(countries, capitals)
+        recyclerView.adapter = initAdapter
     }
 }

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.WebView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +14,19 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private val model: Model = Model()
     private var currentCC: CountryCapital? = null
-    private var currentW: Weather? = null
+
+    private lateinit var countryTextView: TextView
+    private lateinit var capitalTextView: TextView
+    private lateinit var weatherIconView: WebView
+    private lateinit var tempTextView: TextView
+    private lateinit var weatherDesc: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        countryTextView = findViewById(R.id.countryTextView)
+        capitalTextView = findViewById(R.id.capitalTextView)
+        weatherIconView = findViewById(R.id.weatherIconWebView)
+        tempTextView = findViewById(R.id.tempTextView)
+        weatherDesc = findViewById(R.id.weatherDescTextView)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -44,19 +58,27 @@ class MainActivity : AppCompatActivity() {
             R.id.find_action -> {
                 // API requests
                 lifecycleScope.launch {
-                    val countryCapital =
-                        model.fetchCountryCapital("https://restcountries.com/v3.1/all")
-                    currentCC = countryCapital
-//                    Log.d("SELECTED_COUNTRY | UI push: ", "Country: ${countryCapital.country}, Capital: ${countryCapital.capital}")
+                    val countryCapital = model.fetchCountryCapital("https://restcountries.com/v3.1/all")
+                    if (countryCapital != null) {
+                        currentCC = countryCapital
+                        countryTextView.text = "Country: ${countryCapital.country}"
+                        capitalTextView.text = "Capital: ${countryCapital.capital}"
 
-
-                    val weatherData = model.fetchWeatherData(
-                        "https://api.weatherstack.com/current",
-                        "b9473e8d62a2561e9838aab87bda53a9",
-                        countryCapital.country
-                    )
-                    currentW = weatherData
-//                    Log.d("WeatherData fetch", "${countryCapital.country} | WeatherIcon: ${weatherData?.weatherIcon}, Temp: ${weatherData?.temp}, Description: ${weatherData?.weatherDesc}")
+                        val weatherData = model.fetchWeatherData(
+                            "https://api.weatherstack.com/current",
+                            "b9473e8d62a2561e9838aab87bda53a9",
+                            countryCapital.capital
+                        )
+                        if (weatherData != null) {
+                            weatherIconView.loadUrl(weatherData.weatherIcon)
+                            tempTextView.text = "Temperature: ${weatherData.temp}°C"
+                            weatherDesc.text = "Description: ${weatherData.weatherDesc}"
+                        } else {
+                            Toast.makeText(this@MainActivity, "Failed to fetch weather data.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@MainActivity, "Failed to fetch country and capital.", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 return true
             }
@@ -68,15 +90,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.favorite_action -> {
+                // add to fav List
                 if (currentCC != null) {
                     model.addToFav(currentCC!!)
-                    Toast.makeText(this,"Saved to favorites: ${currentCC!!.country}, ${currentCC!!.capital}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        "Saved to favorites: ${currentCC!!.country}, ${currentCC!!.capital}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     Toast.makeText(this, "No country selected to save.", Toast.LENGTH_SHORT).show()
                 }
 
                 Log.d("PRINT FAV", model.getFavList().toString())
-                    return true
+                return true
             }
 
             else -> return super.onOptionsItemSelected(item)
