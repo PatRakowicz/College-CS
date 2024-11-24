@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.webkit.WebView
 import android.widget.TextView
 import android.widget.Toast
@@ -46,6 +47,33 @@ class MainActivity : AppCompatActivity() {
         weatherIconView = findViewById(R.id.weatherIconWebView)
         tempTextView = findViewById(R.id.tempTextView)
         weatherDesc = findViewById(R.id.weatherDescTextView)
+
+        // Item Clicked from recycler
+        val country = intent.getStringExtra("country")
+        val capital = intent.getStringExtra("capital")
+
+        if (!country.isNullOrEmpty() && !capital.isNullOrEmpty()) {
+            lifecycleScope.launch {
+                val weatherData = model.fetchWeatherData(
+                    "https://api.weatherstack.com/current",
+                    "b9473e8d62a2561e9838aab87bda53a9",
+                    capital
+                )
+                if (weatherData != null) {
+                    countryTextView.text = "Country: $country"
+                    capitalTextView.text = "Capital: $capital"
+                    weatherIconView.loadUrl(weatherData.weatherIcon)
+                    tempTextView.text = "Temp: ${weatherData.temp}°C"
+                    weatherDesc.text = "${weatherData.weatherDesc}"
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Failed to fetch weather data.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,33 +84,50 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.find_action -> {
+                val actionButton = findViewById<View>(R.id.find_action)
+                actionButton.isEnabled = false
+
                 // API requests
                 lifecycleScope.launch { // Launch default on main thread
-                    val countryCapital =
-                        model.fetchCountryCapital("https://restcountries.com/v3.1/all")
-                    if (countryCapital != null) {
-                        currentCC = countryCapital
-                        countryTextView.text = "Country: ${countryCapital.country}"
-                        capitalTextView.text = "Capital: ${countryCapital.capital}"
+                    try {
+                        val countryCapital =
+                            model.fetchCountryCapital("https://restcountries.com/v3.1/all")
+                        if (countryCapital != null) {
+                            currentCC = countryCapital
+                            countryTextView.text = "Country: ${countryCapital.country}"
+                            capitalTextView.text = "Capital: ${countryCapital.capital}"
 
-                        /*val weatherData = model.fetchWeatherData(
-                            "https://api.weatherstack.com/current",
-                            "b9473e8d62a2561e9838aab87bda53a9",
-                            countryCapital.capital
-                        )
-                        if (weatherData != null) {
-                            weatherIconView.loadUrl(weatherData.weatherIcon)
-                            tempTextView.text = "Temperature: ${weatherData.temp}°C"
-                            weatherDesc.text = "Description: ${weatherData.weatherDesc}"
+                            val weatherData = model.fetchWeatherData(
+                                "https://api.weatherstack.com/current",
+                                "b9473e8d62a2561e9838aab87bda53a9",
+                                countryCapital.capital
+                            )
+                            if (weatherData != null) {
+                                weatherIconView.loadUrl(weatherData.weatherIcon)
+                                tempTextView.text = "Temp: ${weatherData.temp}°C"
+                                weatherDesc.text = "${weatherData.weatherDesc}"
+                            } else {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Failed to fetch weather data.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         } else {
-                            Toast.makeText(this@MainActivity, "Failed to fetch weather data.", Toast.LENGTH_SHORT).show()
-                        }*/
-                    } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Failed to fetch country and capital.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } catch (e: Exception) {
                         Toast.makeText(
                             this@MainActivity,
-                            "Failed to fetch country and capital.",
+                            "An error occurred while fetching data.",
                             Toast.LENGTH_SHORT
                         ).show()
+                    } finally {
+                        actionButton.isEnabled = true
                     }
                 }
                 return true

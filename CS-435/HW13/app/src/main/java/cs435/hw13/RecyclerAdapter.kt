@@ -8,8 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(
-    private var favorites: List<Favorites>
+    private var favorites: List<Favorites>,
+    private val listener: OnFavClickListener
 ) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+
+    interface OnFavClickListener { fun onFavClick(favorites: Favorites) }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val countryName: TextView = itemView.findViewById(R.id.country_name)
         val capitalName: TextView = itemView.findViewById(R.id.capital_name)
@@ -25,14 +29,13 @@ class RecyclerAdapter(
         val item = favorites[position]
         holder.countryName.text = item.country
         holder.capitalName.text = item.capital
+
+        holder.itemView.setOnClickListener {
+            listener.onFavClick(item)
+        }
     }
 
     override fun getItemCount(): Int {
         return favorites.size
-    }
-
-    fun updateData(data: List<Favorites>) {
-        favorites = data
-        notifyDataSetChanged()
     }
 }
