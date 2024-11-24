@@ -1,5 +1,6 @@
 package cs435.hw13
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(
-    private var countryCapital: List<CountryCapital>
+    private var favorites: List<Favorites>
 ) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val countryName: TextView = itemView.findViewById(R.id.country_name)
@@ -21,12 +22,17 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = countryCapital[position]
+        val item = favorites[position]
         holder.countryName.text = item.country
         holder.capitalName.text = item.capital
     }
 
     override fun getItemCount(): Int {
-        return countryCapital.size
+        return favorites.size
+    }
+
+    fun updateData(data: List<Favorites>) {
+        favorites = data
+        notifyDataSetChanged()
     }
 }

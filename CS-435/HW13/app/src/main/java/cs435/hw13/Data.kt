@@ -23,28 +23,40 @@ class Weather {
     var weatherDesc: String = ""
 }
 
+class Favorites {
+    var country: String = ""
+    var capital: String = ""
+
+    override fun toString(): String {
+        return "Favorites(country='$country', capital='$capital')"
+    }
+}
+
 class Model {
-    private val favList = mutableListOf<CountryCapital>()
+    companion object {
+        private val favList = mutableListOf<Favorites>()
 
-    fun addToFav(countryCapital: CountryCapital) {
-        var isAlreadyFav = false
+        fun addToFav(country: String, capital: String) {
 
-        for (favorite in favList) {
-            if (favorite.country == countryCapital.country && favorite.capital == countryCapital.capital) {
-                isAlreadyFav = true
-                break
+            val favorite = Favorites().apply {
+                this.country = country
+                this.capital = capital
             }
+
+            if (!favList.any { it.country == favorite.country && it.capital == favorite.capital }) {
+                favList.add(favorite)
+                Log.d("ADD_TO_FAV", "Added to favorites: $favorite")
+            } else {
+                Log.d("ADD_TO_FAV", "Skipped adding duplicate: $favorite")
+            }
+
         }
 
-        if (!isAlreadyFav) {
-            favList.add(countryCapital)
-            Log.d("FAVORITES", "Added to favorites: ${countryCapital.country}, ${countryCapital.capital}")
-        } else {
-            Log.d("FAVORITES", "Already in favorites: ${countryCapital.country}, ${countryCapital.capital}")
+        fun getFavList(): List<Favorites> {
+            Log.d("GET_FAV_LIST", favList.toString())
+            return favList
         }
     }
-
-    fun getFavList() : List<CountryCapital> { return favList }
 
     suspend fun fetchCountryCapital(apiUrl: String): CountryCapital {
         var result = ""

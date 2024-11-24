@@ -58,13 +58,14 @@ class MainActivity : AppCompatActivity() {
             R.id.find_action -> {
                 // API requests
                 lifecycleScope.launch {
-                    val countryCapital = model.fetchCountryCapital("https://restcountries.com/v3.1/all")
+                    val countryCapital =
+                        model.fetchCountryCapital("https://restcountries.com/v3.1/all")
                     if (countryCapital != null) {
                         currentCC = countryCapital
                         countryTextView.text = "Country: ${countryCapital.country}"
                         capitalTextView.text = "Capital: ${countryCapital.capital}"
 
-                        val weatherData = model.fetchWeatherData(
+                        /*val weatherData = model.fetchWeatherData(
                             "https://api.weatherstack.com/current",
                             "b9473e8d62a2561e9838aab87bda53a9",
                             countryCapital.capital
@@ -75,9 +76,13 @@ class MainActivity : AppCompatActivity() {
                             weatherDesc.text = "Description: ${weatherData.weatherDesc}"
                         } else {
                             Toast.makeText(this@MainActivity, "Failed to fetch weather data.", Toast.LENGTH_SHORT).show()
-                        }
+                        }*/
                     } else {
-                        Toast.makeText(this@MainActivity, "Failed to fetch country and capital.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Failed to fetch country and capital.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 return true
@@ -90,19 +95,23 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.favorite_action -> {
-                // add to fav List
                 if (currentCC != null) {
-                    model.addToFav(currentCC!!)
+                    Log.d(
+                        "CURRENT_CC",
+                        "Country: ${currentCC?.country}, Capital: ${currentCC?.capital}"
+                    )
+                    Model.addToFav(currentCC!!.country, currentCC!!.capital)
                     Toast.makeText(
-                        this,
+                        this@MainActivity,
                         "Saved to favorites: ${currentCC!!.country}, ${currentCC!!.capital}",
                         Toast.LENGTH_LONG
                     ).show()
+
+                    val updatedList = Model.getFavList()
+                    Log.d("PRINT_FAV", updatedList.toString())
                 } else {
                     Toast.makeText(this, "No country selected to save.", Toast.LENGTH_SHORT).show()
                 }
-
-                Log.d("PRINT FAV", model.getFavList().toString())
                 return true
             }
 
