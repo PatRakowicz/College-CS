@@ -2,6 +2,7 @@ package cs435.hw13
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -9,8 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private val model: Model = Model()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,11 +39,17 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.find_action -> {
-                // find logic
+                // API requests
+                lifecycleScope.launch {
+                    val countryCapital = model.fetchCountryCapital("https://restcountries.com/v3.1/all")
+                    Log.d("SELECTED_COUNTRY | UI push: ", "Country: ${countryCapital?.country}, Capital: ${countryCapital?.capital}")
+                    // call fetchWeatherData(url | APIkey | country)
+                }
                 return true
             }
 
-            R.id.favList_action -> {
+            R.id.save_action -> {
+                // List saved items
                 startActivity(Intent(this, FavListActivity::class.java))
                 return true
             }
@@ -47,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 // add to favorite data model
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }
