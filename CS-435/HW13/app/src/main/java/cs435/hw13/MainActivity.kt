@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                             val weatherData = model.fetchWeatherData(
                                 "https://api.weatherstack.com/current",
                                 "b9473e8d62a2561e9838aab87bda53a9",
-                                countryCapital.capital
+                                countryCapital.country
                             )
                             if (weatherData != null) {
                                 weatherIconView.loadUrl(weatherData.weatherIcon)

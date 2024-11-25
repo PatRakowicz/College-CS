@@ -34,7 +34,7 @@ class FavListActivity : AppCompatActivity(), RecyclerAdapter.OnFavClickListener 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val favList = model.getFavList()
-        Log.d("FAV_LIST", "Initializing with favorites: $favList")
+//        Log.d("FAV_LIST", "Initializing with favorites: $favList")
 
         adapter = RecyclerAdapter(favList, this)
         recyclerView.adapter = adapter

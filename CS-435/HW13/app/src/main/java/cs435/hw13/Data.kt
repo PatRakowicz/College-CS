@@ -54,7 +54,7 @@ class Model {
         }
 
         fun getFavList(): List<Favorites> {
-            Log.d("GET_FAV_LIST", favList.toString())
+//            Log.d("GET_FAV_LIST", favList.toString())
             return favList
         }
     }
