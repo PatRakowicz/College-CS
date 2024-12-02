@@ -1,0 +1,30 @@
+[package]
+name = "final_project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Update esp-idf-sys to the latest version
+esp-idf-sys = { version = "0.35.0", features = ["esp32"] }
+
+# Optional higher-level abstractions for ESP-IDF
+esp-idf-hal = "0.44.1" # For hardware abstraction like GPIO, I2C, SPI, etc.
+
+# Logging and println! support
+log = "0.4"
+esp-idf-svc = "0.49.1" # For services like WiFi, HTTP, etc.
+
+[build-dependencies]
+# Build script to link Rust to ESP-IDF
+embuild = "0.32.0"
+
+[features]
+# Define the `esp32` feature explicitly
+esp32 = ["esp-idf-sys/esp32"]
+default = ["esp32"]
+
+[profile.release]
+# Set optimizations for embedded builds
+opt-level = "z"
+lto = true
+panic = "abort"
