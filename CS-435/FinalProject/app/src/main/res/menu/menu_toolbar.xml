@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/refresh_action"
-        android:icon="@android:drawable/ic_popup_sync"
+        android:id="@+id/history_action"
+        android:icon="@android:drawable/ic_menu_save"
         android:title="refresh"
         app:showAsAction="always" />
     <item

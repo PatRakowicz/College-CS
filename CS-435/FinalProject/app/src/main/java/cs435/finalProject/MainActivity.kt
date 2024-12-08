@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.refresh_action -> {
-                // Refresh logic
+            R.id.history_action -> {
+                // History action -> Push into history view fragment
                 true
             }
 
