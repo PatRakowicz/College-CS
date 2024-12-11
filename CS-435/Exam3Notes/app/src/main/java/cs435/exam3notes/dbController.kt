@@ -1,6 +1,7 @@
 package cs435.exam3notes
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import org.json.JSONArray
@@ -70,7 +71,7 @@ class dbController(context: android.content.Context) :
         db.close()
     }
 
-    fun getAllData(): android.database.Cursor {
+    fun getAllData(): Cursor {
         return readableDatabase.rawQuery("SELECT name || ' - ' || value FROM data", null)
     }
 }
