@@ -30,19 +30,23 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnClickListener {
             insets
         }
 
+        // Initializes database helper and UI elements
         dbHelper = DBHelper(this)
         progressBar = findViewById(R.id.progressBar)
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        // Shows the progress bar while loading data
         progressBar.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
 
+        // Launches a coroutine to fetch data from the database
         CoroutineScope(Dispatchers.IO).launch {
-            dbHelper.recent100Comics()
+            dbHelper.recent100Comics() // Populates database with recent comics
 
-            val cursor = dbHelper.getAllComics()
+            val cursor = dbHelper.getAllComics() // Retrieves all comics from the database
 
+            // Updates UI on the main thread after data is loaded
             withContext(Dispatchers.Main) {
                 recyclerView.adapter = RecyclerAdapter(cursor, this@MainActivity)
                 progressBar.visibility = View.GONE
@@ -51,6 +55,7 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.OnClickListener {
         }
     }
 
+    // Handles click events on comics and opens the detail view
     override fun onComicClick(comicId: Int) {
         val intent = Intent(this, ComicDetailActivity::class.java)
         intent.putExtra("comic_id", comicId)
