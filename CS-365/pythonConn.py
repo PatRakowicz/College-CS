@@ -2,9 +2,13 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-uri = "mongodb+srv://rako:sshrat@bigdata.8q6te.mongodb.net/?retryWrites=true&w=majority&appName=BigData"
+from dotenv import load_dotenv
+import os
 
-client = MongoClient(uri, server_api=ServerApi('1'))
+load_dotenv()
+database_uri = os.getenv('DATABASE_URL')
+
+client = MongoClient(database_uri, server_api=ServerApi('1'))
 
 try:
 	# connect to database
