@@ -36,8 +36,7 @@ def problem_2(db):
     print("======")
 
     # P2.b
-    query = {"borough": "Queens", "cuisine": "Italian"}
-    count = db.restaurants.count_documents(query)
+    count = db.restaurants.count_documents({"borough": "Queens", "cuisine": "Italian"})
     print(f"Italian restaurants in Queens: {count}")
     print("======")
 
