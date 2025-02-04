@@ -3,6 +3,8 @@ from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
 
+# Given I am using a .env since I save most of my code on GitHub, my URL is provided by the .env file
+# and is named DATABASE_URL='mongoDB url connection'
 load_dotenv()
 database_uri = os.getenv('DATABASE_URL')
 
@@ -84,7 +86,7 @@ def problem_5(db):
 def main():
     try:
         db = client["sample_restaurants"]
-
+        # Uncomment the function you want to run
         # problem_1(db)
         # problem_2(db)
         # problem_3(db)
