@@ -48,8 +48,7 @@ try:
         "address": {
             "street": "asylum road",
             "zipcode": "10454"
-        }
-    }
+        }}
     db.restaurants.insert_one(root_restaurant)
     print("Root Awakening - Added to DB")
     print("======")
