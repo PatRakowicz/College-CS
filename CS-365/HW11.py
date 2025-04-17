@@ -15,8 +15,8 @@ spark = SparkSession.builder.appName("RedditPostApp").getOrCreate()
 
 # Reddit client
 reddit = praw.Reddit(
-    client_id="PnLdTIlLrkn5bp4Ke_UZZA",
-    client_secret="BWMOHd-ZO12U7Ej7DZkJh67NObizsQ",
+    client_id="",
+    client_secret="",
     user_agent="reddit_query"
 )
 
