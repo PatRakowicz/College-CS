@@ -1,27 +1,23 @@
-## College Classes
+# College CS Coursework
 
-### Names with Corisponding Classes
----
-[CS 190](https://github.com/PatRakowicz/College-CS/tree/main/CS-190) ~ Python
-    
-[CS 191](https://github.com/PatRakowicz/College-CS/tree/main/CS-191) ~ Starter C++
+This repository contains programming assignments from various computer science courses. Each folder below corresponds to a different class.
 
-[CS 195](https://github.com/PatRakowicz/College-CS/tree/main/CS-195) ~ Database Management | MySQL
+## Course Folders
+- [CS-190](CS-190/) - Python Programming
+- [CS-191](CS-191/) - Starter C++
+- [CS-195](CS-195/) - Database Management (MySQL)
+- [CS-235](CS-235/) - Networking
+- [CS-250](CS-250/) - Python Web Development I
+- [CS-280](CS-280/) - Data Structures (C++)
+- [CS-303](CS-303/) - Machine Learning with Python
+- [CS-310](CS-310/) - Systems Programming with Rust
+- [CS-320](CS-320/) - Programming Languages
+- [CS-330](CS-330/) - Computer Architecture
+- [CS-350](CS-350/) - Web Development II (PHP)
+- [CS-365](CS-365/) - Big Data Analytics
+- [CS-370](CS-370/) - Operating Systems
+- [CS-412](CS-412/) - Software Engineering I
+- [CS-435](CS-435/) - Mobile Application Development
+- [CS-470](CS-470/) - Algorithms
 
-[CS 235](https://github.com/PatRakowicz/College-CS/tree/main/CS-235) ~ Networking
-    
-[CS 250](https://github.com/PatRakowicz/College-CS/tree/main/CS-250) ~ Python WebDev I
-    
-[CS 280](https://github.com/PatRakowicz/College-CS/tree/main/CS-280) ~ Data Structures w/ C++
-    
-[CS 303](https://github.com/PatRakowicz/College-CS/tree/main/CS-303) ~ Machine Learning w/ Python
-
-[CS 320](https://github.com/PatRakowicz/College-CS/tree/main/CS-320) ~ Programming Languages
-
-[CS 330](https://github.com/PatRakowicz/College-CS/tree/main/CS-330) ~ Computer Architecture
-    
-[CS 350](https://github.com/PatRakowicz/College-CS/tree/main/CS-350) ~ Web Dev II w/ PhP
-
-[CS 412](https://github.com/PatRakowicz/College-CS/tree/main/CS-412) ~ Software Engineering I
-
-[CS 470](https://github.com/PatRakowicz/College-CS/tree/main/CS-470) ~ 
+Each course directory now includes its own README with a short description of the class and the contents of the folder.
